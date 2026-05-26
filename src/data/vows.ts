@@ -1,4 +1,13 @@
-export const vows = {
+export type VowsContent = {
+  original: string[];
+  renewed: string[];
+  highlights: string[];
+  featuredLine: string;
+  originalLabel: string;
+  renewedLabel: string;
+};
+
+export const vows: VowsContent = {
   original: [
     "Lucía Jennifer Mayada Aragonés, mi sol, luna y mis estrellas, te prometo que nuestra vida será hermosa porque estaremos juntos.",
     "Prometo tranquilizarte cuando estés estresada y estresarte cuando estés tranquila.",
@@ -24,4 +33,7 @@ export const vows = {
     "Velaría por tu sueño y tu paz.",
     "Hasta que la última estrella del universo se apague.",
   ],
+  featuredLine: "Mi sol, luna y mis estrellas.",
+  originalLabel: "Lo que te prometí entonces",
+  renewedLabel: "Lo que te prometo ahora",
 };
