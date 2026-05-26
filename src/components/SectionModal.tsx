@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { OriginSection } from "@/components/OriginSection";
 import { WeddingSection } from "@/components/WeddingSection";
@@ -31,6 +32,17 @@ function SectionBody({ section }: { section: UniverseSection }) {
 }
 
 export function SectionModal({ section, onClose }: SectionModalProps) {
+  useEffect(() => {
+    if (!section) return;
+
+    const onEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+    };
+
+    window.addEventListener("keydown", onEscape);
+    return () => window.removeEventListener("keydown", onEscape);
+  }, [onClose, section]);
+
   return (
     <AnimatePresence>
       {section ? (
@@ -40,6 +52,8 @@ export function SectionModal({ section, onClose }: SectionModalProps) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
+          aria-modal="true"
+          role="dialog"
         >
           <motion.article
             initial={{ y: 28, opacity: 0 }}
@@ -47,7 +61,7 @@ export function SectionModal({ section, onClose }: SectionModalProps) {
             exit={{ y: 20, opacity: 0 }}
             transition={{ duration: 0.25 }}
             onClick={(event) => event.stopPropagation()}
-            className="w-full max-w-2xl rounded-3xl border border-violet-200/25 bg-[#120d26]/95 p-6 text-violet-50 shadow-[0_0_45px_rgba(90,65,170,0.45)] sm:p-8"
+            className="max-h-[86vh] w-full max-w-2xl overflow-y-auto rounded-3xl border border-violet-200/25 bg-[#120d26]/95 p-6 text-violet-50 shadow-[0_0_45px_rgba(90,65,170,0.45)] sm:p-8 lg:max-w-3xl"
           >
             <p className="text-xs uppercase tracking-[0.2em] text-violet-200/80">Bitácora estelar</p>
             <SectionBody section={section} />

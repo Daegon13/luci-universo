@@ -15,9 +15,10 @@ type FloatingOrbProps = {
   index: number;
   onSelect: (section: UniverseSection) => void;
   disabled?: boolean;
+  desktopHighlight?: boolean;
 };
 
-export function FloatingOrb({ section, index, onSelect, disabled = false }: FloatingOrbProps) {
+export function FloatingOrb({ section, index, onSelect, disabled = false, desktopHighlight = false }: FloatingOrbProps) {
   return (
     <motion.button
       type="button"
@@ -26,14 +27,16 @@ export function FloatingOrb({ section, index, onSelect, disabled = false }: Floa
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.06, duration: 0.5 }}
-      whileHover={disabled ? undefined : { scale: 1.03 }}
+      whileHover={disabled ? undefined : { scale: 1.03, y: -4 }}
       whileTap={disabled ? undefined : { scale: 0.98 }}
-      className={`group relative overflow-hidden rounded-3xl border bg-[#100c23]/85 p-4 text-left shadow-[0_0_30px_rgba(98,71,170,0.35)] backdrop-blur-sm transition ${ACCENT_STYLES[section.accent]} ${disabled ? "cursor-not-allowed opacity-60" : ""}`}
+      className={`group relative overflow-hidden rounded-3xl border bg-[#100c23]/85 p-4 text-left shadow-[0_0_30px_rgba(98,71,170,0.35)] backdrop-blur-sm transition lg:p-5 ${ACCENT_STYLES[section.accent]} ${desktopHighlight ? "lg:min-h-[10.5rem]" : ""} ${disabled ? "cursor-not-allowed opacity-60" : ""}`}
     >
       <div className="absolute inset-0 bg-gradient-to-br opacity-70 transition group-hover:opacity-100" />
+      <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-white/10 blur-2xl" />
       <div className="relative z-10">
         <p className="text-[0.62rem] uppercase tracking-[0.18em] text-violet-100/85">Estrella {index + 1}</p>
         <h3 className="mt-2 text-base font-semibold text-white sm:text-lg">{section.title}</h3>
+        {!disabled ? <p className="mt-2 text-xs text-violet-200/85">Abrir recuerdo</p> : null}
         {disabled ? <p className="mt-2 text-xs text-rose-100/90">Desbloqueá esta estrella al visitar las demás.</p> : null}
       </div>
     </motion.button>

@@ -66,7 +66,7 @@ export function MusicPlayer({ hasUserInteracted, autoPlaySignal }: MusicPlayerPr
   };
 
   return (
-    <div className="fixed bottom-4 right-4 z-20 w-[min(20rem,calc(100vw-2rem))] rounded-2xl border border-violet-200/20 bg-[#130f28]/85 p-4 text-violet-100 shadow-xl backdrop-blur-md">
+    <div className="fixed inset-x-4 bottom-4 z-20 mx-auto w-[min(20rem,calc(100vw-2rem))] rounded-2xl border border-violet-200/20 bg-[#130f28]/85 p-4 text-violet-100 shadow-xl backdrop-blur-md sm:inset-x-auto sm:right-4 sm:mx-0">
       <audio
         ref={audioRef}
         src="/audio/first-dance.mp3"
