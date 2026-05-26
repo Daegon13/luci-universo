@@ -1,12 +1,34 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
+import { OriginSection } from "@/components/OriginSection";
+import { WeddingSection } from "@/components/WeddingSection";
 import type { UniverseSection } from "@/data/sections";
 
 type SectionModalProps = {
   section: UniverseSection | null;
   onClose: () => void;
 };
+
+function SectionBody({ section }: { section: UniverseSection }) {
+  if (section.id === "origin") {
+    return <OriginSection />;
+  }
+
+  if (section.id === "wedding") {
+    return <WeddingSection />;
+  }
+
+  return (
+    <>
+      <h3 className="mt-2 text-2xl font-semibold sm:text-3xl">{section.title}</h3>
+      <p className="mt-4 leading-relaxed text-violet-100/90">{section.description}</p>
+      <p className="mt-4 text-sm text-violet-200/80">
+        Esta estrella está lista para su sección completa en los siguientes patches emocionales.
+      </p>
+    </>
+  );
+}
 
 export function SectionModal({ section, onClose }: SectionModalProps) {
   return (
@@ -25,14 +47,10 @@ export function SectionModal({ section, onClose }: SectionModalProps) {
             exit={{ y: 20, opacity: 0 }}
             transition={{ duration: 0.25 }}
             onClick={(event) => event.stopPropagation()}
-            className="w-full max-w-xl rounded-3xl border border-violet-200/25 bg-[#120d26]/95 p-6 text-violet-50 shadow-[0_0_45px_rgba(90,65,170,0.45)] sm:p-8"
+            className="w-full max-w-2xl rounded-3xl border border-violet-200/25 bg-[#120d26]/95 p-6 text-violet-50 shadow-[0_0_45px_rgba(90,65,170,0.45)] sm:p-8"
           >
             <p className="text-xs uppercase tracking-[0.2em] text-violet-200/80">Bitácora estelar</p>
-            <h3 className="mt-2 text-2xl font-semibold sm:text-3xl">{section.title}</h3>
-            <p className="mt-4 leading-relaxed text-violet-100/90">{section.description}</p>
-            <p className="mt-4 text-sm text-violet-200/80">
-              Esta estrella está lista para su sección completa en los siguientes patches emocionales.
-            </p>
+            <SectionBody section={section} />
             <button
               type="button"
               onClick={onClose}
