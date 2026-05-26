@@ -14,24 +14,27 @@ type FloatingOrbProps = {
   section: UniverseSection;
   index: number;
   onSelect: (section: UniverseSection) => void;
+  disabled?: boolean;
 };
 
-export function FloatingOrb({ section, index, onSelect }: FloatingOrbProps) {
+export function FloatingOrb({ section, index, onSelect, disabled = false }: FloatingOrbProps) {
   return (
     <motion.button
       type="button"
       onClick={() => onSelect(section)}
+      disabled={disabled}
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.06, duration: 0.5 }}
-      whileHover={{ scale: 1.03 }}
-      whileTap={{ scale: 0.98 }}
-      className={`group relative overflow-hidden rounded-3xl border bg-[#100c23]/85 p-4 text-left shadow-[0_0_30px_rgba(98,71,170,0.35)] backdrop-blur-sm transition ${ACCENT_STYLES[section.accent]}`}
+      whileHover={disabled ? undefined : { scale: 1.03 }}
+      whileTap={disabled ? undefined : { scale: 0.98 }}
+      className={`group relative overflow-hidden rounded-3xl border bg-[#100c23]/85 p-4 text-left shadow-[0_0_30px_rgba(98,71,170,0.35)] backdrop-blur-sm transition ${ACCENT_STYLES[section.accent]} ${disabled ? "cursor-not-allowed opacity-60" : ""}`}
     >
       <div className="absolute inset-0 bg-gradient-to-br opacity-70 transition group-hover:opacity-100" />
       <div className="relative z-10">
         <p className="text-[0.62rem] uppercase tracking-[0.18em] text-violet-100/85">Estrella {index + 1}</p>
         <h3 className="mt-2 text-base font-semibold text-white sm:text-lg">{section.title}</h3>
+        {disabled ? <p className="mt-2 text-xs text-rose-100/90">Desbloqueá esta estrella al visitar las demás.</p> : null}
       </div>
     </motion.button>
   );

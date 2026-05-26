@@ -8,6 +8,7 @@ import { CatsSection } from "@/components/CatsSection";
 import { FirstDanceSection } from "@/components/FirstDanceSection";
 import { FutureSection } from "@/components/FutureSection";
 import { SkySection } from "@/components/SkySection";
+import { SecretEnding } from "@/components/SecretEnding";
 import type { UniverseSection } from "@/data/sections";
 
 type SectionModalProps = {
@@ -16,47 +17,17 @@ type SectionModalProps = {
 };
 
 function SectionBody({ section }: { section: UniverseSection }) {
-  if (section.id === "origin") {
-    return <OriginSection />;
-  }
+  if (section.id === "origin") return <OriginSection />;
+  if (section.id === "wedding") return <WeddingSection />;
+  if (section.id === "vows") return <VowsSection />;
+  if (section.id === "cats") return <CatsSection />;
+  if (section.id === "first-dance") return <FirstDanceSection />;
+  if (section.id === "future") return <FutureSection />;
+  if (section.id === "sky-luci") return <SkySection initialEventId="luci-birth" />;
+  if (section.id === "sky-wedding") return <SkySection initialEventId="wedding-apr-3" />;
+  if (section.id === "secret-center") return <SecretEnding />;
 
-  if (section.id === "wedding") {
-    return <WeddingSection />;
-  }
-
-  if (section.id === "vows") {
-    return <VowsSection />;
-  }
-
-  if (section.id === "cats") {
-    return <CatsSection />;
-  }
-
-  if (section.id === "first-dance") {
-    return <FirstDanceSection />;
-  }
-
-  if (section.id === "future") {
-    return <FutureSection />;
-  }
-
-  if (section.id === "sky-luci") {
-    return <SkySection initialEventId="luci-birth" />;
-  }
-
-  if (section.id === "sky-wedding") {
-    return <SkySection initialEventId="wedding-apr-3" />;
-  }
-
-  return (
-    <>
-      <h3 className="mt-2 text-2xl font-semibold sm:text-3xl">{section.title}</h3>
-      <p className="mt-4 leading-relaxed text-violet-100/90">{section.description}</p>
-      <p className="mt-4 text-sm text-violet-200/80">
-        Esta estrella está lista para su sección completa en los siguientes patches emocionales.
-      </p>
-    </>
-  );
+  return null;
 }
 
 export function SectionModal({ section, onClose }: SectionModalProps) {
