@@ -5,6 +5,7 @@ import { OriginSection } from "@/components/OriginSection";
 import { WeddingSection } from "@/components/WeddingSection";
 import { VowsSection } from "@/components/VowsSection";
 import { CatsSection } from "@/components/CatsSection";
+import { FirstDanceSection } from "@/components/FirstDanceSection";
 import type { UniverseSection } from "@/data/sections";
 
 type SectionModalProps = {
@@ -27,6 +28,10 @@ function SectionBody({ section }: { section: UniverseSection }) {
 
   if (section.id === "cats") {
     return <CatsSection />;
+  }
+
+  if (section.id === "first-dance") {
+    return <FirstDanceSection />;
   }
 
   return (
