@@ -10,6 +10,7 @@ const STORAGE_KEY = "luci-universo-has-entered";
 
 export default function Home() {
   const [hasEntered, setHasEntered] = useState(false);
+  const [autoPlaySignal, setAutoPlaySignal] = useState(0);
 
   useEffect(() => {
     const stored = window.localStorage.getItem(STORAGE_KEY);
@@ -20,6 +21,7 @@ export default function Home() {
 
   const handleEnter = () => {
     setHasEntered(true);
+    setAutoPlaySignal((prev) => prev + 1);
     window.localStorage.setItem(STORAGE_KEY, "true");
   };
 
@@ -45,11 +47,10 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="mt-6">
-            <MusicPlayer hasUserInteracted={hasEntered} />
-          </div>
+          
         </section>
       )}
+      {hasEntered ? <MusicPlayer hasUserInteracted={hasEntered} autoPlaySignal={autoPlaySignal} /> : null}
     </main>
   );
 }
