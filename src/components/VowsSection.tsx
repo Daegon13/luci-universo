@@ -2,11 +2,16 @@ import { vows } from "@/data/vows";
 
 function VowParagraphs({ items }: { items: string[] }) {
   return (
-    <div className="space-y-4 text-sm leading-relaxed text-violet-100/90 sm:text-base">
-      {items.map((line) => (
-        <p key={line}>{line}</p>
+    <ol className="space-y-3 text-sm leading-relaxed text-violet-100/90 sm:text-base">
+      {items.map((line, index) => (
+        <li key={line} className="list-none">
+          <span className="mr-2 inline-flex min-w-6 items-center justify-center rounded-full border border-violet-200/30 bg-violet-950/45 px-2 py-0.5 text-[10px] font-semibold tracking-wide text-violet-200/90 sm:text-xs">
+            {index + 1}
+          </span>
+          <span>{line}</span>
+        </li>
       ))}
-    </div>
+    </ol>
   );
 }
 
@@ -17,6 +22,10 @@ export function VowsSection() {
         <p className="text-xs uppercase tracking-[0.2em] text-amber-200/80">La estrella que no se apaga</p>
         <h3 className="mt-2 text-2xl font-semibold text-violet-50 sm:text-3xl">Nuestros votos</h3>
       </header>
+
+      <blockquote className="rounded-3xl border border-amber-200/35 bg-gradient-to-r from-amber-200/10 via-rose-200/10 to-transparent p-5 text-base italic leading-relaxed text-amber-50 sm:text-lg">
+        “{vows.featuredLine}”
+      </blockquote>
 
       <div className="rounded-3xl border border-amber-200/30 bg-gradient-to-b from-amber-100/10 via-rose-100/5 to-transparent p-5 sm:p-6">
         <p className="text-sm font-medium uppercase tracking-[0.16em] text-amber-100/90">Lo que te prometí entonces</p>
