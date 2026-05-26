@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { FloatingOrb } from "@/components/FloatingOrb";
 import { SectionModal } from "@/components/SectionModal";
@@ -8,6 +8,7 @@ import { ProgressConstellation } from "@/components/ProgressConstellation";
 import { sections, type UniverseSection } from "@/data/sections";
 
 const SECRET_CENTER_ID = "secret-center";
+const VISITED_STORAGE_KEY = "luci-universo-visited-sections";
 
 export function GalaxyMap() {
   const [selectedSection, setSelectedSection] = useState<UniverseSection | null>(null);
@@ -15,6 +16,23 @@ export function GalaxyMap() {
 
   const orbitLines = useMemo(() => ["h-40 w-40", "h-64 w-64", "h-80 w-80"], []);
   const requiredSections = useMemo(() => sections.filter((section) => section.id !== SECRET_CENTER_ID), []);
+
+  useEffect(() => {
+    const stored = window.localStorage.getItem(VISITED_STORAGE_KEY);
+    if (!stored) return;
+
+    try {
+      const parsed = JSON.parse(stored) as string[];
+      const validIds = new Set(sections.map((section) => section.id));
+      setVisitedSections(parsed.filter((id) => validIds.has(id)));
+    } catch {
+      window.localStorage.removeItem(VISITED_STORAGE_KEY);
+    }
+  }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem(VISITED_STORAGE_KEY, JSON.stringify(visitedSections));
+  }, [visitedSections]);
 
   const isSecretUnlocked = requiredSections.every((section) => visitedSections.includes(section.id));
 
@@ -26,7 +44,7 @@ export function GalaxyMap() {
   };
 
   return (
-    <section className="relative z-10 mx-auto w-full max-w-5xl rounded-3xl border border-violet-100/20 bg-[#0f0b22]/70 p-5 shadow-[0_0_45px_rgba(121,82,212,0.32)] backdrop-blur-md sm:p-8">
+    <section className="relative z-10 mx-auto w-full max-w-5xl rounded-3xl border border-violet-100/20 bg-[#0f0b22]/70 p-5 pb-24 shadow-[0_0_45px_rgba(121,82,212,0.32)] backdrop-blur-md sm:p-8 sm:pb-24">
       <p className="text-xs uppercase tracking-[0.2em] text-violet-200/85">Nuestro universo</p>
       <h2 className="mt-2 text-2xl font-semibold text-white sm:text-3xl">Tocá una estrella para abrir un recuerdo</h2>
       <p className="mt-3 max-w-2xl text-sm text-violet-100/85 sm:text-base">
@@ -76,7 +94,11 @@ export function GalaxyMap() {
       {!isSecretUnlocked ? (
         <button
           type="button"
-          onClick={() => handleSelectSection(sections.find((section) => section.id === SECRET_CENTER_ID) as UniverseSection, { bypassLock: true })}
+          onClick={() =>
+            handleSelectSection(sections.find((section) => section.id === SECRET_CENTER_ID) as UniverseSection, {
+              bypassLock: true,
+            })
+          }
           className="mt-4 w-full rounded-2xl border border-rose-200/35 bg-rose-950/25 px-4 py-3 text-sm font-medium text-rose-100 transition hover:border-rose-200/60"
         >
           Abrir igual el centro secreto ahora
