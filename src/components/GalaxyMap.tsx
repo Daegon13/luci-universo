@@ -22,25 +22,28 @@ const DESKTOP_POSITIONS = [
   "lg:col-start-5 lg:row-start-4",
 ];
 
+function getInitialVisitedSections() {
+  if (typeof window === "undefined") return [];
+
+  const stored = window.localStorage.getItem(VISITED_STORAGE_KEY);
+  if (!stored) return [];
+
+  try {
+    const parsed = JSON.parse(stored) as string[];
+    const validIds = new Set(sections.map((section) => section.id));
+    return parsed.filter((id) => validIds.has(id));
+  } catch {
+    window.localStorage.removeItem(VISITED_STORAGE_KEY);
+    return [];
+  }
+}
+
 export function GalaxyMap() {
   const [selectedSection, setSelectedSection] = useState<UniverseSection | null>(null);
-  const [visitedSections, setVisitedSections] = useState<string[]>([]);
+  const [visitedSections, setVisitedSections] = useState<string[]>(getInitialVisitedSections);
 
   const orbitLines = useMemo(() => ["h-56 w-56", "h-80 w-80", "h-[28rem] w-[28rem]"], []);
   const requiredSections = useMemo(() => sections.filter((section) => section.id !== SECRET_CENTER_ID), []);
-
-  useEffect(() => {
-    const stored = window.localStorage.getItem(VISITED_STORAGE_KEY);
-    if (!stored) return;
-
-    try {
-      const parsed = JSON.parse(stored) as string[];
-      const validIds = new Set(sections.map((section) => section.id));
-      setVisitedSections(parsed.filter((id) => validIds.has(id)));
-    } catch {
-      window.localStorage.removeItem(VISITED_STORAGE_KEY);
-    }
-  }, []);
 
   useEffect(() => {
     window.localStorage.setItem(VISITED_STORAGE_KEY, JSON.stringify(visitedSections));
