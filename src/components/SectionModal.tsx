@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { OriginSection } from "@/components/OriginSection";
 import { WeddingSection } from "@/components/WeddingSection";
 import { VowsSection } from "@/components/VowsSection";
+import { CatsSection } from "@/components/CatsSection";
 import type { UniverseSection } from "@/data/sections";
 
 type SectionModalProps = {
@@ -22,6 +23,10 @@ function SectionBody({ section }: { section: UniverseSection }) {
 
   if (section.id === "vows") {
     return <VowsSection />;
+  }
+
+  if (section.id === "cats") {
+    return <CatsSection />;
   }
 
   return (
