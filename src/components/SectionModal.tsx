@@ -7,6 +7,7 @@ import { VowsSection } from "@/components/VowsSection";
 import { CatsSection } from "@/components/CatsSection";
 import { FirstDanceSection } from "@/components/FirstDanceSection";
 import { FutureSection } from "@/components/FutureSection";
+import { SkySection } from "@/components/SkySection";
 import type { UniverseSection } from "@/data/sections";
 
 type SectionModalProps = {
@@ -37,6 +38,14 @@ function SectionBody({ section }: { section: UniverseSection }) {
 
   if (section.id === "future") {
     return <FutureSection />;
+  }
+
+  if (section.id === "sky-luci") {
+    return <SkySection initialEventId="luci-birth" />;
+  }
+
+  if (section.id === "sky-wedding") {
+    return <SkySection initialEventId="wedding-apr-3" />;
   }
 
   return (
