@@ -1,0 +1,3 @@
+"use client";
+export function MusicPlayer({ hasUserInteracted }: { hasUserInteracted: boolean }) {
+return <div className="rounded-2xl border border-violet-200/20 bg-[#130f28]/80 p-4 text-sm text-violet-100/90 shadow-lg"><p className="font-medium">La canción del primer baile</p><p className="mt-1 text-violet-200/80">I Can&apos;t Help Falling in Love — Elvis Presley</p><p className="mt-3 text-xs text-violet-200/80">{hasUserInteracted ? "Player listo para Patch 2: play/pause, mute y volumen inicial bajo." : "El audio se activará solo después de tu interacción, como gesto íntimo y legalmente seguro."}</p></div>; }
