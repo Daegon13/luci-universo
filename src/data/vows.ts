@@ -3,6 +3,8 @@ export type VowsContent = {
   renewed: string[];
   highlights: string[];
   featuredLine: string;
+  originalLabel: string;
+  renewedLabel: string;
 };
 
 export const vows: VowsContent = {
@@ -32,4 +34,6 @@ export const vows: VowsContent = {
     "Hasta que la última estrella del universo se apague.",
   ],
   featuredLine: "Mi sol, luna y mis estrellas.",
+  originalLabel: "Lo que te prometí entonces",
+  renewedLabel: "Lo que te prometo ahora",
 };
