@@ -61,7 +61,7 @@ export function SectionModal({ section, onClose }: SectionModalProps) {
             exit={{ y: 20, opacity: 0 }}
             transition={{ duration: 0.25 }}
             onClick={(event) => event.stopPropagation()}
-            className="max-h-[86vh] w-full max-w-2xl overflow-y-auto rounded-3xl border border-violet-200/25 bg-[#120d26]/95 p-6 text-violet-50 shadow-[0_0_45px_rgba(90,65,170,0.45)] sm:p-8"
+            className="max-h-[86vh] w-full max-w-2xl overflow-y-auto rounded-3xl border border-violet-200/25 bg-[#120d26]/95 p-6 text-violet-50 shadow-[0_0_45px_rgba(90,65,170,0.45)] sm:p-8 lg:max-w-3xl"
           >
             <p className="text-xs uppercase tracking-[0.2em] text-violet-200/80">Bitácora estelar</p>
             <SectionBody section={section} />
