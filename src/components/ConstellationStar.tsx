@@ -29,11 +29,15 @@ export function ConstellationStar({
   const isSecret = section.importance === "secret";
   const secretLocked = isSecret && !isSecretUnlocked;
 
+  const secretUnlockedTone = "border-amber-100/80 bg-gradient-to-br from-amber-100/65 via-rose-200/55 to-fuchsia-200/40";
+
   const starTone = secretLocked
-    ? "border-violet-200/25 bg-violet-200/10"
-    : isVisited
-      ? "border-rose-200/70 bg-gradient-to-br from-amber-100/50 via-rose-200/45 to-violet-200/40"
-      : "border-violet-100/55 bg-gradient-to-br from-white/60 via-violet-200/45 to-rose-200/35";
+    ? "border-violet-200/20 bg-violet-200/10"
+    : isSecret && isSecretUnlocked
+      ? secretUnlockedTone
+      : isVisited
+        ? "border-rose-200/70 bg-gradient-to-br from-amber-100/50 via-rose-200/45 to-violet-200/40"
+        : "border-violet-100/55 bg-gradient-to-br from-white/60 via-violet-200/45 to-rose-200/35";
 
   return (
     <motion.div
@@ -57,8 +61,8 @@ export function ConstellationStar({
       </motion.button>
 
       <div className="pointer-events-none absolute left-1/2 top-[calc(100%+0.55rem)] z-20 w-52 -translate-x-1/2 rounded-xl border border-violet-100/20 bg-[#120d28]/90 p-2 text-center opacity-0 shadow-[0_0_18px_rgba(244,114,182,0.22)] transition group-hover:opacity-100 group-focus-within:opacity-100">
-        <p className="text-[0.62rem] uppercase tracking-[0.18em] text-violet-200/75">{section.title}</p>
-        <p className="mt-1 text-xs text-violet-100/85">{section.description}</p>
+        <p className="text-[0.62rem] uppercase tracking-[0.18em] text-violet-200/75">{section.fullTitle}</p>
+        <p className="mt-1 text-xs text-violet-100/85">{secretLocked ? "Completá las demás estrellas para encender este centro." : section.description}</p>
       </div>
     </motion.div>
   );
