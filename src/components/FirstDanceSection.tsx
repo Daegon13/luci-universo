@@ -1,3 +1,7 @@
+"use client";
+
+import Image from "next/image";
+import { useState } from "react";
 import { Disc3, Heart, Music2, Sparkles } from "lucide-react";
 
 const lyricMoments = [
@@ -6,7 +10,11 @@ const lyricMoments = [
   "La promesa silenciosa de seguir bailando juntos incluso en los días difíciles.",
 ];
 
+const firstDancePhoto = "/images/memories/first-dance.jpg";
+
 export function FirstDanceSection() {
+  const [showFallbackVisual, setShowFallbackVisual] = useState(false);
+
   return (
     <section className="mt-4 space-y-6 text-violet-50">
       <header className="space-y-3">
@@ -18,15 +26,30 @@ export function FirstDanceSection() {
       </header>
 
       <div className="rounded-3xl border border-violet-200/25 bg-gradient-to-b from-[#26184a]/90 to-[#100a22]/95 p-5 shadow-[0_0_40px_rgba(124,93,255,0.25)] sm:p-6">
-        <div className="mx-auto mb-5 flex h-40 w-full max-w-xs items-center justify-center rounded-[2rem] border border-violet-200/30 bg-[#0a0618] sm:h-44">
-          <div className="relative flex h-28 w-28 items-center justify-center rounded-full border border-rose-200/50 bg-gradient-to-br from-rose-200/20 via-violet-200/10 to-transparent">
-            <div className="absolute h-16 w-16 rounded-full border border-violet-100/30 bg-violet-950/55" />
-            <Disc3 className="text-rose-100/90" size={30} />
-            <span className="absolute -right-4 -top-3 rounded-full border border-violet-200/35 bg-violet-900/70 p-1.5 text-rose-100/90">
-              <Sparkles size={12} />
-            </span>
+        {!showFallbackVisual ? (
+          <div className="relative mx-auto mb-5 h-44 w-full max-w-xs overflow-hidden rounded-[2rem] border border-violet-200/30 sm:h-48">
+            <Image
+              src={firstDancePhoto}
+              alt="Nuestro primer baile"
+              fill
+              className="object-cover"
+              sizes="(max-width: 640px) 280px, 320px"
+              onError={() => setShowFallbackVisual(true)}
+              priority={false}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0618]/75 via-transparent to-[#0a0618]/20" />
           </div>
-        </div>
+        ) : (
+          <div className="mx-auto mb-5 flex h-40 w-full max-w-xs items-center justify-center rounded-[2rem] border border-violet-200/30 bg-[#0a0618] sm:h-44">
+            <div className="relative flex h-28 w-28 items-center justify-center rounded-full border border-rose-200/50 bg-gradient-to-br from-rose-200/20 via-violet-200/10 to-transparent">
+              <div className="absolute h-16 w-16 rounded-full border border-violet-100/30 bg-violet-950/55" />
+              <Disc3 className="text-rose-100/90" size={30} />
+              <span className="absolute -right-4 -top-3 rounded-full border border-violet-200/35 bg-violet-900/70 p-1.5 text-rose-100/90">
+                <Sparkles size={12} />
+              </span>
+            </div>
+          </div>
+        )}
 
         <p className="text-base leading-relaxed text-violet-100/95 sm:text-lg">
           Esta canción no suena igual desde aquel día. Desde entonces, cada nota sabe tu nombre.
