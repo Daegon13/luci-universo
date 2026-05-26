@@ -1,4 +1,22 @@
+"use client";
+
+import Image from "next/image";
+import { useState } from "react";
 import { weddingEvents, weddingPhotos } from "@/data/wedding";
+
+function WeddingPhotoCard({ src, alt }: { src: string; alt: string }) {
+  const [hasError, setHasError] = useState(false);
+
+  if (hasError) {
+    return (
+      <div className="flex aspect-[4/3] items-center justify-center bg-gradient-to-br from-violet-950/70 to-[#120d26]/80 p-4 text-center text-sm text-violet-100/90">
+        Placeholder elegante · {src}
+      </div>
+    );
+  }
+
+  return <Image src={src} alt={alt} fill sizes="(max-width: 640px) 100vw, 50vw" className="object-cover" onError={() => setHasError(true)} />;
+}
 
 export function WeddingSection() {
   return (
@@ -23,8 +41,8 @@ export function WeddingSection() {
       <div className="grid gap-4 sm:grid-cols-2">
         {weddingPhotos.map((photo) => (
           <figure key={photo.id} className="overflow-hidden rounded-2xl border border-amber-100/25 bg-[#1b1435]">
-            <div className="flex aspect-[4/3] items-center justify-center bg-gradient-to-br from-violet-950/70 to-[#120d26]/80 p-4 text-center text-sm text-violet-100/90">
-              Placeholder elegante · {photo.src}
+            <div className="relative aspect-[4/3]">
+              <WeddingPhotoCard src={photo.src} alt={photo.alt} />
             </div>
             <figcaption className="border-t border-amber-100/15 px-4 py-3 text-xs leading-relaxed text-violet-100/80 sm:text-sm">
               {photo.caption}

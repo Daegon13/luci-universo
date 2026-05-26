@@ -1,14 +1,28 @@
+"use client";
+
+import Image from "next/image";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { catGuardians } from "@/data/cats";
 
-function CatImagePlaceholder({ label, src }: { label: string; src: string }) {
+function CatImageCard({ label, src, alt }: { label: string; src: string; alt: string }) {
+  const [hasError, setHasError] = useState(false);
+
+  if (hasError) {
+    return (
+      <div className="relative flex aspect-[4/3] items-center justify-center overflow-hidden rounded-2xl border border-violet-100/20 bg-gradient-to-br from-violet-900/35 via-[#1a1334] to-[#0e0a1e] p-4 text-center">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(251,191,180,0.12),transparent_55%)]" />
+        <p className="relative text-sm text-violet-100/85">
+          Placeholder cósmico · {label}
+          <span className="mt-1 block text-xs text-violet-200/70">{src}</span>
+        </p>
+      </div>
+    );
+  }
+
   return (
-    <div className="relative flex aspect-[4/3] items-center justify-center overflow-hidden rounded-2xl border border-violet-100/20 bg-gradient-to-br from-violet-900/35 via-[#1a1334] to-[#0e0a1e] p-4 text-center">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(251,191,180,0.12),transparent_55%)]" />
-      <p className="relative text-sm text-violet-100/85">
-        Placeholder cósmico · {label}
-        <span className="mt-1 block text-xs text-violet-200/70">{src}</span>
-      </p>
+    <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-violet-100/20">
+      <Image src={src} alt={alt} fill sizes="(max-width: 640px) 100vw, 50vw" className="object-cover" onError={() => setHasError(true)} />
     </div>
   );
 }
@@ -35,7 +49,7 @@ export function CatsSection() {
             transition={{ duration: 0.25, delay: index * 0.04 }}
             whileHover={{ y: -2, scale: 1.01 }}
           >
-            <CatImagePlaceholder label={cat.name} src={cat.imageSrc} />
+            <CatImageCard label={cat.name} src={cat.imageSrc} alt={cat.imageAlt} />
 
             <div className="mt-4">
               <p className="text-xs uppercase tracking-[0.16em] text-sky-100/85">{cat.title}</p>
