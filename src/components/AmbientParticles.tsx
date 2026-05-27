@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { useMemo } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 
 type AmbientParticlesProps = {
   amount?: number;
@@ -33,7 +34,8 @@ function createParticles(amount: number, seedOffset: number): Particle[] {
 }
 
 export function AmbientParticles({ amount = 26, seedOffset = 0 }: AmbientParticlesProps) {
-  const particles = createParticles(amount, seedOffset);
+  const reduceMotion = useReducedMotion() ?? false;
+  const particles = useMemo(() => createParticles(amount, seedOffset), [amount, seedOffset]);
 
   return (
     <>
@@ -42,8 +44,16 @@ export function AmbientParticles({ amount = 26, seedOffset = 0 }: AmbientParticl
           key={particle.id}
           className="absolute rounded-full bg-violet-100/20 blur-2xl"
           style={{ top: particle.top, left: particle.left, width: particle.size, height: particle.size, opacity: particle.opacity }}
-          animate={{ opacity: [particle.opacity * 0.7, particle.opacity, particle.opacity * 0.8], scale: [1, 1.35, 1] }}
-          transition={{ duration: particle.duration, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: particle.delay }}
+          animate={
+            reduceMotion
+              ? { opacity: particle.opacity, scale: 1 }
+              : { opacity: [particle.opacity * 0.7, particle.opacity, particle.opacity * 0.8], scale: [1, 1.35, 1] }
+          }
+          transition={
+            reduceMotion
+              ? { duration: 0 }
+              : { duration: particle.duration, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: particle.delay }
+          }
         />
       ))}
     </>

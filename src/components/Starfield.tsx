@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { AmbientParticles } from "@/components/AmbientParticles";
 import { NebulaGlow } from "@/components/NebulaGlow";
 
@@ -70,24 +70,34 @@ function StarLayerView({
   stars,
   drift,
   blur,
+  reduceMotion,
 }: {
   stars: Star[];
   drift: [string, string, string];
   blur?: string;
+  reduceMotion: boolean;
 }) {
   return (
     <motion.div
       className="absolute inset-0"
-      animate={{ y: drift }}
-      transition={{ duration: 50, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+      animate={reduceMotion ? { y: "0%" } : { y: drift }}
+      transition={reduceMotion ? { duration: 0 } : { duration: 50, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
     >
       {stars.map((star) => (
         <motion.span
           key={star.id}
           className={`absolute rounded-full ${STAR_TONE_CLASSES[star.hue]} ${blur ?? ""}`}
           style={{ width: star.size, height: star.size, top: star.top, left: star.left, opacity: star.opacity }}
-          animate={{ opacity: [star.opacity * 0.52, star.opacity, star.opacity * 0.66], scale: [1, 1.28, 1] }}
-          transition={{ duration: star.duration, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: star.delay }}
+          animate={
+            reduceMotion
+              ? { opacity: star.opacity, scale: 1 }
+              : { opacity: [star.opacity * 0.52, star.opacity, star.opacity * 0.66], scale: [1, 1.28, 1] }
+          }
+          transition={
+            reduceMotion
+              ? { duration: 0 }
+              : { duration: star.duration, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: star.delay }
+          }
         />
       ))}
     </motion.div>
@@ -95,6 +105,8 @@ function StarLayerView({
 }
 
 export function Starfield() {
+  const reduceMotion = useReducedMotion() ?? false;
+
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_#2f2360_0%,_#191135_34%,_#080512_72%,_#04020b_100%)]" />
@@ -103,9 +115,9 @@ export function Starfield() {
       <AmbientParticles amount={24} seedOffset={0} />
       <AmbientParticles amount={14} seedOffset={260} />
 
-      <StarLayerView stars={farStars} drift={["-0.5%", "0%", "0.6%"]} blur="blur-[0.2px]" />
-      <StarLayerView stars={midStars} drift={["0%", "0.6%", "-0.3%"]} />
-      <StarLayerView stars={heroStars} drift={["0.5%", "0%", "-0.5%"]} blur="shadow-[0_0_14px_rgba(255,230,214,0.35)]" />
+      <StarLayerView stars={farStars} drift={["-0.5%", "0%", "0.6%"]} blur="blur-[0.2px]" reduceMotion={reduceMotion} />
+      <StarLayerView stars={midStars} drift={["0%", "0.6%", "-0.3%"]} reduceMotion={reduceMotion} />
+      <StarLayerView stars={heroStars} drift={["0.5%", "0%", "-0.5%"]} blur="shadow-[0_0_14px_rgba(255,230,214,0.35)]" reduceMotion={reduceMotion} />
     </div>
   );
 }
