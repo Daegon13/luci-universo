@@ -26,7 +26,7 @@ function SectionBody({ section }: { section: UniverseSection }) {
   if (section.id === "first-dance") return <FirstDanceSection />;
   if (section.id === "future") return <FutureSection />;
   if (section.id === "sky-luci") return <SkySection initialEventId="luci-birth" />;
-  if (section.id === "sky-wedding") return <SkySection initialEventId="wedding-apr-3" />;
+  if (section.id === "sky-wedding") return <SkySection initialEventId="wedding-april-03" />;
   if (section.id === "secret-center") return <SecretEnding />;
 
   return null;
