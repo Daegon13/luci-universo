@@ -9,9 +9,7 @@ import { sections, type UniverseSection } from "@/data/sections";
 const SECRET_CENTER_ID = "secret-center";
 const VISITED_STORAGE_KEY = "luci-universo-visited-sections";
 
-function getInitialVisitedSections() {
-  if (typeof window === "undefined") return [];
-
+function getStoredVisitedSections() {
   const stored = window.localStorage.getItem(VISITED_STORAGE_KEY);
   if (!stored) return [];
 
@@ -27,9 +25,13 @@ function getInitialVisitedSections() {
 
 export function GalaxyMap() {
   const [selectedSection, setSelectedSection] = useState<UniverseSection | null>(null);
-  const [visitedSections, setVisitedSections] = useState<string[]>(getInitialVisitedSections);
+  const [visitedSections, setVisitedSections] = useState<string[]>([]);
 
   const requiredSections = useMemo(() => sections.filter((section) => section.id !== SECRET_CENTER_ID), []);
+
+  useEffect(() => {
+    setVisitedSections(getStoredVisitedSections());
+  }, []);
 
   useEffect(() => {
     window.localStorage.setItem(VISITED_STORAGE_KEY, JSON.stringify(visitedSections));
