@@ -17,9 +17,9 @@ type Star = {
 };
 
 const STAR_COUNTS: Record<StarLayer, number> = {
-  far: 150,
-  mid: 76,
-  hero: 24,
+  far: 230,
+  mid: 120,
+  hero: 38,
 };
 
 function seededValue(index: number, salt: number) {
@@ -34,8 +34,8 @@ function createStars(layer: StarLayer, offset: number): Star[] {
     const baseId = id + offset;
     const sizeBase = layer === "far" ? 1.3 : layer === "mid" ? 2.2 : 3.8;
     const sizeVariance = layer === "far" ? 1.05 : layer === "mid" ? 1.7 : 2.6;
-    const opacityBase = layer === "far" ? 0.28 : layer === "mid" ? 0.46 : 0.62;
-    const opacityVariance = layer === "far" ? 0.34 : layer === "mid" ? 0.4 : 0.32;
+    const opacityBase = layer === "far" ? 0.34 : layer === "mid" ? 0.54 : 0.72;
+    const opacityVariance = layer === "far" ? 0.4 : layer === "mid" ? 0.38 : 0.24;
 
     return {
       id: baseId,
@@ -112,12 +112,12 @@ export function Starfield() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_#362a72_0%,_#1a1238_32%,_#070512_72%,_#03020a_100%)]" />
       <NebulaGlow />
 
-      <AmbientParticles amount={24} seedOffset={0} />
-      <AmbientParticles amount={14} seedOffset={260} />
+      <AmbientParticles amount={40} seedOffset={0} />
+      <AmbientParticles amount={26} seedOffset={260} />
 
-      <StarLayerView stars={farStars} drift={["-0.5%", "0%", "0.6%"]} blur="blur-[0.2px]" reduceMotion={reduceMotion} />
+      <StarLayerView stars={farStars} drift={["-0.5%", "0%", "0.6%"]} blur="blur-[0.1px]" reduceMotion={reduceMotion} />
       <StarLayerView stars={midStars} drift={["0%", "0.6%", "-0.3%"]} reduceMotion={reduceMotion} />
-      <StarLayerView stars={heroStars} drift={["0.5%", "0%", "-0.5%"]} blur="shadow-[0_0_18px_rgba(255,232,214,0.5)]" reduceMotion={reduceMotion} />
+      <StarLayerView stars={heroStars} drift={["0.5%", "0%", "-0.5%"]} blur="shadow-[0_0_22px_rgba(255,235,220,0.62)]" reduceMotion={reduceMotion} />
     </div>
   );
 }

@@ -17,7 +17,7 @@ export function ConstellationTimeline({ sections, visitedSections, isSecretUnloc
 
   return (
     <>
-      <div className="relative mt-6 hidden min-h-[40rem] overflow-hidden rounded-3xl border border-violet-200/15 bg-[#0e0a20]/46 lg:block">
+      <div className="relative mt-6 hidden min-h-[40rem] overflow-hidden rounded-3xl border border-violet-200/15 bg-[#0e0a20]/26 lg:block">
         <ConstellationLines sections={sections} />
         {sections.map((section) => (
           <ConstellationStar
