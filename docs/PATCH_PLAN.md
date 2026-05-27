@@ -491,6 +491,301 @@ Dejar el regalo listo para entregar.
 - Deploy en Vercel funciona.
 
 ---
+---
+
+# Patch 12 — Hardening y preparación para assets reales
+
+## Objetivo
+
+Estabilizar la base actual antes de cargar fotos, audio y detalles finales.
+
+## Tareas
+
+- Revisar scroll mobile en `src/app/page.tsx`.
+- Eliminar cualquier `overflow-hidden` global que impida recorrer bien la experiencia.
+- Mantener `overflow-x-hidden` si hace falta, pero permitir scroll vertical normal.
+- Hacer que `Starfield` sea determinístico y no dependa de `Math.random()` a nivel de módulo.
+- Revisar `CatsSection` para que pueda usar imágenes reales con fallback elegante.
+- Revisar `WeddingSection` para que pueda usar imágenes reales con fallback elegante.
+- Asegurar carpetas de assets con `.gitkeep`:
+  - `public/audio/`
+  - `public/images/wedding/`
+  - `public/images/cats/`
+  - `public/images/couple/`
+  - `public/images/memories/`
+  - `public/images/sky/`
+- Agregar privacidad mínima:
+  - `robots.txt`
+  - metadata `noindex, nofollow`
+- Mejorar modal:
+  - botón visible para cerrar
+  - buen comportamiento en mobile
+  - cierre por Escape y click fuera
+- Agregar mecanismo simple para resetear la experiencia en pruebas:
+  - limpiar localStorage con query param `?reset=1` o función equivalente
+- Completar `docs/ASSETS_CHECKLIST.md` si todavía está incompleto.
+
+## Criterios de aceptación
+
+- `pnpm build` pasa.
+- `pnpm lint` no introduce errores nuevos.
+- La experiencia se puede recorrer correctamente en mobile.
+- Las secciones de boda y gatitas ya están listas para recibir assets reales.
+- La web no se indexa.
+- La app no se rompe si faltan imágenes o audio.
+
+---
+
+# Patch 13 — Starfield Background System
+
+## Objetivo
+
+Reemplazar el fondo actual por un cielo estrellado más rico, profundo y místico, para que la experiencia deje de sentirse como un gradiente genérico y se acerque a un universo vivo.
+
+## Problema actual
+
+El fondo actual cumple como base, pero todavía se ve demasiado plano o genérico. Necesitamos más profundidad, capas, atmósfera y sensación espacial.
+
+## Tareas
+
+- Crear un sistema visual de fondo llamado `Starfield Background System`.
+- Mejorar `src/components/Starfield.tsx` o dividirlo en componentes más especializados:
+  - `Starfield.tsx`
+  - `NebulaGlow.tsx`
+  - `AmbientParticles.tsx`
+- Crear varias capas visuales:
+  1. estrellas pequeñas lejanas
+  2. estrellas medianas con brillo suave
+  3. algunas estrellas grandes estratégicas
+  4. polvo cósmico/partículas tenues
+  5. neblina o resplandor tipo nebulosa muy sutil
+- Agregar sensación de profundidad con parallax suave o animación lenta.
+- Usar posiciones determinísticas o seeded.
+- Mantener la animación sutil, nada cargado.
+- Agregar viñeteo suave para centrar la atención.
+- Lograr que el fondo combine con la constelación, modales y secciones.
+- Asegurar buen rendimiento en mobile.
+- Evitar canvas pesado si no hace falta; priorizar HTML/CSS/SVG/Framer Motion.
+
+## Estética buscada
+
+- Azul noche profundo
+- Violeta espacial
+- Rosa lunar
+- Dorado suave
+- Blanco estrella
+- Sensación de cielo místico, íntimo y elegante
+
+## Criterios de aceptación
+
+- `pnpm build` pasa.
+- El fondo se siente más espacial y menos genérico.
+- Hay profundidad visual.
+- Las estrellas no distraen del contenido.
+- Mobile sigue funcionando fluido.
+- La estética general mejora claramente.
+
+---
+
+# Patch 14 — Constellation Timeline Navigation
+
+## Objetivo
+
+Reemplazar la navegación actual tipo cards/orbes simples por una constelación 2D interactiva que represente la línea del tiempo emocional de Diego y Luci.
+
+## Concepto
+
+Cada sección será una estrella conectada por líneas luminosas que simbolizan el tiempo, el destino y la historia compartida.
+
+## Tareas
+
+- Crear:
+  - `src/components/ConstellationTimeline.tsx`
+  - `src/components/ConstellationStar.tsx`
+  - `src/components/ConstellationLines.tsx`
+- Modificar `src/components/GalaxyMap.tsx` para usar la nueva constelación.
+- Expandir `src/data/sections.ts` para incluir:
+  - `position: { x, y }`
+  - `size`
+  - `importance`
+- Desktop:
+  - estrellas posicionadas libremente
+  - líneas SVG entre estrellas
+  - glow suave
+  - tooltip o label
+- Mobile:
+  - versión timeline vertical cósmica
+  - scroll cómodo
+  - estrellas fáciles de tocar
+- Marcar visualmente secciones visitadas.
+- Hacer que la siguiente sección no visitada pulse suavemente.
+- Mantener la lógica del centro secreto.
+
+## Criterios de aceptación
+
+- `pnpm build` pasa.
+- En desktop se ve como constelación.
+- En mobile se ve como timeline cósmico usable.
+- Todas las secciones siguen abriendo correctamente.
+- El progreso visual mejora.
+
+---
+
+# Patch 15 — Celestial Snapshot System
+
+## Objetivo
+
+Agregar una sección que muestre cómo estaba el cielo en fechas importantes mediante capturas 2D y presentación mística dentro de la web.
+
+## Enfoque
+
+Esta versión no calcula astronomía real todavía. Usa capturas de referencia obtenidas manualmente desde herramientas externas.
+
+## Tareas
+
+- Crear:
+  - `src/components/CelestialSnapshotSection.tsx`
+  - `src/components/SkyEventCard.tsx`
+  - `src/components/SkyViewToggle.tsx`
+  - `src/components/SolarSystemPostcard.tsx`
+- Crear `src/data/celestialEvents.ts`.
+- Preparar eventos:
+  - nacimiento de Luci
+  - boda del 3 de abril
+  - fecha del 6 de abril
+- Cada evento debe permitir alternar entre:
+  - “Cielo desde la Tierra”
+  - “Sistema Solar”
+- Rutas esperadas:
+  - `/images/sky/luci-birth-sky.jpg`
+  - `/images/sky/luci-birth-solar-system.jpg`
+  - `/images/sky/wedding-april-03-sky.jpg`
+  - `/images/sky/wedding-april-03-solar-system.jpg`
+  - `/images/sky/wedding-april-06-sky.jpg`
+  - `/images/sky/wedding-april-06-solar-system.jpg`
+- Mostrar placeholders elegantes si las imágenes faltan.
+- Mostrar fecha, lugar y texto poético.
+- Añadir nota discreta indicando que se trata de visualización/captura de referencia.
+
+## Criterios de aceptación
+
+- `pnpm build` pasa.
+- La sección funciona aunque falten imágenes reales.
+- Se puede cambiar entre eventos.
+- Se puede cambiar entre vista de cielo y sistema solar.
+- No depende de iframes ni APIs externas en runtime.
+
+---
+
+# Patch 16 — Calculated Sky Model (opcional / post-MVP)
+
+## Objetivo
+
+Evolucionar el sistema de cielos desde capturas manuales a posiciones astronómicas calculadas de forma programática.
+
+## Tareas
+
+- Investigar librería astronómica apropiada, por ejemplo Astronomy Engine.
+- Definir si el cálculo será:
+  - solo planetario heliocéntrico
+  - o también cielo visible desde la Tierra
+- Crear estructura de datos para:
+  - fecha
+  - hora
+  - lugar
+  - zona horaria
+- Generar datos precalculados en JSON para eventos importantes.
+- Reemplazar o complementar las postales estáticas con una vista calculada.
+
+## Criterios de aceptación
+
+- La arquitectura queda preparada para cálculo real.
+- No se rompe la UI existente.
+- Las visualizaciones calculadas son coherentes.
+- Sigue habiendo fallback visual si faltan datos completos.
+
+---
+
+# Patch 17 — 3D Ambient Scene Prototype (opcional)
+
+## Objetivo
+
+Crear una escena 3D liviana que complemente la atmósfera espacial del proyecto sin reemplazar la UI principal.
+
+## Tareas
+
+- Instalar:
+  - `three`
+  - `@react-three/fiber`
+  - `@react-three/drei`
+- Crear `src/components/SpaceScene.tsx`.
+- Implementar:
+  - estrellas 3D
+  - uno o dos planetas
+  - movimiento de cámara muy suave
+  - sensación espacial inmersiva
+- Mantener la UI emocional en overlays 2D.
+- No convertir todo el proyecto en un canvas puro.
+
+## Criterios de aceptación
+
+- `pnpm build` pasa.
+- La escena no degrada mobile gravemente.
+- La UI sigue siendo usable y legible.
+- El 3D aporta atmósfera sin volverse protagonista absoluto.
+
+---
+
+# Patch 18 — 3D Constellation Navigation (opcional)
+
+## Objetivo
+
+Explorar una versión tridimensional de la constelación narrativa, usando nodos espaciales y líneas en profundidad.
+
+## Tareas
+
+- Llevar la constelación 2D a una escena 3D controlada.
+- Mantener estrellas clickeables.
+- Mantener líneas conectando los momentos.
+- Mantener el centro secreto como estrella especial.
+- Conservar modales/paneles 2D para contenido largo.
+
+## Criterios de aceptación
+
+- El sistema se entiende visualmente.
+- No perjudica accesibilidad.
+- El contenido sigue siendo fácil de consumir.
+
+---
+
+# Patch 19 — Decorative 3D Assets Integration (opcional)
+
+## Objetivo
+
+Agregar modelos 3D gratuitos decorativos para enriquecer la ambientación del universo.
+
+## Posibles assets
+
+- ventana de nave espacial
+- cristal astral
+- observatorio
+- astrolabio
+- altar cósmico
+- elementos flotantes místicos
+
+## Tareas
+
+- Buscar modelos gratuitos con licencia adecuada.
+- Preferir formato `.glb`.
+- Mantener pocos assets y livianos.
+- Integrarlos como ambientación, no como núcleo funcional.
+- Documentar la procedencia/licencia si corresponde.
+
+## Criterios de aceptación
+
+- Los assets decoran sin sobrecargar.
+- No rompen rendimiento.
+- El proyecto se siente más inmersivo.
 
 # Reglas de cierre de cada patch
 
