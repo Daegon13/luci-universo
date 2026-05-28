@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { EntryGate } from "@/components/EntryGate";
 import { GalaxyMap } from "@/components/GalaxyMap";
 import { MusicPlayer } from "@/components/MusicPlayer";
@@ -9,28 +9,23 @@ import { Starfield } from "@/components/Starfield";
 const STORAGE_KEY = "luci-universo-has-entered";
 const VISITED_SECTIONS_KEY = "luci-universo-visited-sections";
 
-function getInitialHasEntered() {
-  if (typeof window === "undefined") return false;
-
-  const params = new URLSearchParams(window.location.search);
-  if (params.get("reset") === "1") {
-    window.localStorage.removeItem(STORAGE_KEY);
-    window.localStorage.removeItem(VISITED_SECTIONS_KEY);
-  }
-
-  return window.localStorage.getItem(STORAGE_KEY) === "true";
-}
-
 export default function Home() {
-  const [hasEntered, setHasEntered] = useState(getInitialHasEntered);
+  const [hasEntered, setHasEntered] = useState(false);
   const [autoPlaySignal, setAutoPlaySignal] = useState(0);
 
-  useMemo(() => {
-    if (typeof window === "undefined") return;
+  useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    if (params.get("reset") === "1") {
+    const shouldReset = params.get("reset") === "1";
+
+    if (shouldReset) {
+      window.localStorage.removeItem(STORAGE_KEY);
+      window.localStorage.removeItem(VISITED_SECTIONS_KEY);
       window.history.replaceState({}, "", window.location.pathname);
+      setHasEntered(false);
+      return;
     }
+
+    setHasEntered(window.localStorage.getItem(STORAGE_KEY) === "true");
   }, []);
 
   const handleEnter = () => {
@@ -40,9 +35,9 @@ export default function Home() {
   };
 
   return (
-    <main className="relative min-h-screen overflow-x-hidden px-4 py-8 sm:px-6">
+    <main className="relative min-h-[100dvh] overflow-x-hidden px-3 py-4 sm:px-6 sm:py-8">
       <Starfield />
-      <div className="relative z-10 flex min-h-[calc(100vh-4rem)] items-center justify-center">
+      <div className="relative z-10 mx-auto w-full max-w-6xl pt-2 sm:pt-0">
         {!hasEntered ? <EntryGate onEnter={handleEnter} /> : <GalaxyMap />}
       </div>
       {hasEntered ? <MusicPlayer hasUserInteracted={hasEntered} autoPlaySignal={autoPlaySignal} /> : null}
