@@ -12,15 +12,20 @@ const VISITED_STORAGE_KEY = "luci-universo-visited-sections";
 function getStoredVisitedSections() {
   if (typeof window === "undefined") return [];
 
-  const stored = window.localStorage.getItem(VISITED_STORAGE_KEY);
-  if (!stored) return [];
-
   try {
+    const stored = window.localStorage.getItem(VISITED_STORAGE_KEY);
+    if (!stored) return [];
+
     const parsed = JSON.parse(stored) as string[];
     const validIds = new Set(sections.map((section) => section.id));
     return parsed.filter((id) => validIds.has(id));
   } catch {
-    window.localStorage.removeItem(VISITED_STORAGE_KEY);
+    try {
+      window.localStorage.removeItem(VISITED_STORAGE_KEY);
+    } catch {
+      // La travesía debe seguir disponible aunque el almacenamiento local falle.
+    }
+
     return [];
   }
 }
@@ -32,7 +37,11 @@ export function GalaxyMap() {
   const requiredSections = useMemo(() => sections.filter((section) => section.id !== SECRET_CENTER_ID), []);
 
   useEffect(() => {
-    window.localStorage.setItem(VISITED_STORAGE_KEY, JSON.stringify(visitedSections));
+    try {
+      window.localStorage.setItem(VISITED_STORAGE_KEY, JSON.stringify(visitedSections));
+    } catch {
+      // La constelación debe poder recorrerse aunque localStorage falle en mobile/private mode.
+    }
   }, [visitedSections]);
 
   const isSecretUnlocked = requiredSections.every((section) => visitedSections.includes(section.id));
