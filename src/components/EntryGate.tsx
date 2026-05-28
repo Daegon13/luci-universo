@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, KeyboardEvent, TouchEvent, useCallback, useMemo, useRef, useState } from "react";
+import { FormEvent, KeyboardEvent, PointerEvent, useCallback, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
 const ACCESS_KEY = "mi sol luna y mis estrellas";
@@ -23,6 +23,11 @@ export function EntryGate({ onEnter }: { onEnter: () => void }) {
 
     const normalizedPassphrase = passphrase.trim().toLowerCase();
 
+    if (!normalizedPassphrase) {
+      setError("Escribí nuestra clave simbólica para abrir la puerta.");
+      return;
+    }
+
     if (normalizedPassphrase === ACCESS_KEY) {
       setError("");
       onEnter();
@@ -44,9 +49,10 @@ export function EntryGate({ onEnter }: { onEnter: () => void }) {
     }
   };
 
-  const handleTouchEnd = (event: TouchEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    attemptEnter();
+  const handlePointerUp = (event: PointerEvent<HTMLButtonElement>) => {
+    if (event.pointerType === "touch") {
+      attemptEnter();
+    }
   };
 
   return (
@@ -84,9 +90,9 @@ export function EntryGate({ onEnter }: { onEnter: () => void }) {
         <button
           type="submit"
           aria-disabled={!isReady}
-          onClick={() => attemptEnter()}
-          onTouchEnd={handleTouchEnd}
-          className={`w-full rounded-2xl bg-gradient-to-r from-violet-400 via-fuchsia-300 to-amber-200 px-4 py-3 font-semibold text-[#1a1233] transition hover:brightness-110 ${
+          onClick={attemptEnter}
+          onPointerUp={handlePointerUp}
+          className={`w-full touch-manipulation rounded-2xl bg-gradient-to-r from-violet-400 via-fuchsia-300 to-amber-200 px-4 py-3 font-semibold text-[#1a1233] transition hover:brightness-110 ${
             isReady ? "" : "cursor-not-allowed opacity-60"
           }`}
         >
