@@ -3,7 +3,7 @@
 import { FormEvent, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 
-const ACCESS_KEY = "mi sol luna y mis estrellas";
+const ACCESS_KEYS = ["mi sol luna y mis estrellas", "mi sol, mi luna y mis estrellas", "mi sol luna y mis estrellas."];
 
 const normalize = (value: string) =>
   value
@@ -18,10 +18,13 @@ export function EntryGate({ onEnter }: { onEnter: () => void }) {
   const [error, setError] = useState("");
   const isReady = useMemo(() => keyInput.trim().length > 0, [keyInput]);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleSubmit = (event?: FormEvent<HTMLFormElement>) => {
+    event?.preventDefault();
 
-    if (normalize(keyInput) === ACCESS_KEY) {
+    const normalizedInput = normalize(keyInput);
+    const isValidKey = ACCESS_KEYS.some((candidate) => normalize(candidate) === normalizedInput);
+
+    if (isValidKey) {
       setError("");
       onEnter();
       return;
@@ -58,7 +61,8 @@ export function EntryGate({ onEnter }: { onEnter: () => void }) {
         {error ? <p className="text-sm text-rose-200">{error}</p> : null}
 
         <button
-          type="submit"
+          type="button"
+          onClick={() => handleSubmit()}
           disabled={!isReady}
           className="w-full rounded-2xl bg-gradient-to-r from-violet-400 via-fuchsia-300 to-amber-200 px-4 py-3 font-semibold text-[#1a1233] transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
         >
