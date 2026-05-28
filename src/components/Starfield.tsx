@@ -108,8 +108,8 @@ export function Starfield() {
   const reduceMotion = useReducedMotion() ?? false;
 
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_#362a72_0%,_#1a1238_32%,_#070512_72%,_#03020a_100%)]" />
+    <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden" aria-hidden>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,_rgba(73,55,148,0.92)_0%,_rgba(25,18,57,0.9)_30%,_rgba(7,5,18,0.98)_70%,_#03020a_100%)]" />
       <NebulaGlow />
 
       <AmbientParticles amount={40} seedOffset={0} />

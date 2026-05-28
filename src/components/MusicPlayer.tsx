@@ -66,7 +66,7 @@ export function MusicPlayer({ hasUserInteracted, autoPlaySignal }: MusicPlayerPr
   };
 
   return (
-    <div className="fixed inset-x-4 bottom-4 z-20 mx-auto w-[min(20rem,calc(100vw-2rem))] rounded-2xl border border-violet-200/20 bg-[#130f28]/85 p-4 text-violet-100 shadow-xl backdrop-blur-md sm:inset-x-auto sm:right-4 sm:mx-0">
+    <div className="fixed inset-x-3 bottom-3 z-20 mx-auto w-[min(20rem,calc(100vw-1.5rem))] rounded-2xl border border-violet-200/20 bg-[#130f28]/82 p-3 text-violet-100 shadow-xl backdrop-blur-md [bottom:max(0.75rem,env(safe-area-inset-bottom))] sm:inset-x-auto sm:right-4 sm:mx-0 sm:p-4">
       <audio
         ref={audioRef}
         src="/audio/first-dance.mp3"
@@ -78,17 +78,17 @@ export function MusicPlayer({ hasUserInteracted, autoPlaySignal }: MusicPlayerPr
       />
 
       <p className="text-xs uppercase tracking-[0.2em] text-violet-200/75">Primer baile</p>
-      <p className="mt-1 text-sm">I Can&apos;t Help Falling in Love — Elvis Presley</p>
+      <p className="mt-1 text-xs sm:text-sm">I Can&apos;t Help Falling in Love — Elvis Presley</p>
 
       {hasError ? (
-        <p className="mt-3 text-xs text-amber-200/90">No se encontró el audio todavía. Podés agregarlo en /public/audio/first-dance.mp3.</p>
+        <p className="mt-2 text-xs text-amber-200/90">No se encontró el audio todavía. Podés agregarlo en /public/audio/first-dance.mp3.</p>
       ) : (
-        <div className="mt-3 flex items-center gap-2">
+        <div className="mt-2 flex items-center gap-2">
           <button
             type="button"
             onClick={togglePlay}
             disabled={!isReady || !hasUserInteracted}
-            className="inline-flex items-center gap-2 rounded-xl border border-violet-200/30 bg-violet-950/40 px-3 py-2 text-sm transition hover:border-rose-200/40 disabled:cursor-not-allowed disabled:opacity-60"
+            className="inline-flex items-center gap-2 rounded-xl border border-violet-200/30 bg-violet-950/40 px-3 py-2 text-xs sm:text-sm transition hover:border-rose-200/40 disabled:cursor-not-allowed disabled:opacity-60"
             aria-label={isPlaying ? "Pausar canción" : "Reproducir canción"}
           >
             {isPlaying ? <Pause size={16} /> : <Play size={16} />}
@@ -99,7 +99,7 @@ export function MusicPlayer({ hasUserInteracted, autoPlaySignal }: MusicPlayerPr
             type="button"
             onClick={toggleMute}
             disabled={!isReady || !hasUserInteracted}
-            className="inline-flex items-center gap-2 rounded-xl border border-violet-200/30 bg-violet-950/40 px-3 py-2 text-sm transition hover:border-rose-200/40 disabled:cursor-not-allowed disabled:opacity-60"
+            className="inline-flex items-center gap-2 rounded-xl border border-violet-200/30 bg-violet-950/40 px-3 py-2 text-xs sm:text-sm transition hover:border-rose-200/40 disabled:cursor-not-allowed disabled:opacity-60"
             aria-label={isMuted ? "Activar sonido" : "Silenciar sonido"}
           >
             {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}

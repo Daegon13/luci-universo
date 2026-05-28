@@ -21,11 +21,10 @@ export default function Home() {
       window.localStorage.removeItem(STORAGE_KEY);
       window.localStorage.removeItem(VISITED_SECTIONS_KEY);
       window.history.replaceState({}, "", window.location.pathname);
-      setHasEntered(false);
       return;
     }
 
-    setHasEntered(window.localStorage.getItem(STORAGE_KEY) === "true");
+    window.setTimeout(() => setHasEntered(window.localStorage.getItem(STORAGE_KEY) === "true"), 0);
   }, []);
 
   const handleEnter = () => {
@@ -35,9 +34,9 @@ export default function Home() {
   };
 
   return (
-    <main className="relative min-h-[100dvh] overflow-x-hidden px-3 py-4 sm:px-6 sm:py-8">
+    <main className="relative isolate min-h-[100dvh] overflow-x-hidden px-3 pb-36 pt-4 sm:px-6 sm:pb-32 sm:pt-8">
       <Starfield />
-      <div className="relative z-10 mx-auto w-full max-w-6xl pt-2 sm:pt-0">
+      <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col pt-2 sm:pt-0">
         {!hasEntered ? <EntryGate onEnter={handleEnter} /> : <GalaxyMap />}
       </div>
       {hasEntered ? <MusicPlayer hasUserInteracted={hasEntered} autoPlaySignal={autoPlaySignal} /> : null}

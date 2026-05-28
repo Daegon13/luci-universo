@@ -10,6 +10,8 @@ const SECRET_CENTER_ID = "secret-center";
 const VISITED_STORAGE_KEY = "luci-universo-visited-sections";
 
 function getStoredVisitedSections() {
+  if (typeof window === "undefined") return [];
+
   const stored = window.localStorage.getItem(VISITED_STORAGE_KEY);
   if (!stored) return [];
 
@@ -25,13 +27,9 @@ function getStoredVisitedSections() {
 
 export function GalaxyMap() {
   const [selectedSection, setSelectedSection] = useState<UniverseSection | null>(null);
-  const [visitedSections, setVisitedSections] = useState<string[]>([]);
+  const [visitedSections, setVisitedSections] = useState<string[]>(getStoredVisitedSections);
 
   const requiredSections = useMemo(() => sections.filter((section) => section.id !== SECRET_CENTER_ID), []);
-
-  useEffect(() => {
-    setVisitedSections(getStoredVisitedSections());
-  }, []);
 
   useEffect(() => {
     window.localStorage.setItem(VISITED_STORAGE_KEY, JSON.stringify(visitedSections));
@@ -47,10 +45,10 @@ export function GalaxyMap() {
   };
 
   return (
-    <section className="relative z-10 mx-auto w-full max-w-6xl overflow-hidden rounded-3xl border border-violet-100/20 bg-[#0f0b22]/36 p-4 pb-24 shadow-[0_0_45px_rgba(121,82,212,0.32)] backdrop-blur-md sm:p-8 sm:pb-24 lg:p-10">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(167,139,250,0.06),transparent_48%),radial-gradient(circle_at_80%_80%,rgba(251,191,180,0.05),transparent_54%)]" />
+    <section className="relative z-10 mx-auto w-full max-w-6xl rounded-[2rem] border border-violet-100/15 bg-[#0b0718]/24 p-4 shadow-[0_0_55px_rgba(121,82,212,0.24)] backdrop-blur-[6px] sm:p-7 md:p-8 lg:p-10">
+      <div className="pointer-events-none absolute inset-0 rounded-[2rem] bg-[radial-gradient(circle_at_20%_15%,rgba(167,139,250,0.07),transparent_46%),radial-gradient(circle_at_82%_78%,rgba(251,191,180,0.055),transparent_52%)]" />
       <p className="relative text-xs uppercase tracking-[0.2em] text-violet-200/85">Nuestro universo</p>
-      <h2 className="relative mt-2 text-2xl font-semibold text-white sm:text-3xl lg:text-4xl">Recorré la constelación del tiempo</h2>
+      <h2 className="relative mt-2 text-2xl font-semibold text-white sm:text-3xl md:text-4xl">Recorré la constelación del tiempo</h2>
       <p className="relative mt-3 max-w-2xl text-sm text-violet-100/85 sm:text-base">
         Cada estrella representa una memoria viva de Diego y Luci. Seguí las líneas doradas y abrí cada fragmento de esta historia sagrada.
       </p>
@@ -76,7 +74,7 @@ export function GalaxyMap() {
               bypassLock: true,
             })
           }
-          className="relative mt-4 w-full rounded-2xl border border-rose-200/35 bg-rose-950/25 px-4 py-3 text-sm font-medium text-rose-100 transition hover:border-rose-200/60 lg:w-auto"
+          className="relative mt-5 w-full rounded-2xl border border-rose-200/35 bg-rose-950/20 px-4 py-3 text-sm font-medium text-rose-100 transition hover:border-rose-200/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-200 md:w-auto"
         >
           Abrir igual el centro secreto ahora
         </button>
