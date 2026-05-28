@@ -47,7 +47,7 @@ export function GalaxyMap() {
   };
 
   return (
-    <section className="relative z-10 mx-auto w-full max-w-6xl overflow-hidden rounded-3xl border border-violet-100/20 bg-[#0f0b22]/36 p-5 pb-24 shadow-[0_0_45px_rgba(121,82,212,0.32)] backdrop-blur-md sm:p-8 sm:pb-24 lg:p-10">
+    <section className="relative z-10 mx-auto w-full max-w-6xl overflow-hidden rounded-3xl border border-violet-100/20 bg-[#0f0b22]/36 p-4 pb-24 shadow-[0_0_45px_rgba(121,82,212,0.32)] backdrop-blur-md sm:p-8 sm:pb-24 lg:p-10">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(167,139,250,0.06),transparent_48%),radial-gradient(circle_at_80%_80%,rgba(251,191,180,0.05),transparent_54%)]" />
       <p className="relative text-xs uppercase tracking-[0.2em] text-violet-200/85">Nuestro universo</p>
       <h2 className="relative mt-2 text-2xl font-semibold text-white sm:text-3xl lg:text-4xl">Recorré la constelación del tiempo</h2>

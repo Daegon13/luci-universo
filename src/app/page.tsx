@@ -35,9 +35,9 @@ export default function Home() {
   };
 
   return (
-    <main className="relative min-h-screen overflow-x-hidden px-4 py-8 sm:px-6">
+    <main className="relative min-h-[100dvh] overflow-x-hidden px-3 py-4 sm:px-6 sm:py-8">
       <Starfield />
-      <div className="relative z-10 flex min-h-[calc(100vh-4rem)] items-center justify-center">
+      <div className="relative z-10 flex min-h-[calc(100dvh-2rem)] items-start justify-center pt-2 sm:min-h-[calc(100vh-4rem)] sm:items-center sm:pt-0">
         {!hasEntered ? <EntryGate onEnter={handleEnter} /> : <GalaxyMap />}
       </div>
       {hasEntered ? <MusicPlayer hasUserInteracted={hasEntered} autoPlaySignal={autoPlaySignal} /> : null}
