@@ -79,14 +79,14 @@ function StarLayerView({
 }) {
   return (
     <motion.div
-      className="absolute inset-0"
+      className="pointer-events-none absolute inset-0"
       animate={reduceMotion ? { y: "0%" } : { y: drift }}
       transition={reduceMotion ? { duration: 0 } : { duration: 50, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
     >
       {stars.map((star) => (
         <motion.span
           key={star.id}
-          className={`absolute rounded-full ${STAR_TONE_CLASSES[star.hue]} ${blur ?? ""}`}
+          className={`pointer-events-none absolute rounded-full ${STAR_TONE_CLASSES[star.hue]} ${blur ?? ""}`}
           style={{ width: star.size, height: star.size, top: star.top, left: star.left, opacity: star.opacity }}
           animate={
             reduceMotion
@@ -109,7 +109,7 @@ export function Starfield() {
 
   return (
     <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden" aria-hidden>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,_rgba(73,55,148,0.92)_0%,_rgba(25,18,57,0.9)_30%,_rgba(7,5,18,0.98)_70%,_#03020a_100%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,_rgba(73,55,148,0.92)_0%,_rgba(25,18,57,0.9)_30%,_rgba(7,5,18,0.98)_70%,_#03020a_100%)]" />
       <NebulaGlow />
 
       <AmbientParticles amount={40} seedOffset={0} />
