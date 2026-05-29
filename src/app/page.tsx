@@ -18,19 +18,36 @@ export default function Home() {
     const shouldReset = params.get("reset") === "1";
 
     if (shouldReset) {
-      window.localStorage.removeItem(STORAGE_KEY);
-      window.localStorage.removeItem(VISITED_SECTIONS_KEY);
+      try {
+        window.localStorage.removeItem(STORAGE_KEY);
+        window.localStorage.removeItem(VISITED_SECTIONS_KEY);
+      } catch {
+        // La entrada debe seguir disponible aunque el almacenamiento local falle.
+      }
+
       window.history.replaceState({}, "", window.location.pathname);
       return;
     }
 
-    window.setTimeout(() => setHasEntered(window.localStorage.getItem(STORAGE_KEY) === "true"), 0);
+    window.setTimeout(() => {
+      try {
+        setHasEntered(window.localStorage.getItem(STORAGE_KEY) === "true");
+      } catch {
+        setHasEntered(false);
+      }
+    }, 0);
   }, []);
 
   const handleEnter = () => {
     setHasEntered(true);
+
+    try {
+      window.localStorage.setItem(STORAGE_KEY, "true");
+    } catch {
+      // Entrar al universo no debe depender de localStorage en mobile/private mode.
+    }
+
     setAutoPlaySignal((prev) => prev + 1);
-    window.localStorage.setItem(STORAGE_KEY, "true");
   };
 
   return (

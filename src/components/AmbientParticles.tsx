@@ -42,7 +42,7 @@ export function AmbientParticles({ amount = 26, seedOffset = 0 }: AmbientParticl
       {particles.map((particle) => (
         <motion.span
           key={particle.id}
-          className="absolute rounded-full bg-violet-100/20 blur-2xl"
+          className="pointer-events-none absolute rounded-full bg-violet-100/20 blur-2xl"
           style={{ top: particle.top, left: particle.left, width: particle.size, height: particle.size, opacity: particle.opacity }}
           animate={
             reduceMotion
