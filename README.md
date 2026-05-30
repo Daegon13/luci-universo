@@ -1,36 +1,79 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Luci Universo
 
-## Getting Started
+Experiencia web privada, romántica, mística y astronómica creada como regalo para Luci.
 
-First, run the development server:
+## Desarrollo local
+
+Para trabajar en la misma PC:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abrir:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```txt
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Preview desde celular en la misma red LAN
 
-## Learn More
+Usá este flujo cuando quieras probar la experiencia desde un Android o iPhone conectado al mismo WiFi que la PC.
 
-To learn more about Next.js, take a look at the following resources:
+### 1. Encontrar la IP local de la PC
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+En PowerShell:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```powershell
+ipconfig
+```
 
-## Deploy on Vercel
+Buscá la dirección IPv4 de la placa conectada al WiFi. Por ejemplo:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```txt
+192.168.1.25
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 2. Permitir el origen LAN para Next.js y levantar el servidor
+
+En la misma terminal de PowerShell, reemplazá `TU_IP_LOCAL` por la IPv4 encontrada:
+
+```powershell
+$env:NEXT_ALLOWED_DEV_ORIGINS="http://TU_IP_LOCAL:3000"
+pnpm dev:lan
+```
+
+Ejemplo completo:
+
+```powershell
+$env:NEXT_ALLOWED_DEV_ORIGINS="http://192.168.1.25:3000"
+pnpm dev:lan
+```
+
+El script `dev:lan` ejecuta Next.js escuchando en `0.0.0.0`, lo que permite conexiones desde otros dispositivos de la red local.
+
+### 3. Abrir desde el celular
+
+Desde el navegador del celular, abrir la URL con la IP local de la PC:
+
+```txt
+http://192.168.1.25:3000/?reset=1
+```
+
+No uses `localhost` desde el celular: en un teléfono, `localhost` apunta al propio celular, no a la PC.
+
+### Notas de troubleshooting
+
+- La PC y el celular deben estar conectados al mismo WiFi.
+- Si la página no abre, revisar el Firewall de Windows y permitir Node.js en redes privadas.
+- Confirmar que la IP usada sea la IPv4 de la conexión activa de la PC.
+
+## Scripts principales
+
+```bash
+pnpm dev      # desarrollo local en localhost
+pnpm dev:lan  # desarrollo accesible desde la red LAN
+pnpm build    # build de producción
+pnpm start    # servidor de producción después de build
+pnpm lint     # lint del proyecto
+```
