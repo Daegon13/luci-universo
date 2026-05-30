@@ -4,8 +4,20 @@ import Image from "next/image";
 import { useState } from "react";
 import { weddingEvents, weddingPhotos } from "@/data/wedding";
 
+function MysticImageSkeleton({ label }: { label: string }) {
+  return (
+    <div className="pointer-events-none absolute inset-0 overflow-hidden bg-gradient-to-br from-violet-950 via-[#18102f] to-[#080513]" aria-hidden>
+      <div className="absolute inset-0 border border-amber-100/20 shadow-[inset_0_0_26px_rgba(251,191,36,0.08)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_18%,rgba(251,207,232,0.18),transparent_34%),radial-gradient(circle_at_76%_72%,rgba(216,180,254,0.16),transparent_42%)]" />
+      <div className="absolute inset-y-0 -left-1/2 w-1/2 animate-[mystic-shimmer_1.8s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-rose-100/12 to-transparent" />
+      <span className="sr-only">Cargando {label}</span>
+    </div>
+  );
+}
+
 function WeddingPhotoCard({ src, alt }: { src: string; alt: string }) {
   const [hasError, setHasError] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   if (hasError) {
     return (
@@ -15,7 +27,20 @@ function WeddingPhotoCard({ src, alt }: { src: string; alt: string }) {
     );
   }
 
-  return <Image src={src} alt={alt} fill sizes="(max-width: 640px) 100vw, 50vw" className="object-cover" onError={() => setHasError(true)} />;
+  return (
+    <>
+      {!isLoaded ? <MysticImageSkeleton label={alt} /> : null}
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        sizes="(max-width: 640px) calc(100vw - 2rem), (max-width: 1024px) calc(50vw - 2rem), 520px"
+        className={`object-cover transition-opacity duration-700 ${isLoaded ? "opacity-100" : "opacity-0"}`}
+        onError={() => setHasError(true)}
+        onLoad={() => setIsLoaded(true)}
+      />
+    </>
+  );
 }
 
 export function WeddingSection() {
