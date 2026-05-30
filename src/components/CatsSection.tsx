@@ -5,8 +5,20 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { catGuardians } from "@/data/cats";
 
+function MysticImageSkeleton({ label }: { label: string }) {
+  return (
+    <div className="pointer-events-none absolute inset-0 overflow-hidden bg-gradient-to-br from-violet-950 via-[#18102f] to-[#070512]" aria-hidden>
+      <div className="absolute inset-0 rounded-2xl border border-rose-100/20 shadow-[inset_0_0_26px_rgba(244,114,182,0.08)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(251,191,180,0.15),transparent_48%),radial-gradient(circle_at_72%_72%,rgba(125,211,252,0.12),transparent_38%)]" />
+      <div className="absolute inset-y-0 -left-1/2 w-1/2 animate-[mystic-shimmer_1.8s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-amber-100/10 to-transparent" />
+      <span className="sr-only">Cargando {label}</span>
+    </div>
+  );
+}
+
 function CatImageCard({ label, src, alt }: { label: string; src: string; alt: string }) {
   const [hasError, setHasError] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   if (hasError) {
     return (
@@ -22,7 +34,16 @@ function CatImageCard({ label, src, alt }: { label: string; src: string; alt: st
 
   return (
     <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-violet-100/20">
-      <Image src={src} alt={alt} fill sizes="(max-width: 640px) 100vw, 50vw" className="object-cover" onError={() => setHasError(true)} />
+      {!isLoaded ? <MysticImageSkeleton label={label} /> : null}
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        sizes="(max-width: 640px) calc(100vw - 2rem), (max-width: 1024px) calc(50vw - 2rem), 520px"
+        className={`object-cover transition-opacity duration-700 ${isLoaded ? "opacity-100" : "opacity-0"}`}
+        onError={() => setHasError(true)}
+        onLoad={() => setIsLoaded(true)}
+      />
     </div>
   );
 }

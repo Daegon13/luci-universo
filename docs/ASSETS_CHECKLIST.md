@@ -14,7 +14,7 @@ Checklist operativo para completar assets y contenido final antes de entregar el
 
 - [x] Crear carpeta `public/images/wedding/` con `.gitkeep`.
 - [ ] Cargar fotos reales en `public/images/wedding`.
-- [ ] Mantener nombres alineados con `src/data/wedding.ts` o actualizar `weddingPhotos`.
+- [x] Mantener nombres alineados con `src/data/wedding.ts` o actualizar `weddingPhotos`: usar `wedding-1.jpg`, `wedding-2.jpg`, `wedding-3.jpg`, `wedding-4.jpg` en minúscula para evitar problemas en Linux/Vercel.
 - [x] Confirmar alt text emocional y descriptivo por foto en datos.
 - [x] Validar que cada tarjeta muestre imagen real y use placeholder si alguna falta.
 
@@ -40,6 +40,15 @@ Checklist operativo para completar assets y contenido final antes de entregar el
 - [x] Completar eventos clave en `src/data/skyEvents.ts`.
 - [x] Verificar narrativa poética de cada evento (sin prometer precisión astronómica avanzada en MVP).
 - [ ] Preparar mapas/overlays finales si se incorporan después.
+
+
+### Performance Asset Pass
+
+- [ ] Comprimir `public/images/wedding/wedding-3.jpg` y `public/images/wedding/wedding-4.jpg`: actualmente son las fotos más pesadas y deben optimizarse antes de entrega final.
+- [ ] Peso recomendado para fotos grandes de boda: menos de 500 KB idealmente.
+- [ ] Ancho máximo recomendado para fotos grandes: 1600px a 1800px, manteniendo calidad suficiente para mobile y desktop.
+- [ ] Revisar assets duplicados/no usados antes de borrar nada: posibles candidatos actuales en carpetas profundas de `public/images/cats/` (`daphne/daphne (2).jpg`, `minna/minna.jpg`, variantes de `norah/`, variantes de `sofi/`) y archivos `SaveClip.App_...` en `public/images/cats/` y `public/images/couple/`.
+- [x] Corregir typo de asset de pareja: `public/images/couple/caouple-1.jpg` debe quedar como `public/images/couple/couple-1.jpg`.
 
 ## 6) Textos finales y revisión emocional
 
