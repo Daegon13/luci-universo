@@ -2,13 +2,14 @@
 
 import { X } from "lucide-react";
 import { useEffect } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { OriginSection } from "@/components/OriginSection";
 import { WeddingSection } from "@/components/WeddingSection";
 import { VowsSection } from "@/components/VowsSection";
 import { CatsSection } from "@/components/CatsSection";
 import { FirstDanceSection } from "@/components/FirstDanceSection";
 import { FutureSection } from "@/components/FutureSection";
+import { MagicButton } from "@/components/MagicButton";
 import { SkySection } from "@/components/SkySection";
 import { SecretEnding } from "@/components/SecretEnding";
 import type { UniverseSection } from "@/data/sections";
@@ -33,6 +34,8 @@ function SectionBody({ section }: { section: UniverseSection }) {
 }
 
 export function SectionModal({ section, onClose }: SectionModalProps) {
+  const reduceMotion = useReducedMotion();
+
   useEffect(() => {
     if (!section) return;
 
@@ -48,41 +51,37 @@ export function SectionModal({ section, onClose }: SectionModalProps) {
     <AnimatePresence>
       {section ? (
         <motion.div
-          className="fixed inset-0 z-40 flex items-end justify-center bg-[#05030c]/70 p-3 backdrop-blur-sm sm:items-center sm:p-4"
+          className="fixed inset-0 z-40 flex items-end justify-center overflow-y-auto bg-[#05030c]/76 p-3 backdrop-blur-sm sm:items-center sm:p-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
+          transition={{ duration: reduceMotion ? 0 : 0.22 }}
           onClick={onClose}
           aria-modal="true"
           role="dialog"
         >
+          <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_50%_18%,rgba(251,191,36,0.12),transparent_28%),radial-gradient(circle_at_50%_62%,rgba(168,85,247,0.14),transparent_42%)]" aria-hidden />
           <motion.article
-            initial={{ y: 28, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 20, opacity: 0 }}
-            transition={{ duration: 0.25 }}
+            initial={reduceMotion ? { opacity: 0 } : { y: 34, opacity: 0, scale: 0.965 }}
+            animate={reduceMotion ? { opacity: 1 } : { y: 0, opacity: 1, scale: 1 }}
+            exit={reduceMotion ? { opacity: 0 } : { y: 18, opacity: 0, scale: 0.985 }}
+            transition={{ duration: reduceMotion ? 0 : 0.32, ease: "easeOut" }}
             onClick={(event) => event.stopPropagation()}
-            className="max-h-[88vh] w-full max-w-2xl overflow-y-auto rounded-3xl border border-violet-200/25 bg-[#120d26]/95 p-5 text-violet-50 shadow-[0_0_45px_rgba(90,65,170,0.45)] sm:p-8 lg:max-w-3xl"
+            className="relative max-h-[88dvh] w-full max-w-2xl overflow-hidden rounded-3xl border border-violet-200/25 bg-[#120d26]/95 text-violet-50 shadow-[0_0_55px_rgba(90,65,170,0.5),0_0_90px_rgba(251,191,36,0.08)] sm:max-h-[88vh] lg:max-w-3xl"
           >
-            <div className="mb-4 flex items-start justify-between gap-3">
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_16%_0%,rgba(251,191,36,0.10),transparent_22%),radial-gradient(circle_at_88%_24%,rgba(244,114,182,0.08),transparent_26%)]" aria-hidden />
+            <div className="sticky top-0 z-20 flex items-start justify-between gap-3 border-b border-violet-100/10 bg-[#120d26]/92 p-5 backdrop-blur-md sm:p-6">
               <p className="text-xs uppercase tracking-[0.2em] text-violet-200/80">Bitácora estelar</p>
-              <button
-                type="button"
-                onClick={onClose}
-                className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-violet-200/35 bg-violet-950/60 text-violet-100 transition hover:border-rose-200/50"
-                aria-label="Cerrar sección"
-              >
+              <MagicButton type="button" variant="ghost" size="sm" onClick={onClose} aria-label="Cerrar sección" className="h-10 w-10 rounded-full px-0">
                 <X className="h-5 w-5" />
-              </button>
+              </MagicButton>
             </div>
-            <SectionBody section={section} />
-            <button
-              type="button"
-              onClick={onClose}
-              className="mt-6 w-full rounded-2xl border border-violet-200/35 bg-violet-950/55 px-4 py-3 text-sm font-medium transition hover:border-rose-200/50"
-            >
-              Seguir recorriendo el universo
-            </button>
+            <div className="relative max-h-[calc(88dvh-5.5rem)] overflow-y-auto px-5 pb-5 pt-4 overscroll-contain sm:px-8 sm:pb-8 sm:pt-6">
+              <SectionBody section={section} />
+              <MagicButton type="button" variant="secondary" onClick={onClose} className="mt-6 w-full">
+                Seguir recorriendo el universo
+              </MagicButton>
+            </div>
           </motion.article>
         </motion.div>
       ) : null}

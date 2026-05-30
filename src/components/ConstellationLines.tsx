@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import type { UniverseSection } from "@/data/sections";
 
 type ConstellationLinesProps = {
@@ -31,19 +32,35 @@ export function ConstellationLines({ sections, visitedSections, isSecretUnlocked
         const isDimmedSecret = touchesSecret && !isSecretUnlocked;
 
         return (
-          <line
-            key={`${section.id}-${nextSection.id}`}
-            x1={section.position.x}
-            y1={section.position.y}
-            x2={nextSection.position.x}
-            y2={nextSection.position.y}
-            stroke={segmentVisited ? "url(#constellation-line-visited)" : "url(#constellation-line-gradient)"}
-            strokeWidth={segmentVisited ? 0.5 : 0.36}
-            strokeLinecap="round"
-            strokeDasharray={isDimmedSecret ? "1 1.4" : undefined}
-            opacity={isDimmedSecret ? 0.42 : segmentVisited ? 0.86 : 0.62}
-            className="drop-shadow-[0_0_7px_rgba(250,204,21,0.34)]"
-          />
+          <g key={`${section.id}-${nextSection.id}`}>
+            <line
+              x1={section.position.x}
+              y1={section.position.y}
+              x2={nextSection.position.x}
+              y2={nextSection.position.y}
+              stroke="url(#constellation-line-gradient)"
+              strokeWidth={0.32}
+              strokeLinecap="round"
+              strokeDasharray={isDimmedSecret ? "1 1.4" : undefined}
+              opacity={isDimmedSecret ? 0.34 : 0.42}
+              className="drop-shadow-[0_0_7px_rgba(250,204,21,0.22)]"
+            />
+            {segmentVisited ? (
+              <motion.line
+                x1={section.position.x}
+                y1={section.position.y}
+                x2={nextSection.position.x}
+                y2={nextSection.position.y}
+                stroke="url(#constellation-line-visited)"
+                strokeWidth={0.5}
+                strokeLinecap="round"
+                initial={{ pathLength: 0, opacity: 0 }}
+                animate={{ pathLength: 1, opacity: isDimmedSecret ? 0.48 : 0.9 }}
+                transition={{ duration: 0.7, ease: "easeOut" }}
+                className="drop-shadow-[0_0_8px_rgba(250,204,21,0.38)]"
+              />
+            ) : null}
+          </g>
         );
       })}
     </svg>

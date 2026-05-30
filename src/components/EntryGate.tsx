@@ -2,6 +2,8 @@
 
 import { FormEvent, KeyboardEvent, PointerEvent, useCallback, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import { MagicButton } from "@/components/MagicButton";
+import { MagicLoading } from "@/components/MagicLoading";
 
 const ACCESS_KEY = "mi sol luna y mis estrellas";
 const SUBMIT_DEDUPE_MS = 350;
@@ -9,6 +11,7 @@ const SUBMIT_DEDUPE_MS = 350;
 export function EntryGate({ onEnter }: { onEnter: () => void }) {
   const [passphrase, setPassphrase] = useState("");
   const [error, setError] = useState("");
+  const [isOpening, setIsOpening] = useState(false);
   const lastSubmitAtRef = useRef(0);
   const isReady = useMemo(() => passphrase.trim().length > 0, [passphrase]);
 
@@ -30,6 +33,7 @@ export function EntryGate({ onEnter }: { onEnter: () => void }) {
 
     if (normalizedPassphrase === ACCESS_KEY) {
       setError("");
+      setIsOpening(true);
       onEnter();
       return;
     }
@@ -58,7 +62,8 @@ export function EntryGate({ onEnter }: { onEnter: () => void }) {
   return (
     <motion.section
       initial={false}
-      animate={{ opacity: 1, y: 0 }}
+      animate={{ opacity: isOpening ? 0.92 : 1, y: 0, scale: isOpening ? 0.985 : 1 }}
+      transition={{ duration: 0.45 }}
       className="pointer-events-auto relative z-20 mx-auto w-full max-w-xl rounded-3xl border border-white/15 bg-[#120d26]/80 p-6 shadow-[0_0_50px_rgba(107,65,188,0.35)] backdrop-blur-md sm:p-10"
     >
       <p className="text-sm uppercase tracking-[0.24em] text-rose-200/85">La Puerta Estelar</p>
@@ -87,17 +92,26 @@ export function EntryGate({ onEnter }: { onEnter: () => void }) {
         />
         {error ? <p className="text-sm text-rose-200">{error}</p> : null}
 
-        <button
+        {isOpening ? (
+          <div className="rounded-2xl border border-amber-100/20 bg-amber-100/[0.05] px-4 py-3">
+            <MagicLoading variant="portal" label="Abriendo la puerta estelar…" />
+          </div>
+        ) : null}
+
+        <MagicButton
           type="submit"
-          aria-disabled={!isReady}
+          variant="primary"
+          size="lg"
+          aria-disabled={!isReady || isOpening}
+          disabled={!isReady || isOpening}
+          loading={isOpening}
+          loadingLabel="Abriendo la puerta estelar…"
           onClick={attemptEnter}
           onPointerUp={handlePointerUp}
-          className={`w-full touch-manipulation rounded-2xl bg-gradient-to-r from-violet-400 via-fuchsia-300 to-amber-200 px-4 py-3 font-semibold text-[#1a1233] transition hover:brightness-110 ${
-            isReady ? "" : "cursor-not-allowed opacity-60"
-          }`}
+          className="w-full"
         >
           Entrar a nuestro universo
-        </button>
+        </MagicButton>
       </form>
     </motion.section>
   );

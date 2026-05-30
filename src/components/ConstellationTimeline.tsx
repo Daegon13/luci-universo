@@ -9,6 +9,7 @@ type ConstellationTimelineProps = {
   sections: UniverseSection[];
   visitedSections: string[];
   isSecretUnlocked: boolean;
+  selectedSectionId?: string;
   onSelect: (section: UniverseSection) => void;
 };
 
@@ -19,7 +20,7 @@ const ACCENT_NODE_CLASS: Record<UniverseSection["accent"], string> = {
   sky: "border-sky-100 bg-sky-100 shadow-[0_0_24px_rgba(186,230,253,0.82)]",
 };
 
-export function ConstellationTimeline({ sections, visitedSections, isSecretUnlocked, onSelect }: ConstellationTimelineProps) {
+export function ConstellationTimeline({ sections, visitedSections, isSecretUnlocked, selectedSectionId, onSelect }: ConstellationTimelineProps) {
   const nextSection = sections.find((section) => !visitedSections.includes(section.id));
 
   return (
@@ -33,6 +34,7 @@ export function ConstellationTimeline({ sections, visitedSections, isSecretUnloc
             section={section}
             isVisited={visitedSections.includes(section.id)}
             isNext={nextSection?.id === section.id}
+            isSelected={selectedSectionId === section.id}
             isSecretUnlocked={isSecretUnlocked}
             isDisabled={section.importance === "secret" && !isSecretUnlocked}
             onSelect={onSelect}
@@ -65,12 +67,15 @@ export function ConstellationTimeline({ sections, visitedSections, isSecretUnloc
                   } ${visited ? "ring-4 ring-rose-200/15" : ""} ${isNext && !disabled ? "animate-pulse" : ""}`}
                   aria-hidden
                 />
-                <button
+                <motion.button
                   type="button"
-                  onClick={() => onSelect(section)}
-                  disabled={disabled}
+                  onClick={() => {
+                    if (!disabled) onSelect(section);
+                  }}
+                  whileTap={!disabled ? { scale: 0.985 } : undefined}
+                  aria-disabled={disabled}
                   aria-label={`Abrir sección ${section.fullTitle}`}
-                  className={`group relative w-full overflow-hidden rounded-2xl border px-4 py-3 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-200 focus-visible:ring-offset-2 focus-visible:ring-offset-[#080512] ${
+                  className={`group relative w-full touch-manipulation overflow-hidden rounded-2xl border px-4 py-3 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-200 focus-visible:ring-offset-2 focus-visible:ring-offset-[#080512] ${
                     disabled
                       ? "border-violet-200/15 bg-violet-950/10 opacity-65"
                       : isSecret
@@ -94,9 +99,9 @@ export function ConstellationTimeline({ sections, visitedSections, isSecretUnloc
                     </span>
                   </div>
                   <p className="relative mt-2 text-xs leading-relaxed text-violet-100/82">
-                    {disabled ? "Se enciende al completar la travesía, como una última promesa en el centro del cielo." : section.description}
+                    {disabled ? "Todavía quedan estrellas por visitar. Se enciende al completar la travesía, como una última promesa en el centro del cielo." : section.description}
                   </p>
-                </button>
+                </motion.button>
               </motion.div>
             );
           })}

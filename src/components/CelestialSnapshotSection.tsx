@@ -5,6 +5,7 @@ import { celestialEvents } from "@/data/celestialEvents";
 import { SkyEventCard } from "@/components/SkyEventCard";
 import { SkyViewToggle } from "@/components/SkyViewToggle";
 import { SolarSystemPostcard } from "@/components/SolarSystemPostcard";
+import { MagicButton } from "@/components/MagicButton";
 
 type SkyView = "earthSky" | "solarSystem";
 
@@ -30,19 +31,19 @@ export function CelestialSnapshotSection({ initialEventId }: CelestialSnapshotSe
 
       <div className="mt-6 grid gap-2 sm:grid-cols-3">
         {celestialEvents.map((event) => (
-          <button
+          <MagicButton
             key={event.id}
             type="button"
+            variant={selectedEventId === event.id ? "secondary" : "ghost"}
             onClick={() => setSelectedEventId(event.id)}
-            className={`rounded-2xl border px-3 py-3 text-left transition ${
-              selectedEventId === event.id
-                ? "border-rose-200/60 bg-rose-300/10"
-                : "border-violet-100/20 bg-violet-950/25 hover:border-violet-200/45"
-            }`}
+            className="justify-start px-3 py-3 text-left"
+            aria-pressed={selectedEventId === event.id}
           >
-            <p className="text-[0.62rem] uppercase tracking-[0.18em] text-violet-200/80">Evento</p>
-            <p className="mt-1 text-sm font-medium text-violet-50">{event.title}</p>
-          </button>
+            <span>
+              <span className="block text-[0.62rem] uppercase tracking-[0.18em] text-violet-200/80">Evento</span>
+              <span className="mt-1 block text-sm font-medium text-violet-50">{event.title}</span>
+            </span>
+          </MagicButton>
         ))}
       </div>
 
