@@ -1,3 +1,5 @@
+import type { PerformanceMode } from "@/hooks/usePerformanceMode";
+
 type IdleDeadlineLike = {
   didTimeout: boolean;
   timeRemaining: () => number;
@@ -8,7 +10,11 @@ type WindowWithIdleCallback = Window & {
   cancelIdleCallback?: (handle: number) => void;
 };
 
-const preloadHeavySections = () => {
+const preloadCoreSections = () => {
+  void Promise.allSettled([import("@/components/WeddingSection"), import("@/components/CatsSection"), import("@/components/VowsSection")]);
+};
+
+const preloadFullSections = () => {
   void Promise.allSettled([
     import("@/components/WeddingSection"),
     import("@/components/CatsSection"),
@@ -18,16 +24,40 @@ const preloadHeavySections = () => {
   ]);
 };
 
-export function scheduleSectionPreload() {
+function scheduleIdle(callback: () => void, delay: number, timeout: number) {
   if (typeof window === "undefined") return () => undefined;
 
   const idleWindow = window as WindowWithIdleCallback;
+  let idleHandle: number | undefined;
+  const timeoutHandle = window.setTimeout(() => {
+    if (idleWindow.requestIdleCallback) {
+      idleHandle = idleWindow.requestIdleCallback(callback, { timeout });
+      return;
+    }
 
-  if (idleWindow.requestIdleCallback) {
-    const handle = idleWindow.requestIdleCallback(preloadHeavySections, { timeout: 4200 });
-    return () => idleWindow.cancelIdleCallback?.(handle);
+    callback();
+  }, delay);
+
+  return () => {
+    window.clearTimeout(timeoutHandle);
+    if (idleHandle !== undefined) idleWindow.cancelIdleCallback?.(idleHandle);
+  };
+}
+
+export function preloadLiteCoreSections() {
+  preloadCoreSections();
+}
+
+export function scheduleSectionPreload(performanceMode: PerformanceMode = "balanced") {
+  if (typeof window === "undefined") return () => undefined;
+
+  if (performanceMode === "full") {
+    return scheduleIdle(preloadFullSections, 1200, 4200);
   }
 
-  const timeout = window.setTimeout(preloadHeavySections, 1800);
-  return () => window.clearTimeout(timeout);
+  if (performanceMode === "balanced") {
+    return scheduleIdle(preloadFullSections, 6000, 7200);
+  }
+
+  return scheduleIdle(preloadCoreSections, 9000, 10000);
 }

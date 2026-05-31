@@ -4,22 +4,25 @@ import { useEffect, useRef, useState } from "react";
 import { ChevronDown, ChevronUp, Pause, Play, Volume2, VolumeX } from "lucide-react";
 import { m } from "framer-motion";
 import { MagicButton } from "@/components/MagicButton";
+import type { PerformanceMode } from "@/hooks/usePerformanceMode";
 
 type MusicPlayerProps = {
   hasUserInteracted: boolean;
   autoPlaySignal: number;
+  performanceMode?: PerformanceMode;
 };
 
 const INITIAL_VOLUME = 0.2;
 const WAVE_BARS = [0.65, 1, 0.75, 0.9, 0.58];
 
-export function MusicPlayer({ hasUserInteracted, autoPlaySignal }: MusicPlayerProps) {
+export function MusicPlayer({ hasUserInteracted, autoPlaySignal, performanceMode = "balanced" }: MusicPlayerProps) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [isReady, setIsReady] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
+  const isLite = performanceMode === "lite";
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -72,10 +75,14 @@ export function MusicPlayer({ hasUserInteracted, autoPlaySignal }: MusicPlayerPr
   return (
     <m.div
       layout
-      className={`fixed inset-x-3 bottom-3 z-20 mx-auto w-[min(22rem,calc(100vw-1.5rem))] rounded-3xl border bg-[#130f28]/86 p-3 text-violet-100 backdrop-blur-md [bottom:max(0.75rem,env(safe-area-inset-bottom))] sm:inset-x-auto sm:right-4 sm:mx-0 sm:p-4 ${
+      className={`fixed inset-x-3 bottom-3 z-20 mx-auto w-[min(22rem,calc(100vw-1.5rem))] rounded-3xl border bg-[#130f28]/86 p-3 text-violet-100 backdrop-blur-sm sm:backdrop-blur-md [bottom:max(0.75rem,env(safe-area-inset-bottom))] sm:inset-x-auto sm:right-4 sm:mx-0 sm:p-4 ${
         isPlaying
-          ? "border-amber-100/35 shadow-[0_0_38px_rgba(251,191,36,0.22),0_0_80px_rgba(244,114,182,0.12)]"
-          : "border-violet-200/20 shadow-xl"
+          ? isLite
+            ? "border-amber-100/30 shadow-[0_0_18px_rgba(251,191,36,0.14)]"
+            : "border-amber-100/35 shadow-[0_0_38px_rgba(251,191,36,0.22),0_0_80px_rgba(244,114,182,0.12)]"
+          : isLite
+            ? "border-violet-200/18 shadow-md"
+            : "border-violet-200/20 shadow-xl"
       }`}
     >
       <audio
@@ -108,7 +115,7 @@ export function MusicPlayer({ hasUserInteracted, autoPlaySignal }: MusicPlayerPr
       </div>
 
       {!isMinimized ? (
-        <m.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} className="overflow-hidden">
+        <m.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} transition={{ duration: isLite ? 0.16 : 0.28 }} className="overflow-hidden">
           {hasError ? (
             <p className="mt-3 rounded-2xl border border-amber-100/20 bg-amber-100/[0.06] px-3 py-2 text-xs text-amber-100/90">
               La canción todavía no está en /public/audio/first-dance.mp3, pero este espacio queda reservado para su primer baile.
@@ -119,7 +126,7 @@ export function MusicPlayer({ hasUserInteracted, autoPlaySignal }: MusicPlayerPr
                 {WAVE_BARS.map((height, index) => (
                   <span
                     key={height + index}
-                    className={`w-1.5 rounded-full bg-gradient-to-t from-rose-200 to-amber-100 shadow-[0_0_10px_rgba(251,191,36,0.32)] ${isPlaying ? "animate-[music-wave_1.15s_ease-in-out_infinite]" : ""}`}
+                    className={`w-1.5 rounded-full bg-gradient-to-t from-rose-200 to-amber-100 ${isLite ? "shadow-none" : "shadow-[0_0_10px_rgba(251,191,36,0.32)]"} ${isPlaying && !isLite ? "animate-[music-wave_1.15s_ease-in-out_infinite]" : ""}`}
                     style={{ height: `${height * 100}%`, animationDelay: `${index * 0.12}s` }}
                   />
                 ))}
@@ -135,6 +142,7 @@ export function MusicPlayer({ hasUserInteracted, autoPlaySignal }: MusicPlayerPr
                   icon={isPlaying ? <Pause size={16} /> : <Play size={16} />}
                   aria-label={isPlaying ? "Pausar canción" : "Reproducir canción"}
                   className="flex-1"
+                  performanceMode={performanceMode}
                 >
                   {isPlaying ? "Pausar" : "Reproducir"}
                 </MagicButton>
@@ -147,6 +155,7 @@ export function MusicPlayer({ hasUserInteracted, autoPlaySignal }: MusicPlayerPr
                   icon={isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
                   aria-label={isMuted ? "Activar sonido" : "Silenciar sonido"}
                   className="flex-1"
+                  performanceMode={performanceMode}
                 >
                   {isMuted ? "Muteado" : "Sonido"}
                 </MagicButton>

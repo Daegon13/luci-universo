@@ -1,10 +1,12 @@
 import { Sparkles } from "lucide-react";
+import type { PerformanceMode } from "@/hooks/usePerformanceMode";
 
 type MagicLoadingProps = {
   label?: string;
   variant?: "stars" | "portal" | "memory" | "sky";
   size?: "sm" | "md" | "lg";
   className?: string;
+  performanceMode?: PerformanceMode;
 };
 
 const SIZE_CLASS = {
@@ -27,15 +29,15 @@ const VARIANT_GLOW = {
   sky: "from-sky-100 via-violet-200 to-amber-100 shadow-[0_0_28px_rgba(125,211,252,0.24)]",
 };
 
-export function MagicLoading({ label, variant = "stars", size = "md", className = "" }: MagicLoadingProps) {
+export function MagicLoading({ label, variant = "stars", size = "md", className = "", performanceMode = "balanced" }: MagicLoadingProps) {
   const resolvedLabel = label ?? VARIANT_LABEL[variant];
 
   return (
     <div className={`inline-flex items-center gap-3 text-violet-100/90 ${className}`} role="status" aria-live="polite">
       <span className={`${SIZE_CLASS[size]} relative inline-flex shrink-0 items-center justify-center rounded-full bg-gradient-to-br ${VARIANT_GLOW[variant]}`}>
-        <span className="absolute inset-0 rounded-full border border-white/35 animate-[stellar-orbit_1.8s_linear_infinite] motion-reduce:animate-none" aria-hidden />
+        {performanceMode !== "lite" ? <span className="absolute inset-0 rounded-full border border-white/35 animate-[stellar-orbit_1.8s_linear_infinite] motion-reduce:animate-none" aria-hidden /> : null}
         <span className="absolute inset-1 rounded-full bg-[#120d26]/70 backdrop-blur-sm" aria-hidden />
-        <Sparkles className="relative h-4 w-4 animate-pulse text-amber-100 motion-reduce:animate-none" aria-hidden />
+        <Sparkles className={`relative h-4 w-4 text-amber-100 motion-reduce:animate-none ${performanceMode === "lite" ? "" : "animate-pulse"}`} aria-hidden />
       </span>
       <span className="text-sm font-medium tracking-wide">{resolvedLabel}</span>
     </div>

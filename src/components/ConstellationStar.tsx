@@ -4,6 +4,7 @@ import { memo } from "react";
 import { m, useReducedMotion } from "framer-motion";
 import { StarBurst } from "@/components/StarBurst";
 import type { UniverseSection } from "@/data/sections";
+import type { PerformanceMode } from "@/hooks/usePerformanceMode";
 
 type ConstellationStarProps = {
   section: UniverseSection;
@@ -14,6 +15,7 @@ type ConstellationStarProps = {
   isDisabled: boolean;
   onSelect: (section: UniverseSection) => void;
   decorativePaused?: boolean;
+  performanceMode?: PerformanceMode;
 };
 
 const SIZE_CLASS: Record<UniverseSection["size"], string> = {
@@ -38,10 +40,12 @@ export const ConstellationStar = memo(function ConstellationStar({
   isDisabled,
   onSelect,
   decorativePaused = false,
+  performanceMode = "balanced",
 }: ConstellationStarProps) {
   const reduceMotion = useReducedMotion();
   const isSecret = section.importance === "secret";
   const secretLocked = isSecret && !isSecretUnlocked;
+  const isLite = performanceMode === "lite";
 
   const secretUnlockedTone = "border-amber-100/85 bg-gradient-to-br from-amber-100/75 via-rose-200/65 to-fuchsia-200/5";
 
@@ -57,7 +61,7 @@ export const ConstellationStar = memo(function ConstellationStar({
     <m.div
       className="group absolute z-10 -translate-x-1/2 -translate-y-1/2"
       style={{ left: `${section.position.x}%`, top: `${section.position.y}%` }}
-      animate={!reduceMotion && !decorativePaused && isSelected ? { y: [0, -4, 0] } : undefined}
+      animate={!reduceMotion && !decorativePaused && !isLite && isSelected ? { y: [0, -4, 0] } : undefined}
       transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
     >
       {isSecret ? (
@@ -67,8 +71,13 @@ export const ConstellationStar = memo(function ConstellationStar({
         />
       ) : null}
 
-      {isNext && !isDisabled && !decorativePaused ? <span className="pointer-events-none absolute -inset-3 animate-ping rounded-full border border-rose-200/35 motion-reduce:animate-none" aria-hidden /> : null}
-      {isSelected || (isSecret && isSecretUnlocked) ? <StarBurst active={!decorativePaused} className="-inset-1" compact /> : null}
+      {isNext && !isDisabled && !decorativePaused ? (
+        <span
+          className={`pointer-events-none absolute -inset-3 rounded-full border border-rose-200/35 motion-reduce:animate-none ${isLite ? "animate-pulse" : "animate-ping"}`}
+          aria-hidden
+        />
+      ) : null}
+      {!isLite && (isSelected || (isSecret && isSecretUnlocked)) ? <StarBurst active={!decorativePaused} className="-inset-1" compact /> : null}
 
       <m.button
         type="button"
@@ -77,17 +86,17 @@ export const ConstellationStar = memo(function ConstellationStar({
         }}
         aria-disabled={isDisabled}
         aria-label={`Abrir sección ${section.fullTitle}`}
-        whileHover={isDisabled || reduceMotion ? undefined : { scale: 1.08 }}
-        whileTap={isDisabled || reduceMotion ? undefined : { scale: 0.94 }}
-        animate={isNext && !isDisabled && !reduceMotion && !decorativePaused ? { scale: [1, 1.045, 1] } : undefined}
-        transition={isNext && !isDisabled && !reduceMotion && !decorativePaused ? { duration: 3.4, repeat: Infinity } : undefined}
-        className={`${SIZE_CLASS[section.size]} relative rounded-full border ${ACCENT_GLOW[section.accent]} transition ${starTone} ${
+        whileHover={isDisabled || reduceMotion || isLite ? undefined : { scale: 1.08 }}
+        whileTap={isDisabled || reduceMotion ? undefined : { scale: isLite ? 0.98 : 0.94 }}
+        animate={isNext && !isDisabled && !reduceMotion && !decorativePaused ? { scale: isLite ? [1, 1.015, 1] : [1, 1.045, 1] } : undefined}
+        transition={isNext && !isDisabled && !reduceMotion && !decorativePaused ? { duration: isLite ? 4.8 : 3.4, repeat: Infinity } : undefined}
+        className={`${SIZE_CLASS[section.size]} relative rounded-full border ${isLite ? "shadow-[0_0_12px_rgba(255,255,255,0.18)]" : ACCENT_GLOW[section.accent]} transition ${starTone} ${
           isDisabled ? "cursor-not-allowed opacity-65" : "cursor-pointer active:brightness-125"
         } ${isSelected ? "ring-4 ring-amber-100/25" : ""} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-200 focus-visible:ring-offset-2 focus-visible:ring-offset-[#080512]`}
       >
-        <span className="absolute inset-0 rounded-full bg-white/35 blur-[6px]" aria-hidden />
-        <span className={`absolute inset-[22%] rounded-full bg-white/80 ${isVisited ? "shadow-[0_0_20px_rgba(255,255,255,0.9)]" : ""}`} aria-hidden />
-        {isVisited ? <span className="absolute -inset-1 rounded-full border border-amber-100/20 shadow-[0_0_24px_rgba(251,191,36,0.3)]" aria-hidden /> : null}
+        <span className={`absolute inset-0 rounded-full bg-white/35 ${isLite ? "blur-[2px]" : "blur-[6px]"}`} aria-hidden />
+        <span className={`absolute inset-[22%] rounded-full bg-white/80 ${isVisited && !isLite ? "shadow-[0_0_20px_rgba(255,255,255,0.9)]" : ""}`} aria-hidden />
+        {isVisited ? <span className={`absolute -inset-1 rounded-full border border-amber-100/20 ${isLite ? "" : "shadow-[0_0_24px_rgba(251,191,36,0.3)]"}`} aria-hidden /> : null}
       </m.button>
 
       <div className="pointer-events-none absolute left-1/2 top-[calc(100%+0.55rem)] z-20 w-48 -translate-x-1/2 text-center opacity-90 transition group-hover:opacity-100 group-focus-within:opacity-100 lg:w-56">
@@ -95,7 +104,7 @@ export const ConstellationStar = memo(function ConstellationStar({
           {isVisited ? "Visitada · " : isNext && !isDisabled ? "Próxima · " : ""}
           {section.title}
         </p>
-        <div className="mt-2 rounded-xl border border-violet-100/16 bg-[#120d28]/86 p-2 opacity-0 shadow-[0_0_18px_rgba(244,114,182,0.22)] backdrop-blur-md transition group-hover:opacity-100 group-focus-within:opacity-100">
+        <div className="mt-2 rounded-xl border border-violet-100/16 bg-[#120d28]/86 p-2 opacity-0 shadow-[0_0_18px_rgba(244,114,182,0.22)] backdrop-blur-sm transition group-hover:opacity-100 group-focus-within:opacity-100">
           <p className="text-[0.62rem] uppercase tracking-[0.18em] text-violet-200/75">{section.fullTitle}</p>
           <p className="mt-1 text-xs text-violet-100/85">{secretLocked ? "Todavía quedan estrellas por visitar." : section.description}</p>
         </div>

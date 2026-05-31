@@ -7,6 +7,7 @@ import { GalaxyMap } from "@/components/GalaxyMap";
 import { MagicLoading } from "@/components/MagicLoading";
 import { MusicPlayer } from "@/components/MusicPlayer";
 import { Starfield } from "@/components/Starfield";
+import { usePerformanceMode } from "@/hooks/usePerformanceMode";
 import { scheduleSectionPreload } from "@/lib/preloadSections";
 
 const STORAGE_KEY = "luci-universo-has-entered";
@@ -17,6 +18,7 @@ export default function Home() {
   const [isOpeningUniverse, setIsOpeningUniverse] = useState(false);
   const [autoPlaySignal, setAutoPlaySignal] = useState(0);
   const [isSectionModalOpen, setIsSectionModalOpen] = useState(false);
+  const performanceMode = usePerformanceMode();
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -46,8 +48,8 @@ export default function Home() {
   useEffect(() => {
     if (!hasEntered) return undefined;
 
-    return scheduleSectionPreload();
-  }, [hasEntered]);
+    return scheduleSectionPreload(performanceMode);
+  }, [hasEntered, performanceMode]);
 
   const handleModalOpenChange = useCallback((isOpen: boolean) => {
     setIsSectionModalOpen(isOpen);
@@ -69,7 +71,7 @@ export default function Home() {
 
   return (
     <main className="relative isolate min-h-[100dvh] overflow-x-hidden px-3 pb-40 pt-4 sm:px-6 sm:pb-32 sm:pt-8">
-      <Starfield paused={isSectionModalOpen} />
+      <Starfield paused={isSectionModalOpen} performanceMode={performanceMode} />
       <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col pt-2 sm:pt-0">
         <AnimatePresence mode="wait">
           {!hasEntered ? (
@@ -78,7 +80,7 @@ export default function Home() {
             </m.div>
           ) : (
             <m.div key="map" initial={{ opacity: 0, y: 18, scale: 0.985 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.7, ease: "easeOut" }}>
-              <GalaxyMap onModalOpenChange={handleModalOpenChange} />
+              <GalaxyMap onModalOpenChange={handleModalOpenChange} performanceMode={performanceMode} />
             </m.div>
           )}
         </AnimatePresence>
@@ -94,13 +96,13 @@ export default function Home() {
             transition={{ duration: 0.25 }}
           >
             <div className="rounded-3xl border border-amber-100/20 bg-[#120d26]/80 px-5 py-4 shadow-[0_0_55px_rgba(251,191,36,0.18)] backdrop-blur-md">
-              <MagicLoading variant="portal" size="lg" label="Abriendo la puerta estelar…" />
+              <MagicLoading variant="portal" size="lg" label="Abriendo la puerta estelar…" performanceMode={performanceMode} />
             </div>
           </m.div>
         ) : null}
       </AnimatePresence>
 
-      {hasEntered ? <MusicPlayer hasUserInteracted={hasEntered} autoPlaySignal={autoPlaySignal} /> : null}
+      {hasEntered ? <MusicPlayer hasUserInteracted={hasEntered} autoPlaySignal={autoPlaySignal} performanceMode={performanceMode} /> : null}
     </main>
   );
 }

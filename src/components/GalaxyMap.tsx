@@ -8,6 +8,8 @@ import { ConstellationTimeline } from "@/components/ConstellationTimeline";
 import { MagicButton } from "@/components/MagicButton";
 import { StarBurst } from "@/components/StarBurst";
 import { sections, type UniverseSection } from "@/data/sections";
+import { preloadLiteCoreSections } from "@/lib/preloadSections";
+import type { PerformanceMode } from "@/hooks/usePerformanceMode";
 
 const SECRET_CENTER_ID = "secret-center";
 const VISITED_STORAGE_KEY = "luci-universo-visited-sections";
@@ -35,9 +37,10 @@ function getStoredVisitedSections() {
 
 type GalaxyMapProps = {
   onModalOpenChange?: (isOpen: boolean) => void;
+  performanceMode?: PerformanceMode;
 };
 
-export function GalaxyMap({ onModalOpenChange }: GalaxyMapProps) {
+export function GalaxyMap({ onModalOpenChange, performanceMode = "balanced" }: GalaxyMapProps) {
   const [selectedSection, setSelectedSection] = useState<UniverseSection | null>(null);
   const [visitedSections, setVisitedSections] = useState<string[]>(getStoredVisitedSections);
   const [showUnlockMessage, setShowUnlockMessage] = useState(false);
@@ -76,16 +79,18 @@ export function GalaxyMap({ onModalOpenChange }: GalaxyMapProps) {
     (section: UniverseSection, options?: { bypassLock?: boolean }) => {
       if (section.id === SECRET_CENTER_ID && !isSecretUnlocked && !options?.bypassLock) return;
 
+      if (performanceMode === "lite") preloadLiteCoreSections();
+
       setVisitedSections((previous) => (previous.includes(section.id) ? previous : [...previous, section.id]));
       setSelectedSection(section);
     },
-    [isSecretUnlocked],
+    [isSecretUnlocked, performanceMode],
   );
 
   return (
-    <section className="relative z-10 mx-auto w-full max-w-6xl rounded-[2rem] border border-violet-100/15 bg-[#0b0718]/24 p-4 shadow-[0_0_55px_rgba(121,82,212,0.24)] backdrop-blur-[6px] sm:p-7 md:p-8 lg:p-10">
+    <section className={`relative z-10 mx-auto w-full max-w-6xl rounded-[2rem] border border-violet-100/15 bg-[#0b0718]/24 p-4 sm:p-7 md:p-8 lg:p-10 ${performanceMode === "lite" ? "shadow-[0_0_24px_rgba(121,82,212,0.14)]" : "shadow-[0_0_55px_rgba(121,82,212,0.24)] backdrop-blur-[6px]"}`}>
       <div className="pointer-events-none absolute inset-0 rounded-[2rem] bg-[radial-gradient(circle_at_20%_15%,rgba(167,139,250,0.07),transparent_46%),radial-gradient(circle_at_82%_78%,rgba(251,191,180,0.055),transparent_52%)]" />
-      {isSecretUnlocked ? <StarBurst active={!isDecorativePaused} className="right-12 top-12 h-16 w-16" /> : null}
+      {isSecretUnlocked && performanceMode !== "lite" ? <StarBurst active={!isDecorativePaused} className="right-12 top-12 h-16 w-16" /> : null}
       <p className="relative text-xs uppercase tracking-[0.2em] text-violet-200/85">Nuestro universo</p>
       <h2 className="relative mt-2 text-2xl font-semibold text-white sm:text-3xl md:text-4xl">Recorré la constelación del tiempo</h2>
       <p className="relative mt-3 max-w-2xl text-sm text-violet-100/85 sm:text-base">
@@ -109,6 +114,7 @@ export function GalaxyMap({ onModalOpenChange }: GalaxyMapProps) {
         visitedCount={visitedSections.filter((id) => id !== SECRET_CENTER_ID).length}
         totalCount={requiredSections.length}
         isSecretUnlocked={isSecretUnlocked}
+        performanceMode={performanceMode}
       />
 
       <ConstellationTimeline
@@ -118,6 +124,7 @@ export function GalaxyMap({ onModalOpenChange }: GalaxyMapProps) {
         selectedSectionId={selectedSection?.id}
         onSelect={handleSelectSection}
         decorativePaused={isDecorativePaused}
+        performanceMode={performanceMode}
       />
 
       {!isSecretUnlocked ? (
@@ -130,12 +137,13 @@ export function GalaxyMap({ onModalOpenChange }: GalaxyMapProps) {
             })
           }
           className="relative mt-5 w-full md:w-auto"
+          performanceMode={performanceMode}
         >
           Abrir igual el centro secreto ahora
         </MagicButton>
       ) : null}
 
-      <SectionModal section={selectedSection} onClose={() => setSelectedSection(null)} />
+      <SectionModal section={selectedSection} onClose={() => setSelectedSection(null)} performanceMode={performanceMode} />
     </section>
   );
 }
