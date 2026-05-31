@@ -9,8 +9,7 @@ export function WeddingSection() {
       <p className="text-xs uppercase tracking-[0.2em] text-rose-100/85">Boda y memoria</p>
       <h3 className="text-2xl font-semibold text-white sm:text-3xl">El Día que Elegimos Ser Hogar</h3>
       <p className="leading-relaxed text-violet-100/90">
-        No fue solo una ceremonia: fue la confirmación de que ya éramos equipo. Estas fechas guardan el corazón de ese
-        compromiso y esta galería queda lista para llenarse con sus fotos más queridas.
+        No fue solo una ceremonia: fue la forma visible de algo que ya veníamos sintiendo. El 3 y el 6 de abril guardan esa decisión de ser hogar, de ser equipo y de sostener con votos lo que ya se notaba en la manera de mirarnos.
       </p>
 
       <div className="grid gap-3 sm:grid-cols-2">

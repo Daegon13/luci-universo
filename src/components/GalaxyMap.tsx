@@ -92,9 +92,9 @@ export function GalaxyMap({ onModalOpenChange, performanceMode = "balanced" }: G
       <div className="pointer-events-none absolute inset-0 rounded-[2rem] bg-[radial-gradient(circle_at_20%_15%,rgba(167,139,250,0.07),transparent_46%),radial-gradient(circle_at_82%_78%,rgba(251,191,180,0.055),transparent_52%)]" />
       {isSecretUnlocked && performanceMode !== "lite" ? <StarBurst active={!isDecorativePaused} className="right-12 top-12 h-16 w-16" /> : null}
       <p className="relative text-xs uppercase tracking-[0.2em] text-violet-200/85">Nuestro universo</p>
-      <h2 className="relative mt-2 text-2xl font-semibold text-white sm:text-3xl md:text-4xl">Recorré la constelación del tiempo</h2>
+      <h2 className="relative mt-2 text-2xl font-semibold text-white sm:text-3xl md:text-4xl">Recorré nuestra constelación</h2>
       <p className="relative mt-3 max-w-2xl text-sm text-violet-100/85 sm:text-base">
-        Cada estrella representa una memoria viva de Diego y Luci. Seguí las líneas doradas y abrí cada fragmento de esta historia sagrada.
+        Cada estrella guarda una parte de lo que somos. Seguí las líneas doradas y abrí, de a poco, este universo que hice para vos.
       </p>
 
       <AnimatePresence>
@@ -105,7 +105,7 @@ export function GalaxyMap({ onModalOpenChange, performanceMode = "balanced" }: G
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
           >
-            La constelación está completa.
+            La constelación está completa. El centro ya puede abrirse.
           </m.div>
         ) : null}
       </AnimatePresence>
@@ -139,7 +139,7 @@ export function GalaxyMap({ onModalOpenChange, performanceMode = "balanced" }: G
           className="relative mt-5 w-full md:w-auto"
           performanceMode={performanceMode}
         >
-          Abrir igual el centro secreto ahora
+          Abrir el centro secreto ahora
         </MagicButton>
       ) : null}
 

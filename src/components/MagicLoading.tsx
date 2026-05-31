@@ -17,9 +17,9 @@ const SIZE_CLASS = {
 
 const VARIANT_LABEL = {
   stars: "Encendiendo constelación…",
-  portal: "Abriendo la puerta estelar…",
-  memory: "Invocando recuerdo…",
-  sky: "Alineando estrellas…",
+  portal: "Abriendo nuestro cielo…",
+  memory: "Abriendo recuerdo…",
+  sky: "Acomodando estrellas…",
 };
 
 const VARIANT_GLOW = {

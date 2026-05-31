@@ -16,8 +16,7 @@ export function FutureSection() {
       <p className="mt-2 text-xs uppercase tracking-[0.22em] text-violet-200/80">La Ventana al Espacio</p>
       <h3 className="mt-3 text-2xl font-semibold sm:text-3xl">Todo lo que todavía quiero vivir con vos</h3>
       <p className="mt-4 leading-relaxed text-violet-100/90">
-        Algún día quiero mirar el espacio con vos desde una ventana. Y cuando pase, sé que voy a pensar lo mismo que
-        pienso ahora: que de todos los milagros del universo, mi favorito fue encontrarte.
+        Algún día quiero mirar el espacio con vos desde una ventana. Y si llegamos ahí, sé que voy a pensar lo mismo que pienso ahora: que de todos los milagros improbables del universo, mi favorito fue encontrarte.
       </p>
 
       <m.div
@@ -32,8 +31,7 @@ export function FutureSection() {
         <div className="relative z-10">
           <p className="text-xs uppercase tracking-[0.2em] text-violet-100/80">Promesa de futuro</p>
           <p className="mt-3 text-sm leading-relaxed text-violet-100/90 sm:text-base">
-            Quiero construir un negocio con vos, una desarrolladora de software e inteligencia artificial, y también una
-            vida donde tu magia tenga espacio para crecer en la dirección que elijas.
+            Quiero construir con vos una vida estable y también proyectos que lleven nuestro nombre: una desarrolladora de software e inteligencia artificial, viajes, hogar y un espacio real para que tu magia crezca sin pedir permiso.
           </p>
 
           <div className="mt-6 grid gap-3 sm:grid-cols-2">

@@ -11,7 +11,7 @@ export function SkyEventCard({ event }: SkyEventCardProps) {
       <p className="mt-2 text-sm text-rose-100/85">{event.locationLabel}</p>
       <p className="mt-3 text-sm leading-relaxed text-violet-100/95 sm:text-base">{event.poeticText}</p>
       <p className="mt-4 text-xs text-violet-200/75">
-        Visual creado a partir de captura/representación astronómica de referencia.
+        Visual creado a partir de una captura de referencia o representación astronómica simbólica.
       </p>
     </article>
   );

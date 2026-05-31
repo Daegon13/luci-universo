@@ -18,22 +18,24 @@ export type CelestialEvent = {
   precision: CelestialPrecision;
 };
 
+// TODO(content): completar fecha/hora/lugar de nacimiento de Luci y año/lugar/significado exacto del 3 y 6 de abril.
+// Estas postales son capturas o representaciones de referencia; no prometen precisión astronómica calculada.
 export const celestialEvents: CelestialEvent[] = [
   {
     id: "luci-birth",
     title: "El cielo cuando nació Luci",
-    dateLabel: "Fecha completa pendiente",
-    locationLabel: "Lugar de nacimiento pendiente",
+    dateLabel: "El primer cielo de Luci",
+    locationLabel: "Representación astronómica de referencia",
     poeticText:
-      "Así imaginamos ese primer cielo: una noche que ya sabía, en silencio, que tu luz iba a cambiar para siempre este universo.",
+      "Así miramos ese cielo: como una captura simbólica del instante en que tu luz empezó a cambiar, en silencio, todo este universo.",
     views: {
       earthSky: {
         image: "/images/sky/luci-birth-sky.webp",
-        alt: "Vista simbólica del cielo desde la Tierra el día del nacimiento de Luci",
+        alt: "Representación astronómica de referencia del cielo desde la Tierra para el nacimiento de Luci",
       },
       solarSystem: {
         image: "/images/sky/luci-birth-solar-system.webp",
-        alt: "Vista simbólica del sistema solar para el nacimiento de Luci",
+        alt: "Representación astronómica de referencia del sistema solar para el nacimiento de Luci",
       },
     },
     precision: "manual-capture",
@@ -41,18 +43,18 @@ export const celestialEvents: CelestialEvent[] = [
   {
     id: "wedding-april-03",
     title: "El cielo del 3 de abril",
-    dateLabel: "3 de abril (año pendiente)",
-    locationLabel: "Ubicación de boda civil pendiente",
+    dateLabel: "3 de abril",
+    locationLabel: "Captura de referencia para nuestra boda civil",
     poeticText:
-      "El cielo fue testigo sereno del día en que elegimos ser hogar, equipo y promesa viva bajo las mismas estrellas.",
+      "Así miramos ese cielo: una representación astronómica del día en que elegimos ser hogar, equipo y promesa viva bajo las mismas estrellas.",
     views: {
       earthSky: {
         image: "/images/sky/wedding-april-03-sky.webp",
-        alt: "Vista simbólica del cielo desde la Tierra para la boda civil del 3 de abril",
+        alt: "Representación astronómica de referencia del cielo desde la Tierra para la boda civil del 3 de abril",
       },
       solarSystem: {
         image: "/images/sky/wedding-april-03-solar-system.webp",
-        alt: "Vista simbólica del sistema solar para la boda civil del 3 de abril",
+        alt: "Representación astronómica de referencia del sistema solar para la boda civil del 3 de abril",
       },
     },
     precision: "manual-capture",
@@ -60,18 +62,18 @@ export const celestialEvents: CelestialEvent[] = [
   {
     id: "wedding-april-06",
     title: "El cielo del 6 de abril",
-    dateLabel: "6 de abril (año pendiente)",
-    locationLabel: "Ubicación de segunda fecha pendiente",
+    dateLabel: "6 de abril",
+    locationLabel: "Captura de referencia para nuestra segunda huella",
     poeticText:
-      "Hay fechas que brillan como un eco sagrado: este cielo guarda la segunda huella de nuestra historia compartida.",
+      "Así miramos ese cielo: como una postal simbólica del eco sagrado que dejó esta fecha en nuestra historia.",
     views: {
       earthSky: {
         image: "/images/sky/wedding-april-06-sky.webp",
-        alt: "Vista simbólica del cielo desde la Tierra para la fecha del 6 de abril",
+        alt: "Representación astronómica de referencia del cielo desde la Tierra para la fecha del 6 de abril",
       },
       solarSystem: {
         image: "/images/sky/wedding-april-06-solar-system.webp",
-        alt: "Vista simbólica del sistema solar para la fecha del 6 de abril",
+        alt: "Representación astronómica de referencia del sistema solar para la fecha del 6 de abril",
       },
     },
     precision: "manual-capture",

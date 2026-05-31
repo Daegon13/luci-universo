@@ -96,7 +96,7 @@ export default function Home() {
             transition={{ duration: 0.25 }}
           >
             <div className="rounded-3xl border border-amber-100/20 bg-[#120d26]/80 px-5 py-4 shadow-[0_0_55px_rgba(251,191,36,0.18)] backdrop-blur-md">
-              <MagicLoading variant="portal" size="lg" label="Abriendo la puerta estelar…" performanceMode={performanceMode} />
+              <MagicLoading variant="portal" size="lg" label="Abriendo nuestro cielo…" performanceMode={performanceMode} />
             </div>
           </m.div>
         ) : null}

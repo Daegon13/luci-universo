@@ -12,7 +12,7 @@ import type { PerformanceMode } from "@/hooks/usePerformanceMode";
 
 const sectionLoading = () => (
   <div className="flex min-h-64 items-center justify-center rounded-3xl border border-violet-100/15 bg-[#0b0718]/42 p-6">
-    <MagicLoading variant="portal" label="Invocando esta memoria…" />
+    <MagicLoading variant="portal" label="Abriendo esta memoria…" />
   </div>
 );
 
@@ -86,7 +86,7 @@ export function SectionModal({ section, onClose, performanceMode = "balanced" }:
           >
             {!isLite ? <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_16%_0%,rgba(251,191,36,0.10),transparent_22%),radial-gradient(circle_at_88%_24%,rgba(244,114,182,0.08),transparent_26%)]" aria-hidden /> : null}
             <div className="sticky top-0 z-20 flex items-start justify-between gap-3 border-b border-violet-100/10 bg-[#120d26]/92 p-5 backdrop-blur-sm sm:backdrop-blur-md sm:p-6">
-              <p className="text-xs uppercase tracking-[0.2em] text-violet-200/80">Bitácora estelar</p>
+              <p className="text-xs uppercase tracking-[0.2em] text-violet-200/80">Memoria estelar</p>
               <MagicButton type="button" variant="ghost" size="sm" onClick={onClose} aria-label="Cerrar sección" className="h-10 w-10 rounded-full px-0" performanceMode={performanceMode}>
                 <X className="h-5 w-5" />
               </MagicButton>
@@ -94,7 +94,7 @@ export function SectionModal({ section, onClose, performanceMode = "balanced" }:
             <div className="relative max-h-[calc(88dvh-5.5rem)] overflow-y-auto px-5 pb-5 pt-4 overscroll-contain sm:px-8 sm:pb-8 sm:pt-6">
               <SectionBody section={section} />
               <MagicButton type="button" variant="secondary" onClick={onClose} className="mt-6 w-full" performanceMode={performanceMode}>
-                Seguir recorriendo el universo
+                Volver a la constelación
               </MagicButton>
             </div>
           </m.article>
