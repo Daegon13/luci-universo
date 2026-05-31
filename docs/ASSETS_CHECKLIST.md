@@ -45,8 +45,11 @@ Checklist operativo para completar assets y contenido final antes de entregar el
 ### Performance Asset Pass
 
 - [ ] Comprimir `public/images/wedding/wedding-3.jpg` y `public/images/wedding/wedding-4.jpg`: actualmente son las fotos más pesadas y deben optimizarse antes de entrega final.
+- [ ] `public/images/wedding/wedding-3.jpg` pesa más de 2 MB (aprox. 10.9 MB) y debe comprimirse a menos de 500 KB antes de la entrega final.
+- [ ] `public/images/wedding/wedding-4.jpg` pesa más de 2 MB (aprox. 10.9 MB) y debe comprimirse a menos de 500 KB antes de la entrega final.
 - [ ] Peso recomendado para fotos grandes de boda: menos de 500 KB idealmente.
 - [ ] Ancho máximo recomendado para fotos grandes: 1600px a 1800px, manteniendo calidad suficiente para mobile y desktop.
+- [ ] No borrar assets automáticamente: revisar y reemplazar archivos pesados de forma controlada.
 - [ ] Revisar assets duplicados/no usados antes de borrar nada: posibles candidatos actuales en carpetas profundas de `public/images/cats/` (`daphne/daphne (2).jpg`, `minna/minna.jpg`, variantes de `norah/`, variantes de `sofi/`) y archivos `SaveClip.App_...` en `public/images/cats/` y `public/images/couple/`.
 - [x] Corregir typo de asset de pareja: `public/images/couple/caouple-1.jpg` debe quedar como `public/images/couple/couple-1.jpg`.
 
