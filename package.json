@@ -9,6 +9,7 @@
     "dev:lan:turbo": "next dev -H 0.0.0.0",
     "build": "next build",
     "build:webpack": "next build --webpack",
+    "optimize:images": "node scripts/optimize-images.mjs",
     "start": "next start",
     "lint": "eslint"
   },
@@ -28,6 +29,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.6",
+    "sharp": "^0.34.5",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
