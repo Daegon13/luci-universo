@@ -12,11 +12,13 @@ Remove-Item -Recurse -Force .next
 pnpm dev:lan
 ```
 
-Luego abrir desde el celular conectado a la misma red:
+Luego abrir desde el celular conectado a la misma red WiFi que la PC:
 
 ```text
 http://192.168.1.2:3000/?reset=1
 ```
+
+Si la URL no carga desde el celular, revisar el Firewall de Windows y permitir Node.js en redes privadas.
 
 ### Scripts disponibles
 
@@ -29,13 +31,13 @@ http://192.168.1.2:3000/?reset=1
 
 ### Guardrails configurados
 
-- `allowedDevOrigins` toma `NEXT_ALLOWED_DEV_ORIGINS` cuando existe y usa `192.168.1.2` como fallback para evitar bloqueos durante pruebas LAN.
+- `allowedDevOrigins` queda tipado como `NextConfig["allowedDevOrigins"]`, toma `NEXT_ALLOWED_DEV_ORIGINS` cuando existe y usa `192.168.1.2` como fallback para evitar bloqueos durante pruebas LAN.
 - `turbopack.root` queda fijado a `process.cwd()` para que el root del proyecto no dependa de archivos externos al repo.
-- `images.maximumResponseBody` queda limitado a `6_000_000` bytes para que Next no intente optimizar respuestas de imágenes demasiado grandes sin control.
+- `images.maximumResponseBody` queda limitado a `6_000_000` bytes para que Next no intente optimizar respuestas de imágenes demasiado grandes sin control. Esta opción es aceptada por Next 16.2.6; si una versión futura la rechazara, la protección principal seguirá siendo comprimir los assets grandes.
 
 ## Assets pesados pendientes
 
 No borrar assets automáticamente. Las fotos pesadas deben comprimirse manualmente y reemplazarse de forma controlada.
 
-- `public/images/wedding/wedding-3.jpg` debe comprimirse a menos de 500 KB antes de la entrega final.
-- `public/images/wedding/wedding-4.jpg` debe comprimirse a menos de 500 KB antes de la entrega final.
+- `public/images/wedding/wedding-3.jpg` supera 2 MB y debe comprimirse a menos de 500 KB antes de la entrega final.
+- `public/images/wedding/wedding-4.jpg` supera 2 MB y debe comprimirse a menos de 500 KB antes de la entrega final.
