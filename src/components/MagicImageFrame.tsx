@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { MagicShimmer } from "@/components/MagicShimmer";
 
@@ -38,6 +38,11 @@ export function MagicImageFrame({
   const [isLoaded, setIsLoaded] = useState(false);
   const reduceMotion = useReducedMotion();
   const fallbackStars = useMemo(() => ["left-[14%] top-[22%]", "left-[34%] top-[72%]", "left-[70%] top-[26%]", "left-[86%] top-[68%]"], []);
+
+  useEffect(() => {
+    setHasError(false);
+    setIsLoaded(false);
+  }, [src]);
 
   return (
     <figure key={src} className={`group relative overflow-hidden rounded-3xl border bg-[#100b23]/88 p-2 ${VARIANT_CLASS[variant]} ${className}`}>

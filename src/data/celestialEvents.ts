@@ -28,11 +28,11 @@ export const celestialEvents: CelestialEvent[] = [
       "Así imaginamos ese primer cielo: una noche que ya sabía, en silencio, que tu luz iba a cambiar para siempre este universo.",
     views: {
       earthSky: {
-        image: "/images/sky/luci-birth-sky.jpg",
+        image: "/images/sky/luci-birth-sky.webp",
         alt: "Vista simbólica del cielo desde la Tierra el día del nacimiento de Luci",
       },
       solarSystem: {
-        image: "/images/sky/luci-birth-solar-system.jpg",
+        image: "/images/sky/luci-birth-solar-system.webp",
         alt: "Vista simbólica del sistema solar para el nacimiento de Luci",
       },
     },
@@ -47,11 +47,11 @@ export const celestialEvents: CelestialEvent[] = [
       "El cielo fue testigo sereno del día en que elegimos ser hogar, equipo y promesa viva bajo las mismas estrellas.",
     views: {
       earthSky: {
-        image: "/images/sky/wedding-april-03-sky.jpg",
+        image: "/images/sky/wedding-april-03-sky.webp",
         alt: "Vista simbólica del cielo desde la Tierra para la boda civil del 3 de abril",
       },
       solarSystem: {
-        image: "/images/sky/wedding-april-03-solar-system.jpg",
+        image: "/images/sky/wedding-april-03-solar-system.webp",
         alt: "Vista simbólica del sistema solar para la boda civil del 3 de abril",
       },
     },
@@ -66,11 +66,11 @@ export const celestialEvents: CelestialEvent[] = [
       "Hay fechas que brillan como un eco sagrado: este cielo guarda la segunda huella de nuestra historia compartida.",
     views: {
       earthSky: {
-        image: "/images/sky/wedding-april-06-sky.jpg",
+        image: "/images/sky/wedding-april-06-sky.webp",
         alt: "Vista simbólica del cielo desde la Tierra para la fecha del 6 de abril",
       },
       solarSystem: {
-        image: "/images/sky/wedding-april-06-solar-system.jpg",
+        image: "/images/sky/wedding-april-06-solar-system.webp",
         alt: "Vista simbólica del sistema solar para la fecha del 6 de abril",
       },
     },

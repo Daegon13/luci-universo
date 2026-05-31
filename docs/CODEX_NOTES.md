@@ -39,5 +39,5 @@ Si la URL no carga desde el celular, revisar el Firewall de Windows y permitir N
 
 No borrar assets automáticamente. Las fotos pesadas deben comprimirse manualmente y reemplazarse de forma controlada.
 
-- `public/images/wedding/wedding-3.jpg` supera 2 MB y debe comprimirse a menos de 500 KB antes de la entrega final.
-- `public/images/wedding/wedding-4.jpg` supera 2 MB y debe comprimirse a menos de 500 KB antes de la entrega final.
+- `public/images/wedding/wedding-3.webp` supera 2 MB y debe comprimirse a menos de 500 KB antes de la entrega final.
+- `public/images/wedding/wedding-4.webp` supera 2 MB y debe comprimirse a menos de 500 KB antes de la entrega final.

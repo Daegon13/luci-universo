@@ -656,19 +656,19 @@ Fotos de boda
 Agregar fotos seleccionadas en:
 public/images/wedding/
 Usar nombres limpios:
-wedding-01.jpg
-wedding-02.jpg
-wedding-03.jpg
+wedding-1.webp
+wedding-2.webp
+wedding-3.webp
 Actualizar src/data/wedding.ts.
 Confirmar que WeddingSection muestra imágenes reales.
 Mantener fallback si falta una imagen.
 Fotos de gatitas
 Agregar:
-public/images/cats/loli.jpg
-public/images/cats/minna.jpg
-public/images/cats/daphne.jpg
-public/images/cats/norah.jpg
-public/images/cats/sofi.jpg
+public/images/cats/loli.webp
+public/images/cats/minna.webp
+public/images/cats/daphne.webp
+public/images/cats/norah.webp
+public/images/cats/sofi.webp
 Actualizar src/data/cats.ts.
 Confirmar que cada gatita muestra su foto real.
 Mantener fallback elegante.
@@ -771,12 +771,12 @@ Cada evento debe permitir alternar entre:
 “Cielo desde la Tierra”
 “Sistema Solar”
 Rutas esperadas:
-/images/sky/luci-birth-sky.jpg
-/images/sky/luci-birth-solar-system.jpg
-/images/sky/wedding-april-03-sky.jpg
-/images/sky/wedding-april-03-solar-system.jpg
-/images/sky/wedding-april-06-sky.jpg
-/images/sky/wedding-april-06-solar-system.jpg
+/images/sky/luci-birth-sky.webp
+/images/sky/luci-birth-solar-system.webp
+/images/sky/wedding-april-03-sky.webp
+/images/sky/wedding-april-03-solar-system.webp
+/images/sky/wedding-april-06-sky.webp
+/images/sky/wedding-april-06-solar-system.webp
 Mostrar placeholders elegantes si las imágenes faltan.
 Mostrar fecha, lugar y texto poético.
 Añadir nota discreta:
