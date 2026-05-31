@@ -23,7 +23,7 @@ export function WeddingSection() {
         ))}
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="cv-section grid gap-4 sm:grid-cols-2">
         {weddingPhotos.map((photo) => (
           <MagicImageFrame key={photo.id} src={photo.src} alt={photo.alt} caption={photo.caption} variant="wedding" />
         ))}

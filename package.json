@@ -11,7 +11,8 @@
     "build:webpack": "next build --webpack",
     "optimize:images": "node scripts/optimize-images.mjs",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "analyze:turbo": "next experimental-analyze"
   },
   "dependencies": {
     "canvas-confetti": "^1.9.4",

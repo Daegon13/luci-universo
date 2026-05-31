@@ -51,8 +51,10 @@ export function CelestialSnapshotSection({ initialEventId }: CelestialSnapshotSe
         <SkyViewToggle value={selectedView} onChange={setSelectedView} />
       </div>
 
-      <SolarSystemPostcard image={selectedImage.image} alt={selectedImage.alt} title={selectedEvent.title} />
-      <SkyEventCard event={selectedEvent} />
+      <div className="cv-section">
+        <SolarSystemPostcard image={selectedImage.image} alt={selectedImage.alt} title={selectedEvent.title} />
+        <SkyEventCard event={selectedEvent} />
+      </div>
     </section>
   );
 }

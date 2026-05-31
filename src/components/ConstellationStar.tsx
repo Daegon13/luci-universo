@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { memo } from "react";
+import { m, useReducedMotion } from "framer-motion";
 import { StarBurst } from "@/components/StarBurst";
 import type { UniverseSection } from "@/data/sections";
 
@@ -12,6 +13,7 @@ type ConstellationStarProps = {
   isSecretUnlocked: boolean;
   isDisabled: boolean;
   onSelect: (section: UniverseSection) => void;
+  decorativePaused?: boolean;
 };
 
 const SIZE_CLASS: Record<UniverseSection["size"], string> = {
@@ -27,7 +29,7 @@ const ACCENT_GLOW: Record<UniverseSection["accent"], string> = {
   sky: "shadow-[0_0_28px_rgba(125,211,252,0.36)]",
 };
 
-export function ConstellationStar({
+export const ConstellationStar = memo(function ConstellationStar({
   section,
   isVisited,
   isNext,
@@ -35,6 +37,7 @@ export function ConstellationStar({
   isSecretUnlocked,
   isDisabled,
   onSelect,
+  decorativePaused = false,
 }: ConstellationStarProps) {
   const reduceMotion = useReducedMotion();
   const isSecret = section.importance === "secret";
@@ -51,10 +54,10 @@ export function ConstellationStar({
         : "border-violet-100/60 bg-gradient-to-br from-white/65 via-violet-200/48 to-rose-200/38";
 
   return (
-    <motion.div
+    <m.div
       className="group absolute z-10 -translate-x-1/2 -translate-y-1/2"
       style={{ left: `${section.position.x}%`, top: `${section.position.y}%` }}
-      animate={!reduceMotion ? { y: [0, -4, 0] } : undefined}
+      animate={!reduceMotion && !decorativePaused && isSelected ? { y: [0, -4, 0] } : undefined}
       transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
     >
       {isSecret ? (
@@ -64,10 +67,10 @@ export function ConstellationStar({
         />
       ) : null}
 
-      {isNext && !isDisabled ? <span className="pointer-events-none absolute -inset-3 animate-ping rounded-full border border-rose-200/35 motion-reduce:animate-none" aria-hidden /> : null}
-      {isSelected || (isVisited && !secretLocked) ? <StarBurst active className="-inset-1" /> : null}
+      {isNext && !isDisabled && !decorativePaused ? <span className="pointer-events-none absolute -inset-3 animate-ping rounded-full border border-rose-200/35 motion-reduce:animate-none" aria-hidden /> : null}
+      {isSelected || (isSecret && isSecretUnlocked) ? <StarBurst active={!decorativePaused} className="-inset-1" compact /> : null}
 
-      <motion.button
+      <m.button
         type="button"
         onClick={() => {
           if (!isDisabled) onSelect(section);
@@ -76,8 +79,8 @@ export function ConstellationStar({
         aria-label={`Abrir sección ${section.fullTitle}`}
         whileHover={isDisabled || reduceMotion ? undefined : { scale: 1.08 }}
         whileTap={isDisabled || reduceMotion ? undefined : { scale: 0.94 }}
-        animate={isNext && !isDisabled && !reduceMotion ? { scale: [1, 1.07, 1] } : undefined}
-        transition={isNext && !isDisabled && !reduceMotion ? { duration: 2.2, repeat: Infinity } : undefined}
+        animate={isNext && !isDisabled && !reduceMotion && !decorativePaused ? { scale: [1, 1.045, 1] } : undefined}
+        transition={isNext && !isDisabled && !reduceMotion && !decorativePaused ? { duration: 3.4, repeat: Infinity } : undefined}
         className={`${SIZE_CLASS[section.size]} relative rounded-full border ${ACCENT_GLOW[section.accent]} transition ${starTone} ${
           isDisabled ? "cursor-not-allowed opacity-65" : "cursor-pointer active:brightness-125"
         } ${isSelected ? "ring-4 ring-amber-100/25" : ""} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-200 focus-visible:ring-offset-2 focus-visible:ring-offset-[#080512]`}
@@ -85,7 +88,7 @@ export function ConstellationStar({
         <span className="absolute inset-0 rounded-full bg-white/35 blur-[6px]" aria-hidden />
         <span className={`absolute inset-[22%] rounded-full bg-white/80 ${isVisited ? "shadow-[0_0_20px_rgba(255,255,255,0.9)]" : ""}`} aria-hidden />
         {isVisited ? <span className="absolute -inset-1 rounded-full border border-amber-100/20 shadow-[0_0_24px_rgba(251,191,36,0.3)]" aria-hidden /> : null}
-      </motion.button>
+      </m.button>
 
       <div className="pointer-events-none absolute left-1/2 top-[calc(100%+0.55rem)] z-20 w-48 -translate-x-1/2 text-center opacity-90 transition group-hover:opacity-100 group-focus-within:opacity-100 lg:w-56">
         <p className="rounded-full border border-violet-100/18 bg-[#090615]/60 px-3 py-1 text-[0.58rem] uppercase tracking-[0.18em] text-violet-100/80 backdrop-blur-sm">
@@ -97,6 +100,6 @@ export function ConstellationStar({
           <p className="mt-1 text-xs text-violet-100/85">{secretLocked ? "Todavía quedan estrellas por visitar." : section.description}</p>
         </div>
       </div>
-    </motion.div>
+    </m.div>
   );
-}
+});

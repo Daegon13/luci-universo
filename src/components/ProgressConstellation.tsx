@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { StarBurst } from "@/components/StarBurst";
 
 type ProgressConstellationProps = {
@@ -23,7 +23,7 @@ export function ProgressConstellation({ visitedCount, totalCount, isSecretUnlock
 
       <div className="relative mt-3 flex-1 lg:mt-0">
         <div className="h-2 w-full overflow-hidden rounded-full bg-violet-200/15">
-          <motion.div
+          <m.div
             className="h-full rounded-full bg-gradient-to-r from-rose-300 via-violet-300 to-sky-300 shadow-[0_0_18px_rgba(244,114,182,0.38)]"
             initial={false}
             animate={{ width: `${completion}%` }}
@@ -34,7 +34,7 @@ export function ProgressConstellation({ visitedCount, totalCount, isSecretUnlock
           Visitaste <span className="font-semibold text-white">{visitedCount}</span> de <span className="font-semibold text-white">{totalCount}</span> estrellas principales.
         </p>
         <AnimatePresence mode="wait">
-          <motion.p
+          <m.p
             key={isSecretUnlocked ? "complete" : "pending"}
             initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
@@ -42,7 +42,7 @@ export function ProgressConstellation({ visitedCount, totalCount, isSecretUnlock
             className="mt-1 text-xs text-violet-200/80"
           >
             {isSecretUnlocked ? "La constelación está completa. El Centro de Mi Universo ya está desbloqueado." : "Completá la travesía para desbloquear el centro secreto."}
-          </motion.p>
+          </m.p>
         </AnimatePresence>
       </div>
     </div>

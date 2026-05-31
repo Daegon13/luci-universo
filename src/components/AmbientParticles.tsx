@@ -1,9 +1,11 @@
-import { useMemo } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { memo, useMemo } from "react";
+import { m, useReducedMotion } from "framer-motion";
 
 type AmbientParticlesProps = {
   amount?: number;
   seedOffset?: number;
+  compact?: boolean;
+  paused?: boolean;
 };
 
 type Particle = {
@@ -33,29 +35,31 @@ function createParticles(amount: number, seedOffset: number): Particle[] {
   }));
 }
 
-export function AmbientParticles({ amount = 26, seedOffset = 0 }: AmbientParticlesProps) {
+export const AmbientParticles = memo(function AmbientParticles({ amount = 26, seedOffset = 0, compact = false, paused = false }: AmbientParticlesProps) {
   const reduceMotion = useReducedMotion() ?? false;
   const particles = useMemo(() => createParticles(amount, seedOffset), [amount, seedOffset]);
+
+  if (amount <= 0) return null;
 
   return (
     <>
       {particles.map((particle) => (
-        <motion.span
+        <m.span
           key={particle.id}
-          className="pointer-events-none absolute rounded-full bg-violet-100/20 blur-2xl"
+          className={`pointer-events-none absolute rounded-full bg-violet-100/20 ${compact ? "blur-lg" : "blur-2xl"}`}
           style={{ top: particle.top, left: particle.left, width: particle.size, height: particle.size, opacity: particle.opacity }}
           animate={
-            reduceMotion
+            reduceMotion || paused
               ? { opacity: particle.opacity, scale: 1 }
               : { opacity: [particle.opacity * 0.7, particle.opacity, particle.opacity * 0.8], scale: [1, 1.35, 1] }
           }
           transition={
-            reduceMotion
+            reduceMotion || paused
               ? { duration: 0 }
-              : { duration: particle.duration, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: particle.delay }
+              : { duration: compact ? particle.duration + 10 : particle.duration, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: particle.delay }
           }
         />
       ))}
     </>
   );
-}
+});

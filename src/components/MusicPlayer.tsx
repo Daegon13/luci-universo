@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { ChevronDown, ChevronUp, Pause, Play, Volume2, VolumeX } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { MagicButton } from "@/components/MagicButton";
 
 type MusicPlayerProps = {
@@ -70,7 +70,7 @@ export function MusicPlayer({ hasUserInteracted, autoPlaySignal }: MusicPlayerPr
   };
 
   return (
-    <motion.div
+    <m.div
       layout
       className={`fixed inset-x-3 bottom-3 z-20 mx-auto w-[min(22rem,calc(100vw-1.5rem))] rounded-3xl border bg-[#130f28]/86 p-3 text-violet-100 backdrop-blur-md [bottom:max(0.75rem,env(safe-area-inset-bottom))] sm:inset-x-auto sm:right-4 sm:mx-0 sm:p-4 ${
         isPlaying
@@ -108,7 +108,7 @@ export function MusicPlayer({ hasUserInteracted, autoPlaySignal }: MusicPlayerPr
       </div>
 
       {!isMinimized ? (
-        <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} className="overflow-hidden">
+        <m.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} className="overflow-hidden">
           {hasError ? (
             <p className="mt-3 rounded-2xl border border-amber-100/20 bg-amber-100/[0.06] px-3 py-2 text-xs text-amber-100/90">
               La canción todavía no está en /public/audio/first-dance.mp3, pero este espacio queda reservado para su primer baile.
@@ -153,8 +153,8 @@ export function MusicPlayer({ hasUserInteracted, autoPlaySignal }: MusicPlayerPr
               </div>
             </>
           )}
-        </motion.div>
+        </m.div>
       ) : null}
-    </motion.div>
+    </m.div>
   );
 }

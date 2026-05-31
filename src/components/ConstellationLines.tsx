@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { memo, useMemo } from "react";
+import { m } from "framer-motion";
 import type { UniverseSection } from "@/data/sections";
 
 type ConstellationLinesProps = {
@@ -9,7 +10,9 @@ type ConstellationLinesProps = {
   isSecretUnlocked: boolean;
 };
 
-export function ConstellationLines({ sections, visitedSections, isSecretUnlocked }: ConstellationLinesProps) {
+export const ConstellationLines = memo(function ConstellationLines({ sections, visitedSections, isSecretUnlocked }: ConstellationLinesProps) {
+  const visitedSectionSet = useMemo(() => new Set(visitedSections), [visitedSections]);
+
   return (
     <svg className="absolute inset-0 h-full w-full overflow-visible" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden>
       <defs>
@@ -27,7 +30,7 @@ export function ConstellationLines({ sections, visitedSections, isSecretUnlocked
 
       {sections.slice(0, -1).map((section, index) => {
         const nextSection = sections[index + 1];
-        const segmentVisited = visitedSections.includes(section.id) && visitedSections.includes(nextSection.id);
+        const segmentVisited = visitedSectionSet.has(section.id) && visitedSectionSet.has(nextSection.id);
         const touchesSecret = section.importance === "secret" || nextSection.importance === "secret";
         const isDimmedSecret = touchesSecret && !isSecretUnlocked;
 
@@ -46,7 +49,7 @@ export function ConstellationLines({ sections, visitedSections, isSecretUnlocked
               className="drop-shadow-[0_0_7px_rgba(250,204,21,0.22)]"
             />
             {segmentVisited ? (
-              <motion.line
+              <m.line
                 x1={section.position.x}
                 y1={section.position.y}
                 x2={nextSection.position.x}
@@ -65,4 +68,4 @@ export function ConstellationLines({ sections, visitedSections, isSecretUnlocked
       })}
     </svg>
   );
-}
+});

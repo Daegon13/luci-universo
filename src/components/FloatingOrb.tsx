@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import type { UniverseSection } from "@/data/sections";
 
 const ACCENT_STYLES: Record<UniverseSection["accent"], string> = {
@@ -20,7 +20,7 @@ type FloatingOrbProps = {
 
 export function FloatingOrb({ section, index, onSelect, disabled = false, desktopHighlight = false }: FloatingOrbProps) {
   return (
-    <motion.button
+    <m.button
       type="button"
       onClick={() => onSelect(section)}
       disabled={disabled}
@@ -39,6 +39,6 @@ export function FloatingOrb({ section, index, onSelect, disabled = false, deskto
         {!disabled ? <p className="mt-2 text-xs text-violet-200/85">Abrir recuerdo</p> : null}
         {disabled ? <p className="mt-2 text-xs text-rose-100/90">Desbloqueá esta estrella al visitar las demás.</p> : null}
       </div>
-    </motion.button>
+    </m.button>
   );
 }

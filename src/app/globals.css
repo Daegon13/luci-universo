@@ -45,3 +45,13 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+.cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 720px;
+}
+
+.cv-section {
+  content-visibility: auto;
+  contain-intrinsic-size: 860px;
+}

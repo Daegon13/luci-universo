@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useMemo } from "react";
+import { m } from "framer-motion";
 import { ConstellationStar } from "@/components/ConstellationStar";
 import { ConstellationLines } from "@/components/ConstellationLines";
 import type { UniverseSection } from "@/data/sections";
@@ -11,6 +12,7 @@ type ConstellationTimelineProps = {
   isSecretUnlocked: boolean;
   selectedSectionId?: string;
   onSelect: (section: UniverseSection) => void;
+  decorativePaused?: boolean;
 };
 
 const ACCENT_NODE_CLASS: Record<UniverseSection["accent"], string> = {
@@ -20,8 +22,9 @@ const ACCENT_NODE_CLASS: Record<UniverseSection["accent"], string> = {
   sky: "border-sky-100 bg-sky-100 shadow-[0_0_24px_rgba(186,230,253,0.82)]",
 };
 
-export function ConstellationTimeline({ sections, visitedSections, isSecretUnlocked, selectedSectionId, onSelect }: ConstellationTimelineProps) {
-  const nextSection = sections.find((section) => !visitedSections.includes(section.id));
+export function ConstellationTimeline({ sections, visitedSections, isSecretUnlocked, selectedSectionId, onSelect, decorativePaused = false }: ConstellationTimelineProps) {
+  const visitedSectionSet = useMemo(() => new Set(visitedSections), [visitedSections]);
+  const nextSection = useMemo(() => sections.find((section) => !visitedSectionSet.has(section.id)), [sections, visitedSectionSet]);
 
   return (
     <>
@@ -32,12 +35,13 @@ export function ConstellationTimeline({ sections, visitedSections, isSecretUnloc
           <ConstellationStar
             key={section.id}
             section={section}
-            isVisited={visitedSections.includes(section.id)}
+            isVisited={visitedSectionSet.has(section.id)}
             isNext={nextSection?.id === section.id}
             isSelected={selectedSectionId === section.id}
             isSecretUnlocked={isSecretUnlocked}
             isDisabled={section.importance === "secret" && !isSecretUnlocked}
             onSelect={onSelect}
+            decorativePaused={decorativePaused}
           />
         ))}
       </div>
@@ -48,12 +52,12 @@ export function ConstellationTimeline({ sections, visitedSections, isSecretUnloc
         <div className="relative space-y-3">
           {sections.map((section, index) => {
             const disabled = section.importance === "secret" && !isSecretUnlocked;
-            const visited = visitedSections.includes(section.id);
+            const visited = visitedSectionSet.has(section.id);
             const isNext = nextSection?.id === section.id;
             const isSecret = section.importance === "secret";
 
             return (
-              <motion.div
+              <m.div
                 key={section.id}
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -64,10 +68,10 @@ export function ConstellationTimeline({ sections, visitedSections, isSecretUnloc
                 <span
                   className={`pointer-events-none absolute left-5 top-5 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border ${
                     disabled ? "border-violet-200/35 bg-violet-200/20 shadow-[0_0_14px_rgba(196,181,253,0.32)]" : ACCENT_NODE_CLASS[section.accent]
-                  } ${visited ? "ring-4 ring-rose-200/15" : ""} ${isNext && !disabled ? "animate-pulse" : ""}`}
+                  } ${visited ? "ring-4 ring-rose-200/15" : ""} ${isNext && !disabled && !decorativePaused ? "animate-pulse" : ""}`}
                   aria-hidden
                 />
-                <motion.button
+                <m.button
                   type="button"
                   onClick={() => {
                     if (!disabled) onSelect(section);
@@ -101,8 +105,8 @@ export function ConstellationTimeline({ sections, visitedSections, isSecretUnloc
                   <p className="relative mt-2 text-xs leading-relaxed text-violet-100/82">
                     {disabled ? "Todavía quedan estrellas por visitar. Se enciende al completar la travesía, como una última promesa en el centro del cielo." : section.description}
                   </p>
-                </motion.button>
-              </motion.div>
+                </m.button>
+              </m.div>
             );
           })}
         </div>
