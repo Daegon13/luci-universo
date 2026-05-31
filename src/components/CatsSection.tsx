@@ -15,17 +15,17 @@ export function CatsSection() {
         </p>
       </header>
 
-      <div className="cv-section grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-4 sm:grid-cols-2">
         {catGuardians.map((cat, index) => (
           <m.article
             key={cat.id}
-            className="rounded-3xl border border-sky-100/25 bg-[#16102d]/90 p-4 shadow-[0_0_30px_rgba(96,165,250,0.12)] sm:p-5"
+            className="rounded-3xl border border-sky-100/25 bg-[#16102d]/88 p-3 shadow-[0_0_24px_rgba(96,165,250,0.10)] sm:p-5"
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.25, delay: index * 0.04 }}
             whileHover={{ y: -2, scale: 1.01 }}
           >
-            <MagicImageFrame src={cat.imageSrc} alt={cat.imageAlt} variant="cat" caption={cat.title} className="rounded-2xl" />
+            <MagicImageFrame src={cat.imageSrc} alt={cat.imageAlt} variant="cat" caption={cat.title} aspectRatio="aspect-square" className="rounded-2xl" sizes="(max-width: 640px) calc(100vw - 4rem), (max-width: 1024px) 38vw, 360px" />
 
             <div className="mt-4">
               <h4 className="mt-1 text-xl font-semibold text-violet-50">{cat.name}</h4>

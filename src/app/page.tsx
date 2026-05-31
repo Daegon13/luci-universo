@@ -70,9 +70,9 @@ export default function Home() {
   };
 
   return (
-    <main className="relative isolate min-h-[100dvh] overflow-x-hidden px-3 pb-40 pt-4 sm:px-6 sm:pb-32 sm:pt-8">
+    <main className="relative isolate min-h-[100dvh] overflow-x-hidden px-3 pb-28 pt-4 sm:px-6 sm:pb-32 sm:pt-8">
       <Starfield paused={isSectionModalOpen} performanceMode={performanceMode} />
-      <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col pt-2 sm:pt-0">
+      <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col pt-1 sm:pt-0">
         <AnimatePresence mode="wait">
           {!hasEntered ? (
             <m.div key="entry" initial={{ opacity: 1 }} exit={{ opacity: 0, scale: 0.985 }} transition={{ duration: 0.45 }}>

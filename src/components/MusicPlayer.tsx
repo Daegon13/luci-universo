@@ -21,7 +21,9 @@ export function MusicPlayer({ hasUserInteracted, autoPlaySignal, performanceMode
   const [isMuted, setIsMuted] = useState(false);
   const [isReady, setIsReady] = useState(false);
   const [hasError, setHasError] = useState(false);
-  const [isMinimized, setIsMinimized] = useState(false);
+  const [isMinimized, setIsMinimized] = useState(() =>
+    typeof window !== "undefined" && window.matchMedia("(max-width: 639px)").matches,
+  );
   const isLite = performanceMode === "lite";
 
   useEffect(() => {
@@ -75,7 +77,7 @@ export function MusicPlayer({ hasUserInteracted, autoPlaySignal, performanceMode
   return (
     <m.div
       layout
-      className={`fixed inset-x-3 bottom-3 z-20 mx-auto w-[min(22rem,calc(100vw-1.5rem))] rounded-3xl border bg-[#130f28]/86 p-3 text-violet-100 backdrop-blur-sm sm:backdrop-blur-md [bottom:max(0.75rem,env(safe-area-inset-bottom))] sm:inset-x-auto sm:right-4 sm:mx-0 sm:p-4 ${
+      className={`fixed inset-x-3 bottom-3 z-20 mx-auto w-[min(22rem,calc(100vw-1.5rem))] rounded-[1.35rem] border bg-[#130f28]/88 p-2.5 text-violet-100 backdrop-blur-sm sm:backdrop-blur-md [bottom:max(0.75rem,env(safe-area-inset-bottom))] sm:inset-x-auto sm:right-4 sm:mx-0 sm:rounded-3xl sm:p-4 ${
         isPlaying
           ? isLite
             ? "border-amber-100/30 shadow-[0_0_18px_rgba(251,191,36,0.14)]"
@@ -122,7 +124,7 @@ export function MusicPlayer({ hasUserInteracted, autoPlaySignal, performanceMode
             </p>
           ) : (
             <>
-              <div className="mt-3 flex h-8 items-end gap-1.5 rounded-2xl border border-violet-100/15 bg-[#080512]/45 px-3 py-2" aria-hidden>
+              <div className="mt-3 flex h-7 items-end gap-1.5 rounded-2xl border border-violet-100/15 bg-[#080512]/45 px-3 py-2" aria-hidden>
                 {WAVE_BARS.map((height, index) => (
                   <span
                     key={height + index}

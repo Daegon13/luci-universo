@@ -14,6 +14,7 @@ type MagicImageFrameProps = {
   aspectRatio?: string;
   variant?: "wedding" | "cat" | "memory" | "sky" | "secret";
   sizes?: string;
+  imageClassName?: string;
 };
 
 const VARIANT_CLASS = {
@@ -33,6 +34,7 @@ export const MagicImageFrame = memo(function MagicImageFrame({
   aspectRatio = "aspect-[4/3]",
   variant = "memory",
   sizes = "(max-width: 640px) calc(100vw - 2rem), (max-width: 1024px) calc(50vw - 2rem), 760px",
+  imageClassName = "object-cover",
 }: MagicImageFrameProps) {
   const [hasError, setHasError] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -61,7 +63,7 @@ export const MagicImageFrame = memo(function MagicImageFrame({
               fill
               priority={priority}
               sizes={sizes}
-              className={`object-cover transition duration-700 ${isLoaded ? "opacity-100 scale-100" : "opacity-0 scale-[1.015]"}`}
+              className={`${imageClassName} transition duration-700 ${isLoaded ? "opacity-100 scale-100" : "opacity-0 scale-[1.015]"}`}
               onLoad={() => setIsLoaded(true)}
               onError={() => setHasError(true)}
             />

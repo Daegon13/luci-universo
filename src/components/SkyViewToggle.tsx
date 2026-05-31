@@ -20,7 +20,7 @@ export function SkyViewToggle({ value, onChange }: SkyViewToggleProps) {
         aria-pressed={value === "earthSky"}
         className="w-full"
       >
-        Cielo desde la Tierra
+        Cielo terrestre
       </MagicButton>
       <MagicButton
         type="button"

@@ -66,7 +66,7 @@ export function SectionModal({ section, onClose, performanceMode = "balanced" }:
     <AnimatePresence>
       {section ? (
         <m.div
-          className={`fixed inset-0 z-40 flex items-end justify-center overflow-y-auto bg-[#05030c]/76 p-3 sm:items-center sm:p-4 ${isLite ? "" : "backdrop-blur-sm"}`}
+          className={`fixed inset-0 z-40 flex items-end justify-center overflow-y-auto bg-[#05030c]/76 p-2 sm:items-center sm:p-4 ${isLite ? "" : "backdrop-blur-sm"}`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -80,18 +80,18 @@ export function SectionModal({ section, onClose, performanceMode = "balanced" }:
             initial={reduceMotion || isLite ? { opacity: 0, y: 12 } : { y: 34, opacity: 0, scale: 0.965 }}
             animate={reduceMotion || isLite ? { opacity: 1, y: 0 } : { y: 0, opacity: 1, scale: 1 }}
             exit={reduceMotion || isLite ? { opacity: 0, y: 8 } : { y: 18, opacity: 0, scale: 0.985 }}
-            transition={{ duration: reduceMotion ? 0 : isLite ? 0.18 : 0.32, ease: "easeOut" }}
+            transition={{ duration: reduceMotion ? 0 : isLite ? 0.14 : 0.24, ease: "easeOut" }}
             onClick={(event) => event.stopPropagation()}
-            className={`relative max-h-[88dvh] w-full max-w-2xl overflow-hidden rounded-3xl border border-violet-200/25 bg-[#120d26]/95 text-violet-50 sm:max-h-[88vh] lg:max-w-3xl ${isLite ? "shadow-[0_0_24px_rgba(90,65,170,0.28)]" : "shadow-[0_0_55px_rgba(90,65,170,0.5),0_0_90px_rgba(251,191,36,0.08)]"}`}
+            className={`relative max-h-[92dvh] w-full max-w-2xl overflow-hidden rounded-[1.65rem] border border-violet-200/25 bg-[#120d26]/95 text-violet-50 sm:max-h-[88vh] lg:max-w-3xl ${isLite ? "shadow-[0_0_24px_rgba(90,65,170,0.28)]" : "shadow-[0_0_55px_rgba(90,65,170,0.5),0_0_90px_rgba(251,191,36,0.08)]"}`}
           >
             {!isLite ? <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_16%_0%,rgba(251,191,36,0.10),transparent_22%),radial-gradient(circle_at_88%_24%,rgba(244,114,182,0.08),transparent_26%)]" aria-hidden /> : null}
-            <div className="sticky top-0 z-20 flex items-start justify-between gap-3 border-b border-violet-100/10 bg-[#120d26]/92 p-5 backdrop-blur-sm sm:backdrop-blur-md sm:p-6">
+            <div className="sticky top-0 z-20 flex items-start justify-between gap-3 border-b border-violet-100/10 bg-[#120d26]/92 px-4 py-3.5 backdrop-blur-sm sm:p-6 sm:backdrop-blur-md">
               <p className="text-xs uppercase tracking-[0.2em] text-violet-200/80">Memoria estelar</p>
               <MagicButton type="button" variant="ghost" size="sm" onClick={onClose} aria-label="Cerrar sección" className="h-10 w-10 rounded-full px-0" performanceMode={performanceMode}>
                 <X className="h-5 w-5" />
               </MagicButton>
             </div>
-            <div className="relative max-h-[calc(88dvh-5.5rem)] overflow-y-auto px-5 pb-5 pt-4 overscroll-contain sm:px-8 sm:pb-8 sm:pt-6">
+            <div className="relative max-h-[calc(92dvh-4.5rem)] overflow-y-auto px-4 pb-8 pt-4 overscroll-contain sm:max-h-[calc(88vh-5.5rem)] sm:px-8 sm:pb-10 sm:pt-6">
               <SectionBody section={section} />
               <MagicButton type="button" variant="secondary" onClick={onClose} className="mt-6 w-full" performanceMode={performanceMode}>
                 Volver a la constelación

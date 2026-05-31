@@ -22,9 +22,19 @@ export function WeddingSection() {
         ))}
       </div>
 
-      <div className="cv-section grid gap-4 sm:grid-cols-2">
-        {weddingPhotos.map((photo) => (
-          <MagicImageFrame key={photo.id} src={photo.src} alt={photo.alt} caption={photo.caption} variant="wedding" />
+      <div className="grid gap-4 sm:grid-cols-2">
+        {weddingPhotos.map((photo, index) => (
+          <MagicImageFrame
+            key={photo.id}
+            src={photo.src}
+            alt={photo.alt}
+            caption={photo.caption}
+            variant="wedding"
+            priority={index === 0}
+            aspectRatio={index === 0 ? "aspect-[16/11]" : "aspect-[4/3]"}
+            className={index === 0 ? "sm:col-span-2" : ""}
+            sizes={index === 0 ? "(max-width: 640px) calc(100vw - 3rem), (max-width: 1024px) 82vw, 900px" : undefined}
+          />
         ))}
       </div>
     </section>
