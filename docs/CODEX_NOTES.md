@@ -47,3 +47,10 @@ No borrar assets automáticamente. Las fotos pesadas deben comprimirse manualmen
 - Para revisar el costo real de runtime y chunks en un entorno parecido a producción, usar `pnpm build` y luego `pnpm start`; `next dev` puede sentirse bastante más lento por el servidor de desarrollo.
 - Para inspeccionar bundles con Turbopack, ejecutar `pnpm analyze:turbo`. Si una versión futura de Next requiere flags extra para este comando experimental, mantener el script como punto de entrada y ajustar la configuración mínima necesaria.
 - En mobile, validar taps y scroll con el sitio servido desde `pnpm start` o desde el deploy de Vercel, no solo desde `pnpm dev`.
+
+### Performance guardrails de cierre
+
+- Las mediciones de fluidez deben hacerse con `pnpm build` + `pnpm start` o en el deploy; `pnpm dev` puede hidratar y compilar bajo demanda, por eso no representa el rendimiento real en celular.
+- Al abrir una sección modal, el fondo decorativo debe quedar en modo suave: el starfield conserva capas estáticas y glow, pero partículas/drift/bursts no esenciales se pausan hasta cerrar el modal.
+- Los chunks visuales pesados se cargan bajo demanda desde `SectionModal` y se precargan de forma ociosa solo después de entrar al universo, usando `requestIdleCallback` con fallback a `setTimeout`.
+- Mantener `content-visibility: auto` fuera de wrappers críticos de modal; usarlo solo en bloques largos ubicados debajo del contenido inicial visible, como galerías o postales pesadas.

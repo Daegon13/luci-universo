@@ -12,6 +12,7 @@ type ConstellationTimelineProps = {
   isSecretUnlocked: boolean;
   selectedSectionId?: string;
   onSelect: (section: UniverseSection) => void;
+  decorativePaused?: boolean;
 };
 
 const ACCENT_NODE_CLASS: Record<UniverseSection["accent"], string> = {
@@ -21,7 +22,7 @@ const ACCENT_NODE_CLASS: Record<UniverseSection["accent"], string> = {
   sky: "border-sky-100 bg-sky-100 shadow-[0_0_24px_rgba(186,230,253,0.82)]",
 };
 
-export function ConstellationTimeline({ sections, visitedSections, isSecretUnlocked, selectedSectionId, onSelect }: ConstellationTimelineProps) {
+export function ConstellationTimeline({ sections, visitedSections, isSecretUnlocked, selectedSectionId, onSelect, decorativePaused = false }: ConstellationTimelineProps) {
   const visitedSectionSet = useMemo(() => new Set(visitedSections), [visitedSections]);
   const nextSection = useMemo(() => sections.find((section) => !visitedSectionSet.has(section.id)), [sections, visitedSectionSet]);
 
@@ -40,6 +41,7 @@ export function ConstellationTimeline({ sections, visitedSections, isSecretUnloc
             isSecretUnlocked={isSecretUnlocked}
             isDisabled={section.importance === "secret" && !isSecretUnlocked}
             onSelect={onSelect}
+            decorativePaused={decorativePaused}
           />
         ))}
       </div>
@@ -66,7 +68,7 @@ export function ConstellationTimeline({ sections, visitedSections, isSecretUnloc
                 <span
                   className={`pointer-events-none absolute left-5 top-5 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border ${
                     disabled ? "border-violet-200/35 bg-violet-200/20 shadow-[0_0_14px_rgba(196,181,253,0.32)]" : ACCENT_NODE_CLASS[section.accent]
-                  } ${visited ? "ring-4 ring-rose-200/15" : ""} ${isNext && !disabled ? "animate-pulse" : ""}`}
+                  } ${visited ? "ring-4 ring-rose-200/15" : ""} ${isNext && !disabled && !decorativePaused ? "animate-pulse" : ""}`}
                   aria-hidden
                 />
                 <m.button

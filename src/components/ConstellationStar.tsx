@@ -13,6 +13,7 @@ type ConstellationStarProps = {
   isSecretUnlocked: boolean;
   isDisabled: boolean;
   onSelect: (section: UniverseSection) => void;
+  decorativePaused?: boolean;
 };
 
 const SIZE_CLASS: Record<UniverseSection["size"], string> = {
@@ -36,6 +37,7 @@ export const ConstellationStar = memo(function ConstellationStar({
   isSecretUnlocked,
   isDisabled,
   onSelect,
+  decorativePaused = false,
 }: ConstellationStarProps) {
   const reduceMotion = useReducedMotion();
   const isSecret = section.importance === "secret";
@@ -55,7 +57,7 @@ export const ConstellationStar = memo(function ConstellationStar({
     <m.div
       className="group absolute z-10 -translate-x-1/2 -translate-y-1/2"
       style={{ left: `${section.position.x}%`, top: `${section.position.y}%` }}
-      animate={!reduceMotion && isSelected ? { y: [0, -4, 0] } : undefined}
+      animate={!reduceMotion && !decorativePaused && isSelected ? { y: [0, -4, 0] } : undefined}
       transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
     >
       {isSecret ? (
@@ -65,8 +67,8 @@ export const ConstellationStar = memo(function ConstellationStar({
         />
       ) : null}
 
-      {isNext && !isDisabled ? <span className="pointer-events-none absolute -inset-3 animate-ping rounded-full border border-rose-200/35 motion-reduce:animate-none" aria-hidden /> : null}
-      {isSelected || (isSecret && isSecretUnlocked) ? <StarBurst active className="-inset-1" compact /> : null}
+      {isNext && !isDisabled && !decorativePaused ? <span className="pointer-events-none absolute -inset-3 animate-ping rounded-full border border-rose-200/35 motion-reduce:animate-none" aria-hidden /> : null}
+      {isSelected || (isSecret && isSecretUnlocked) ? <StarBurst active={!decorativePaused} className="-inset-1" compact /> : null}
 
       <m.button
         type="button"
@@ -77,8 +79,8 @@ export const ConstellationStar = memo(function ConstellationStar({
         aria-label={`Abrir sección ${section.fullTitle}`}
         whileHover={isDisabled || reduceMotion ? undefined : { scale: 1.08 }}
         whileTap={isDisabled || reduceMotion ? undefined : { scale: 0.94 }}
-        animate={isNext && !isDisabled && !reduceMotion ? { scale: [1, 1.045, 1] } : undefined}
-        transition={isNext && !isDisabled && !reduceMotion ? { duration: 3.4, repeat: Infinity } : undefined}
+        animate={isNext && !isDisabled && !reduceMotion && !decorativePaused ? { scale: [1, 1.045, 1] } : undefined}
+        transition={isNext && !isDisabled && !reduceMotion && !decorativePaused ? { duration: 3.4, repeat: Infinity } : undefined}
         className={`${SIZE_CLASS[section.size]} relative rounded-full border ${ACCENT_GLOW[section.accent]} transition ${starTone} ${
           isDisabled ? "cursor-not-allowed opacity-65" : "cursor-pointer active:brightness-125"
         } ${isSelected ? "ring-4 ring-amber-100/25" : ""} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-200 focus-visible:ring-offset-2 focus-visible:ring-offset-[#080512]`}

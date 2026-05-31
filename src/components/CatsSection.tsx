@@ -6,7 +6,7 @@ import { MagicImageFrame } from "@/components/MagicImageFrame";
 
 export function CatsSection() {
   return (
-    <section className="cv-section space-y-6">
+    <section className="space-y-6">
       <header>
         <p className="text-xs uppercase tracking-[0.2em] text-sky-100/80">Constelación familiar</p>
         <h3 className="mt-2 text-2xl font-semibold text-white sm:text-3xl">Las Cinco Guardianas</h3>
@@ -16,7 +16,7 @@ export function CatsSection() {
         </p>
       </header>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="cv-section grid gap-4 sm:grid-cols-2">
         {catGuardians.map((cat, index) => (
           <m.article
             key={cat.id}

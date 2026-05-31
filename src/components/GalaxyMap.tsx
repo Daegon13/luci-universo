@@ -33,7 +33,11 @@ function getStoredVisitedSections() {
   }
 }
 
-export function GalaxyMap() {
+type GalaxyMapProps = {
+  onModalOpenChange?: (isOpen: boolean) => void;
+};
+
+export function GalaxyMap({ onModalOpenChange }: GalaxyMapProps) {
   const [selectedSection, setSelectedSection] = useState<UniverseSection | null>(null);
   const [visitedSections, setVisitedSections] = useState<string[]>(getStoredVisitedSections);
   const [showUnlockMessage, setShowUnlockMessage] = useState(false);
@@ -60,6 +64,14 @@ export function GalaxyMap() {
     return () => window.clearTimeout(timeout);
   }, [isSecretUnlocked]);
 
+  useEffect(() => {
+    onModalOpenChange?.(selectedSection !== null);
+  }, [onModalOpenChange, selectedSection]);
+
+  useEffect(() => () => onModalOpenChange?.(false), [onModalOpenChange]);
+
+  const isDecorativePaused = selectedSection !== null;
+
   const handleSelectSection = useCallback(
     (section: UniverseSection, options?: { bypassLock?: boolean }) => {
       if (section.id === SECRET_CENTER_ID && !isSecretUnlocked && !options?.bypassLock) return;
@@ -73,7 +85,7 @@ export function GalaxyMap() {
   return (
     <section className="relative z-10 mx-auto w-full max-w-6xl rounded-[2rem] border border-violet-100/15 bg-[#0b0718]/24 p-4 shadow-[0_0_55px_rgba(121,82,212,0.24)] backdrop-blur-[6px] sm:p-7 md:p-8 lg:p-10">
       <div className="pointer-events-none absolute inset-0 rounded-[2rem] bg-[radial-gradient(circle_at_20%_15%,rgba(167,139,250,0.07),transparent_46%),radial-gradient(circle_at_82%_78%,rgba(251,191,180,0.055),transparent_52%)]" />
-      {isSecretUnlocked ? <StarBurst active className="right-12 top-12 h-16 w-16" /> : null}
+      {isSecretUnlocked ? <StarBurst active={!isDecorativePaused} className="right-12 top-12 h-16 w-16" /> : null}
       <p className="relative text-xs uppercase tracking-[0.2em] text-violet-200/85">Nuestro universo</p>
       <h2 className="relative mt-2 text-2xl font-semibold text-white sm:text-3xl md:text-4xl">Recorré la constelación del tiempo</h2>
       <p className="relative mt-3 max-w-2xl text-sm text-violet-100/85 sm:text-base">
@@ -105,6 +117,7 @@ export function GalaxyMap() {
         isSecretUnlocked={isSecretUnlocked}
         selectedSectionId={selectedSection?.id}
         onSelect={handleSelectSection}
+        decorativePaused={isDecorativePaused}
       />
 
       {!isSecretUnlocked ? (

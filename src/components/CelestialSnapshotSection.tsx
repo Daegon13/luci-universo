@@ -22,7 +22,7 @@ export function CelestialSnapshotSection({ initialEventId }: CelestialSnapshotSe
   const selectedImage = selectedEvent.views[selectedView];
 
   return (
-    <section className="cv-section">
+    <section>
       <p className="mt-2 text-xs uppercase tracking-[0.22em] text-violet-200/80">Observatorio místico</p>
       <h3 className="mt-3 text-2xl font-semibold sm:text-3xl">Postales celestiales de nuestra historia</h3>
       <p className="mt-4 text-sm leading-relaxed text-violet-100/90 sm:text-base">
@@ -51,8 +51,10 @@ export function CelestialSnapshotSection({ initialEventId }: CelestialSnapshotSe
         <SkyViewToggle value={selectedView} onChange={setSelectedView} />
       </div>
 
-      <SolarSystemPostcard image={selectedImage.image} alt={selectedImage.alt} title={selectedEvent.title} />
-      <SkyEventCard event={selectedEvent} />
+      <div className="cv-section">
+        <SolarSystemPostcard image={selectedImage.image} alt={selectedImage.alt} title={selectedEvent.title} />
+        <SkyEventCard event={selectedEvent} />
+      </div>
     </section>
   );
 }

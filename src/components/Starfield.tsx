@@ -4,6 +4,7 @@ import { memo, useEffect, useState } from "react";
 import { m, useReducedMotion } from "framer-motion";
 import { AmbientParticles } from "@/components/AmbientParticles";
 import { NebulaGlow } from "@/components/NebulaGlow";
+import { usePageVisibility } from "@/hooks/usePageVisibility";
 
 type StarLayer = "far" | "mid" | "hero";
 
@@ -117,29 +118,31 @@ function DriftingStarLayer({
   drift,
   blur,
   reduceMotion,
+  paused,
 }: {
   stars: Star[];
   drift: [string, string, string];
   blur?: string;
   reduceMotion: boolean;
+  paused: boolean;
 }) {
   return (
     <m.div
       className="pointer-events-none absolute inset-0 will-change-transform"
-      animate={reduceMotion ? { y: "0%" } : { y: drift }}
-      transition={reduceMotion ? { duration: 0 } : { duration: 54, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+      animate={reduceMotion || paused ? { y: "0%" } : { y: drift }}
+      transition={reduceMotion || paused ? { duration: 0 } : { duration: 54, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
     >
       <StaticStarLayer stars={stars} blur={blur} />
     </m.div>
   );
 }
 
-function HeroStarLayer({ stars, drift, reduceMotion }: { stars: Star[]; drift: [string, string, string]; reduceMotion: boolean }) {
+function HeroStarLayer({ stars, drift, reduceMotion, paused }: { stars: Star[]; drift: [string, string, string]; reduceMotion: boolean; paused: boolean }) {
   return (
     <m.div
       className="pointer-events-none absolute inset-0 will-change-transform"
-      animate={reduceMotion ? { y: "0%" } : { y: drift }}
-      transition={reduceMotion ? { duration: 0 } : { duration: 46, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+      animate={reduceMotion || paused ? { y: "0%" } : { y: drift }}
+      transition={reduceMotion || paused ? { duration: 0 } : { duration: 46, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
     >
       {stars.map((star) => (
         <m.span
@@ -147,12 +150,12 @@ function HeroStarLayer({ stars, drift, reduceMotion }: { stars: Star[]; drift: [
           className={`pointer-events-none absolute rounded-full shadow-[0_0_22px_rgba(255,235,220,0.62)] ${STAR_TONE_CLASSES[star.hue]}`}
           style={{ width: star.size, height: star.size, top: star.top, left: star.left, opacity: star.opacity }}
           animate={
-            reduceMotion
+            reduceMotion || paused
               ? { opacity: star.opacity, scale: 1 }
               : { opacity: [star.opacity * 0.58, star.opacity, star.opacity * 0.7], scale: [1, 1.22, 1] }
           }
           transition={
-            reduceMotion
+            reduceMotion || paused
               ? { duration: 0 }
               : { duration: star.duration + 1.6, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: star.delay }
           }
@@ -162,28 +165,30 @@ function HeroStarLayer({ stars, drift, reduceMotion }: { stars: Star[]; drift: [
   );
 }
 
-export function Starfield() {
+export function Starfield({ paused = false }: { paused?: boolean }) {
   const reduceMotion = useReducedMotion() ?? false;
+  const isPageVisible = usePageVisibility();
   const isMobile = useMobileStarfield();
   const stars = isMobile ? mobileStars : desktopStars;
-  const firstParticleAmount = reduceMotion ? 0 : isMobile ? 4 : 20;
-  const secondParticleAmount = reduceMotion || isMobile ? 0 : 10;
+  const decorativePaused = paused || !isPageVisible;
+  const firstParticleAmount = reduceMotion || decorativePaused ? 0 : isMobile ? 4 : 20;
+  const secondParticleAmount = reduceMotion || decorativePaused || isMobile ? 0 : 10;
 
   return (
     <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden" aria-hidden>
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,_rgba(73,55,148,0.92)_0%,_rgba(25,18,57,0.9)_30%,_rgba(7,5,18,0.98)_70%,_#03020a_100%)]" />
       <NebulaGlow />
 
-      <AmbientParticles amount={firstParticleAmount} seedOffset={0} compact={isMobile} />
-      <AmbientParticles amount={secondParticleAmount} seedOffset={260} />
+      <AmbientParticles amount={firstParticleAmount} seedOffset={0} compact={isMobile} paused={decorativePaused} />
+      <AmbientParticles amount={secondParticleAmount} seedOffset={260} paused={decorativePaused} />
 
       <StaticStarLayer stars={stars.far} blur="blur-[0.1px]" />
       {isMobile || reduceMotion ? (
         <StaticStarLayer stars={stars.mid} />
       ) : (
-        <DriftingStarLayer stars={stars.mid} drift={["0%", "0.45%", "-0.2%"]} reduceMotion={reduceMotion} />
+        <DriftingStarLayer stars={stars.mid} drift={["0%", "0.45%", "-0.2%"]} reduceMotion={reduceMotion} paused={decorativePaused} />
       )}
-      <HeroStarLayer stars={stars.hero} drift={isMobile ? ["0%", "0.18%", "0%"] : ["0.5%", "0%", "-0.5%"]} reduceMotion={reduceMotion} />
+      <HeroStarLayer stars={stars.hero} drift={isMobile ? ["0%", "0.18%", "0%"] : ["0.5%", "0%", "-0.5%"]} reduceMotion={reduceMotion} paused={decorativePaused} />
     </div>
   );
 }

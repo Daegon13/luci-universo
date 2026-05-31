@@ -5,7 +5,7 @@ import { MagicImageFrame } from "@/components/MagicImageFrame";
 
 export function WeddingSection() {
   return (
-    <section className="cv-section space-y-6">
+    <section className="space-y-6">
       <p className="text-xs uppercase tracking-[0.2em] text-rose-100/85">Boda y memoria</p>
       <h3 className="text-2xl font-semibold text-white sm:text-3xl">El Día que Elegimos Ser Hogar</h3>
       <p className="leading-relaxed text-violet-100/90">
@@ -23,7 +23,7 @@ export function WeddingSection() {
         ))}
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="cv-section grid gap-4 sm:grid-cols-2">
         {weddingPhotos.map((photo) => (
           <MagicImageFrame key={photo.id} src={photo.src} alt={photo.alt} caption={photo.caption} variant="wedding" />
         ))}

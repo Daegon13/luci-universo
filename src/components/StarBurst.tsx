@@ -2,6 +2,7 @@
 
 import { memo, useEffect, useState } from "react";
 import { m, useReducedMotion } from "framer-motion";
+import { usePageVisibility } from "@/hooks/usePageVisibility";
 
 type StarBurstProps = {
   active?: boolean;
@@ -37,10 +38,11 @@ function useCompactBurst(explicitCompact: boolean) {
 
 export const StarBurst = memo(function StarBurst({ active = true, className = "", compact = false }: StarBurstProps) {
   const reduceMotion = useReducedMotion();
+  const isPageVisible = usePageVisibility();
   const isCompact = useCompactBurst(compact);
   const particles = isCompact ? PARTICLES.slice(0, 3) : PARTICLES;
 
-  if (!active || reduceMotion) return null;
+  if (!active || reduceMotion || !isPageVisible) return null;
 
   return (
     <span className={`pointer-events-none absolute inset-0 ${className}`} aria-hidden>

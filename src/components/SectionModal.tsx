@@ -88,7 +88,7 @@ export function SectionModal({ section, onClose }: SectionModalProps) {
                 <X className="h-5 w-5" />
               </MagicButton>
             </div>
-            <div className="cv-auto relative max-h-[calc(88dvh-5.5rem)] overflow-y-auto px-5 pb-5 pt-4 overscroll-contain sm:px-8 sm:pb-8 sm:pt-6">
+            <div className="relative max-h-[calc(88dvh-5.5rem)] overflow-y-auto px-5 pb-5 pt-4 overscroll-contain sm:px-8 sm:pb-8 sm:pt-6">
               <SectionBody section={section} />
               <MagicButton type="button" variant="secondary" onClick={onClose} className="mt-6 w-full">
                 Seguir recorriendo el universo

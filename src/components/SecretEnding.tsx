@@ -9,7 +9,7 @@ export function SecretEnding() {
   const reduceMotion = useReducedMotion();
 
   return (
-    <div className="cv-section relative overflow-hidden rounded-3xl border border-amber-100/20 bg-amber-100/[0.025] p-4 sm:p-5">
+    <div className="relative overflow-hidden rounded-3xl border border-amber-100/20 bg-amber-100/[0.025] p-4 sm:p-5">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_12%,rgba(251,191,36,0.14),transparent_28%),radial-gradient(circle_at_50%_78%,rgba(244,114,182,0.10),transparent_38%)]" aria-hidden />
       <StarBurst active compact className="left-1/2 top-14 h-12 w-12 -translate-x-1/2" />
       {!reduceMotion
