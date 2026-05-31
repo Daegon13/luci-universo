@@ -64,15 +64,15 @@ export function EntryGate({ onEnter }: { onEnter: () => void }) {
       initial={false}
       animate={{ opacity: isOpening ? 0.92 : 1, y: 0, scale: isOpening ? 0.985 : 1 }}
       transition={{ duration: 0.45 }}
-      className="pointer-events-auto relative z-20 mx-auto w-full max-w-xl rounded-3xl border border-white/15 bg-[#120d26]/80 p-6 shadow-[0_0_50px_rgba(107,65,188,0.35)] backdrop-blur-md sm:p-10"
+      className="pointer-events-auto relative z-20 mx-auto w-full max-w-lg rounded-3xl border border-white/15 bg-[#120d26]/84 p-5 shadow-[0_0_34px_rgba(107,65,188,0.26)] backdrop-blur-md sm:max-w-xl sm:p-9"
     >
-      <p className="text-sm uppercase tracking-[0.24em] text-rose-200/85">La Puerta Estelar</p>
-      <h1 className="mt-3 text-3xl font-semibold leading-tight text-white sm:text-4xl">Luci: Mi Sol, Mi Luna y Mis Estrellas</h1>
-      <p className="mt-4 text-base leading-relaxed text-violet-100/90 sm:text-lg">
+      <p className="text-xs uppercase tracking-[0.22em] text-rose-200/85 sm:text-sm">La Puerta Estelar</p>
+      <h1 className="mt-3 text-[1.7rem] font-semibold leading-tight text-white sm:text-4xl">Luci: Mi Sol, Mi Luna y Mis Estrellas</h1>
+      <p className="mt-3 text-sm leading-relaxed text-violet-100/90 sm:mt-4 sm:text-lg">
         Luci Jennifer Mayada Aragonés, antes de entrar quiero que sepas algo: este universo nació de todo lo que amo de vos.
       </p>
 
-      <form onSubmit={handleSubmit} className="pointer-events-auto relative z-10 mt-8 space-y-4">
+      <form onSubmit={handleSubmit} className="pointer-events-auto relative z-10 mt-6 space-y-3 sm:mt-8 sm:space-y-4">
         <label htmlFor="symbolic-key" className="text-sm text-violet-100/90">
           Escribí la frase que abre este universo.
         </label>
@@ -88,7 +88,7 @@ export function EntryGate({ onEnter }: { onEnter: () => void }) {
           autoCorrect="off"
           spellCheck={false}
           enterKeyHint="go"
-          className="w-full rounded-2xl border border-violet-200/30 bg-violet-950/70 px-4 py-3 text-white placeholder:text-violet-300/70 focus:border-rose-200/70 focus:outline-none focus:ring-2 focus:ring-rose-300/35"
+          className="w-full rounded-2xl border border-violet-200/30 bg-violet-950/70 px-4 py-3.5 text-base text-white placeholder:text-violet-300/70 focus:border-rose-200/70 focus:outline-none focus:ring-2 focus:ring-rose-300/35"
         />
         {error ? <p className="text-sm text-rose-200">{error}</p> : null}
 
