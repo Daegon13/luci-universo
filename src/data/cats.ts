@@ -16,7 +16,7 @@ export const catGuardians: CatGuardian[] = [
     shortDescription: "La primera mirada que recuerda que el amor también es calma en casa.",
     extendedDescription:
       "Loli cuida los silencios donde Diego y Luci se vuelven refugio. Cuando todo va rápido, su presencia devuelve el ritmo tierno de hogar.",
-    imageSrc: "/images/cats/loli.jpg",
+    imageSrc: "/images/cats/loli.webp",
     imageAlt: "Loli, guardiana del vínculo sagrado",
   },
   {
@@ -26,7 +26,7 @@ export const catGuardians: CatGuardian[] = [
     shortDescription: "Una luz suave que enseña que la ternura también puede ser fortaleza.",
     extendedDescription:
       "Minna representa la paciencia amorosa: esa forma de cuidarse entre risas, café y abrazos largos cuando el día pesa.",
-    imageSrc: "/images/cats/minna.jpg",
+    imageSrc: "/images/cats/minna.webp",
     imageAlt: "Minna, guardiana de la dulzura serena",
   },
   {
@@ -36,7 +36,7 @@ export const catGuardians: CatGuardian[] = [
     shortDescription: "Su energía brillante convierte cualquier rincón en celebración.",
     extendedDescription:
       "Daphne recuerda que el amor también juega. Es la chispa que mantiene viva la alegría cotidiana y el humor íntimo del universo de los dos.",
-    imageSrc: "/images/cats/daphne.jpg",
+    imageSrc: "/images/cats/daphne.webp",
     imageAlt: "Daphne, guardiana solar de la alegría",
   },
   {
@@ -46,7 +46,7 @@ export const catGuardians: CatGuardian[] = [
     shortDescription: "Una órbita libre, elegante y enigmática que protege lo sagrado.",
     extendedDescription:
       "Norah custodia lo que no necesita explicación: la intuición, la magia y los pequeños milagros que solo Diego y Luci entienden.",
-    imageSrc: "/images/cats/norah.jpg",
+    imageSrc: "/images/cats/norah.webp",
     imageAlt: "Norah, guardiana salvaje del misterio",
   },
   {
@@ -56,7 +56,7 @@ export const catGuardians: CatGuardian[] = [
     shortDescription: "Mirada profunda, corazón firme y lealtad de estrella eterna.",
     extendedDescription:
       "Sofi simboliza resiliencia: la fuerza tranquila de seguir adelante juntos, incluso cuando la vida exige coraje y constancia.",
-    imageSrc: "/images/cats/sofi.jpg",
+    imageSrc: "/images/cats/sofi.webp",
     imageAlt: "Sofi, guardiana negra de la inteligencia y la resistencia",
   },
 ];

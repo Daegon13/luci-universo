@@ -30,25 +30,25 @@ export const weddingEvents: WeddingEvent[] = [
 export const weddingPhotos: WeddingPhoto[] = [
   {
     id: "wedding-1",
-    src: "/images/wedding/wedding-1.jpg",
+    src: "/images/wedding/wedding-1.webp",
     alt: "Recuerdo de boda de Diego y Luci",
     caption: "Este lugar espera una foto real de ese día inolvidable.",
   },
   {
     id: "wedding-2",
-    src: "/images/wedding/wedding-2.jpg",
+    src: "/images/wedding/wedding-2.webp",
     alt: "Momento especial de la boda civil",
     caption: "Acá vivirá uno de los momentos que eligieron como hogar.",
   },
   {
     id: "wedding-3",
-    src: "/images/wedding/wedding-3.jpg",
+    src: "/images/wedding/wedding-3.webp",
     alt: "Sonrisa y complicidad durante la boda",
     caption: "Un espacio para la foto que mejor cuente su complicidad.",
   },
   {
     id: "wedding-4",
-    src: "/images/wedding/wedding-4.jpg",
+    src: "/images/wedding/wedding-4.webp",
     alt: "Abrazo de boda",
     caption: "Otra estrella reservada para su galería de recuerdos reales.",
   },

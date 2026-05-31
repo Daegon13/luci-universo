@@ -707,7 +707,7 @@ export const cats = [
     id: "loli",
     name: "Loli",
     title: "Guardiana del Vínculo Sagrado",
-    image: "/images/cats/loli.jpg",
+    image: "/images/cats/loli.webp",
     short: "Arisca con el mundo, profundamente unida a Luci.",
     description:
       "Loli no entrega su confianza fácilmente. Por eso, cuando elige amar, ese amor vale como un juramento antiguo. Con Luci tiene una conexión que parece venir de otro lugar, como si la reconociera desde antes."
@@ -716,7 +716,7 @@ export const cats = [
     id: "minna",
     name: "Minna",
     title: "Guardiana de la Dulzura Serena",
-    image: "/images/cats/minna.jpg",
+    image: "/images/cats/minna.webp",
     short: "Una dama hecha gatita, suave, pacífica y un poco cometa cuando se aloca.",
     description:
       "Minna es una dama con bigotes, una ternura suave envuelta en misterio doméstico. Parece tranquila, hasta que el universo le aprieta el botón de locura y sale corriendo como cometa sin control."
@@ -725,7 +725,7 @@ export const cats = [
     id: "daphne",
     name: "Daphne",
     title: "Guardiana Solar de la Alegría",
-    image: "/images/cats/daphne.jpg",
+    image: "/images/cats/daphne.webp",
     short: "Un golden retriever hecho gata, grande, luminosa y llena de energía.",
     description:
       "Daphne llegó al mundo con alma de sol y energía de golden retriever disfrazado de gata. Grande, luminosa y exagerada como todo lo que trae alegría verdadera."
@@ -734,7 +734,7 @@ export const cats = [
     id: "norah",
     name: "Norah",
     title: "Guardiana Salvaje del Misterio",
-    image: "/images/cats/norah.jpg",
+    image: "/images/cats/norah.webp",
     short: "Pequeña, salvaje, escurridiza y mimosa cuando confía.",
     description:
       "Norah es pequeña, salvaje y llena de ojos enormes que parecen verlo todo. No se entrega a cualquiera, pero cuando confía, aparece esa ternura secreta que solo conocen quienes tuvieron paciencia para llegar a su mundo."
@@ -743,7 +743,7 @@ export const cats = [
     id: "sofi",
     name: "Sofi",
     title: "Guardiana Negra de la Inteligencia y la Resistencia",
-    image: "/images/cats/sofi.jpg",
+    image: "/images/cats/sofi.webp",
     short: "Pequeña, brillante, fuerte y profundamente conectada a Diego y Luci.",
     description:
       "Sofi es pequeña solo por fuera. Por dentro es una guerrera negra, inteligente, sensible y profundamente conectada a ustedes. Aprendió a responder, a confiar, a luchar y a seguir. Hay almas que no necesitan ser grandes para ser inmensas."
