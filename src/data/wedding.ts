@@ -12,7 +12,6 @@ export type WeddingPhoto = {
   caption: string;
 };
 
-// TODO(content): confirmar con Diego el año y el significado exacto de cada fecha antes de mostrar detalles adicionales.
 export const weddingEvents: WeddingEvent[] = [
   {
     id: "april-3",
