@@ -3,6 +3,7 @@
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 import { useReducedMotion } from "framer-motion";
 import { MagicLoading } from "@/components/MagicLoading";
+import type { PerformanceMode } from "@/hooks/usePerformanceMode";
 
 type MagicButtonProps = Omit<ComponentPropsWithoutRef<"button">, "disabled"> & {
   children: ReactNode;
@@ -12,6 +13,7 @@ type MagicButtonProps = Omit<ComponentPropsWithoutRef<"button">, "disabled"> & {
   icon?: ReactNode;
   disabled?: boolean;
   loadingLabel?: string;
+  performanceMode?: PerformanceMode;
 };
 
 const VARIANT_CLASS = {
@@ -42,10 +44,12 @@ export function MagicButton({
   className = "",
   onClick,
   type = "button",
+  performanceMode = "balanced",
   ...props
 }: MagicButtonProps) {
   const reduceMotion = useReducedMotion();
   const isUnavailable = disabled || loading;
+  const isLite = performanceMode === "lite";
   return (
     <button
       type={type}
@@ -58,13 +62,17 @@ export function MagicButton({
         }
         onClick?.(event);
       }}
-      className={`group relative inline-flex touch-manipulation select-none items-center justify-center gap-2 overflow-hidden rounded-2xl border font-semibold transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-200 focus-visible:ring-offset-2 focus-visible:ring-offset-[#080512] ${!isUnavailable && !reduceMotion ? "hover:scale-[1.018] active:scale-[0.97]" : ""} ${VARIANT_CLASS[variant]} ${SIZE_CLASS[size]} ${isUnavailable ? "cursor-not-allowed opacity-62" : "cursor-pointer"} ${className}`}
+      className={`group relative inline-flex touch-manipulation select-none items-center justify-center gap-2 overflow-hidden rounded-2xl border font-semibold transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-200 focus-visible:ring-offset-2 focus-visible:ring-offset-[#080512] ${!isUnavailable && !reduceMotion && !isLite ? "hover:scale-[1.018] active:scale-[0.97]" : !isUnavailable ? "active:scale-[0.99]" : ""} ${VARIANT_CLASS[variant]} ${SIZE_CLASS[size]} ${isUnavailable ? "cursor-not-allowed opacity-62" : "cursor-pointer"} ${className}`}
       {...props}
     >
-      <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(255,255,255,0.18),transparent_28%),linear-gradient(110deg,transparent_20%,rgba(255,255,255,0.16)_42%,transparent_58%)] opacity-0 transition duration-500 group-hover:opacity-100 motion-reduce:hidden" aria-hidden />
-      <span className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 bg-gradient-to-r from-transparent via-white/18 to-transparent opacity-0 group-hover:animate-[mystic-shimmer_1.8s_ease-in-out_1] group-hover:opacity-100 motion-reduce:hidden" aria-hidden />
+      {!isLite ? (
+        <>
+          <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(255,255,255,0.18),transparent_28%),linear-gradient(110deg,transparent_20%,rgba(255,255,255,0.16)_42%,transparent_58%)] opacity-0 transition duration-500 group-hover:opacity-100 motion-reduce:hidden" aria-hidden />
+          <span className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 bg-gradient-to-r from-transparent via-white/18 to-transparent opacity-0 group-hover:animate-[mystic-shimmer_1.8s_ease-in-out_1] group-hover:opacity-100 motion-reduce:hidden" aria-hidden />
+        </>
+      ) : null}
       {loading ? (
-        <MagicLoading label={loadingLabel} size="sm" variant="portal" className="relative [&>span:last-child]:text-current" />
+        <MagicLoading label={loadingLabel} size="sm" variant="portal" className="relative [&>span:last-child]:text-current" performanceMode={performanceMode} />
       ) : (
         <span className="relative inline-flex items-center justify-center gap-2">
           {icon ? <span className="shrink-0" aria-hidden>{icon}</span> : null}

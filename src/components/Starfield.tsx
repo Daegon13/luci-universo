@@ -1,10 +1,11 @@
 "use client";
 
-import { memo, useEffect, useState } from "react";
+import { memo } from "react";
 import { m, useReducedMotion } from "framer-motion";
 import { AmbientParticles } from "@/components/AmbientParticles";
 import { NebulaGlow } from "@/components/NebulaGlow";
 import { usePageVisibility } from "@/hooks/usePageVisibility";
+import type { PerformanceMode } from "@/hooks/usePerformanceMode";
 
 type StarLayer = "far" | "mid" | "hero";
 
@@ -26,10 +27,16 @@ const DESKTOP_STAR_COUNTS: Record<StarLayer, number> = {
   hero: 22,
 };
 
-const MOBILE_STAR_COUNTS: Record<StarLayer, number> = {
-  far: 64,
-  mid: 16,
-  hero: 6,
+const BALANCED_STAR_COUNTS: Record<StarLayer, number> = {
+  far: 72,
+  mid: 18,
+  hero: 7,
+};
+
+const LITE_STAR_COUNTS: Record<StarLayer, number> = {
+  far: 42,
+  mid: 8,
+  hero: 3,
 };
 
 function seededValue(index: number, salt: number) {
@@ -72,10 +79,16 @@ const desktopStars = {
   hero: createStars("hero", 1000, DESKTOP_STAR_COUNTS),
 };
 
-const mobileStars = {
-  far: createStars("far", 0, MOBILE_STAR_COUNTS),
-  mid: createStars("mid", 500, MOBILE_STAR_COUNTS),
-  hero: createStars("hero", 1000, MOBILE_STAR_COUNTS),
+const balancedStars = {
+  far: createStars("far", 0, BALANCED_STAR_COUNTS),
+  mid: createStars("mid", 500, BALANCED_STAR_COUNTS),
+  hero: createStars("hero", 1000, BALANCED_STAR_COUNTS),
+};
+
+const liteStars = {
+  far: createStars("far", 0, LITE_STAR_COUNTS),
+  mid: createStars("mid", 500, LITE_STAR_COUNTS),
+  hero: createStars("hero", 1000, LITE_STAR_COUNTS),
 };
 
 const STAR_TONE_CLASSES: Record<Star["hue"], string> = {
@@ -83,21 +96,6 @@ const STAR_TONE_CLASSES: Record<Star["hue"], string> = {
   gold: "bg-amber-100",
   rose: "bg-rose-100",
 };
-
-function useMobileStarfield() {
-  const [isMobile, setIsMobile] = useState(true);
-
-  useEffect(() => {
-    const query = window.matchMedia("(max-width: 639px)");
-    const update = () => setIsMobile(query.matches);
-
-    update();
-    query.addEventListener("change", update);
-    return () => query.removeEventListener("change", update);
-  }, []);
-
-  return isMobile;
-}
 
 const StaticStarLayer = memo(function StaticStarLayer({ stars, blur }: { stars: Star[]; blur?: string }) {
   return (
@@ -137,7 +135,21 @@ function DriftingStarLayer({
   );
 }
 
-function HeroStarLayer({ stars, drift, reduceMotion, paused }: { stars: Star[]; drift: [string, string, string]; reduceMotion: boolean; paused: boolean }) {
+function HeroStarLayer({
+  stars,
+  drift,
+  reduceMotion,
+  paused,
+  twinkle = true,
+  softGlow = false,
+}: {
+  stars: Star[];
+  drift: [string, string, string];
+  reduceMotion: boolean;
+  paused: boolean;
+  twinkle?: boolean;
+  softGlow?: boolean;
+}) {
   return (
     <m.div
       className="pointer-events-none absolute inset-0 will-change-transform"
@@ -147,15 +159,15 @@ function HeroStarLayer({ stars, drift, reduceMotion, paused }: { stars: Star[]; 
       {stars.map((star) => (
         <m.span
           key={star.id}
-          className={`pointer-events-none absolute rounded-full shadow-[0_0_22px_rgba(255,235,220,0.62)] ${STAR_TONE_CLASSES[star.hue]}`}
+          className={`pointer-events-none absolute rounded-full ${softGlow ? "shadow-[0_0_10px_rgba(255,235,220,0.32)]" : "shadow-[0_0_22px_rgba(255,235,220,0.62)]"} ${STAR_TONE_CLASSES[star.hue]}`}
           style={{ width: star.size, height: star.size, top: star.top, left: star.left, opacity: star.opacity }}
           animate={
-            reduceMotion || paused
+            reduceMotion || paused || !twinkle
               ? { opacity: star.opacity, scale: 1 }
               : { opacity: [star.opacity * 0.58, star.opacity, star.opacity * 0.7], scale: [1, 1.22, 1] }
           }
           transition={
-            reduceMotion || paused
+            reduceMotion || paused || !twinkle
               ? { duration: 0 }
               : { duration: star.duration + 1.6, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: star.delay }
           }
@@ -165,30 +177,38 @@ function HeroStarLayer({ stars, drift, reduceMotion, paused }: { stars: Star[]; 
   );
 }
 
-export function Starfield({ paused = false }: { paused?: boolean }) {
+export function Starfield({ paused = false, performanceMode = "balanced" }: { paused?: boolean; performanceMode?: PerformanceMode }) {
   const reduceMotion = useReducedMotion() ?? false;
   const isPageVisible = usePageVisibility();
-  const isMobile = useMobileStarfield();
-  const stars = isMobile ? mobileStars : desktopStars;
-  const decorativePaused = paused || !isPageVisible;
-  const firstParticleAmount = reduceMotion || decorativePaused ? 0 : isMobile ? 4 : 20;
-  const secondParticleAmount = reduceMotion || decorativePaused || isMobile ? 0 : 10;
+  const stars = performanceMode === "full" ? desktopStars : performanceMode === "balanced" ? balancedStars : liteStars;
+  const decorativePaused = paused || !isPageVisible || performanceMode === "lite";
+  const isLite = performanceMode === "lite" || reduceMotion;
+  const isBalanced = performanceMode === "balanced";
+  const firstParticleAmount = reduceMotion || paused || !isPageVisible || isLite ? 0 : isBalanced ? 3 : 20;
+  const secondParticleAmount = reduceMotion || paused || !isPageVisible || performanceMode !== "full" ? 0 : 10;
 
   return (
     <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden" aria-hidden>
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,_rgba(73,55,148,0.92)_0%,_rgba(25,18,57,0.9)_30%,_rgba(7,5,18,0.98)_70%,_#03020a_100%)]" />
-      <NebulaGlow />
+      <NebulaGlow performanceMode={performanceMode} />
 
-      <AmbientParticles amount={firstParticleAmount} seedOffset={0} compact={isMobile} paused={decorativePaused} />
+      <AmbientParticles amount={firstParticleAmount} seedOffset={0} compact={performanceMode !== "full"} paused={decorativePaused} />
       <AmbientParticles amount={secondParticleAmount} seedOffset={260} paused={decorativePaused} />
 
       <StaticStarLayer stars={stars.far} blur="blur-[0.1px]" />
-      {isMobile || reduceMotion ? (
+      {performanceMode !== "full" || reduceMotion ? (
         <StaticStarLayer stars={stars.mid} />
       ) : (
         <DriftingStarLayer stars={stars.mid} drift={["0%", "0.45%", "-0.2%"]} reduceMotion={reduceMotion} paused={decorativePaused} />
       )}
-      <HeroStarLayer stars={stars.hero} drift={isMobile ? ["0%", "0.18%", "0%"] : ["0.5%", "0%", "-0.5%"]} reduceMotion={reduceMotion} paused={decorativePaused} />
+      <HeroStarLayer
+        stars={stars.hero}
+        drift={performanceMode === "full" ? ["0.5%", "0%", "-0.5%"] : ["0%", "0.12%", "0%"]}
+        reduceMotion={reduceMotion}
+        paused={decorativePaused}
+        twinkle={performanceMode !== "lite"}
+        softGlow={performanceMode !== "full"}
+      />
     </div>
   );
 }
