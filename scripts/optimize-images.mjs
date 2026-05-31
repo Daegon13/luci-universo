@@ -3,72 +3,104 @@ import fs from "fs/promises";
 import path from "path";
 
 const jobs = [
-  {
-    inputDir: "public/images/wedding",
-    outputDir: "public/images/wedding",
-    width: 1600,
-    quality: 80,
-  },
-  {
-    inputDir: "public/images/cats",
-    outputDir: "public/images/cats",
-    width: 1200,
-    quality: 80,
-  },
-  {
-    inputDir: "public/images/couple",
-    outputDir: "public/images/couple",
-    width: 1400,
-    quality: 80,
-  },
-  {
-    inputDir: "public/images/memories",
-    outputDir: "public/images/memories",
-    width: 1400,
-    quality: 80,
-  },
-  {
-    inputDir: "public/images/sky",
-    outputDir: "public/images/sky",
-    width: 1600,
-    quality: 82,
-  },
+  { dir: "public/images/wedding", width: 1600, quality: 80 },
+  { dir: "public/images/cats", width: 1200, quality: 80 },
+  { dir: "public/images/couple", width: 1400, quality: 80 },
+  { dir: "public/images/memories", width: 1400, quality: 80 },
+  { dir: "public/images/sky", width: 1600, quality: 82 },
 ];
 
-const validExtensions = [".jpg", ".jpeg", ".png", ".JPG", ".JPEG", ".PNG"];
+const validExtensions = new Set([".jpg", ".jpeg", ".png", ".webp"]);
 
-async function optimizeFolder(job) {
+async function exists(filePath) {
   try {
-    const files = await fs.readdir(job.inputDir);
+    await fs.access(filePath);
+    return true;
+  } catch {
+    return false;
+  }
+}
 
-    for (const file of files) {
-      const ext = path.extname(file);
+async function walk(dir) {
+  try {
+    const entries = await fs.readdir(dir, { withFileTypes: true });
+    const files = [];
 
-      if (!validExtensions.includes(ext)) continue;
+    for (const entry of entries) {
+      const fullPath = path.join(dir, entry.name);
 
-      const inputPath = path.join(job.inputDir, file);
-      const outputName = `${path.basename(file, ext).toLowerCase()}.webp`;
-      const outputPath = path.join(job.outputDir, outputName);
+      if (entry.isDirectory()) {
+        files.push(...(await walk(fullPath)));
+      } else {
+        files.push(fullPath);
+      }
+    }
+
+    return files;
+  } catch {
+    return [];
+  }
+}
+
+async function optimizeJob({ dir, width, quality }) {
+  const files = await walk(dir);
+  const processedOutputs = new Set();
+
+  for (const inputPath of files) {
+    const ext = path.extname(inputPath).toLowerCase();
+
+    if (!validExtensions.has(ext)) continue;
+    if (inputPath.endsWith(".tmp")) continue;
+
+    const parsed = path.parse(inputPath);
+    const outputPath = path.join(parsed.dir, `${parsed.name.toLowerCase()}.webp`);
+    const normalizedOutput = path.resolve(outputPath).toLowerCase();
+
+    if (processedOutputs.has(normalizedOutput)) {
+      console.log(`Skipped duplicate output: ${outputPath}`);
+      continue;
+    }
+
+    processedOutputs.add(normalizedOutput);
+
+    const tempPath = `${outputPath}.tmp`;
+
+    try {
+      const beforeSize = (await fs.stat(inputPath)).size;
 
       await sharp(inputPath)
         .rotate()
         .resize({
-          width: job.width,
+          width,
           withoutEnlargement: true,
         })
         .webp({
-          quality: job.quality,
+          quality,
           effort: 6,
         })
-        .toFile(outputPath);
+        .toFile(tempPath);
 
-      console.log(`Optimized: ${inputPath} -> ${outputPath}`);
+      if (await exists(outputPath)) {
+        await fs.rm(outputPath, { force: true });
+      }
+
+      await fs.rename(tempPath, outputPath);
+
+      const afterSize = (await fs.stat(outputPath)).size;
+
+      console.log(
+        `Optimized: ${inputPath} -> ${outputPath} | ${(beforeSize / 1024).toFixed(1)} KB -> ${(afterSize / 1024).toFixed(1)} KB`
+      );
+    } catch (error) {
+      console.warn(`Could not optimize ${inputPath}: ${error.message}`);
+
+      if (await exists(tempPath)) {
+        await fs.rm(tempPath, { force: true });
+      }
     }
-  } catch (error) {
-    console.warn(`Skipping ${job.inputDir}:`, error.message);
   }
 }
 
 for (const job of jobs) {
-  await optimizeFolder(job);
+  await optimizeJob(job);
 }
