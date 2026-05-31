@@ -12,6 +12,21 @@ import { scheduleSectionPreload } from "@/lib/preloadSections";
 
 const STORAGE_KEY = "luci-universo-has-entered";
 const VISITED_SECTIONS_KEY = "luci-universo-visited-sections";
+const STORAGE_KEY_PREFIX = "luci-universo-";
+
+function clearGiftModeState() {
+  const keysToRemove = new Set([STORAGE_KEY, VISITED_SECTIONS_KEY]);
+
+  for (let index = 0; index < window.localStorage.length; index += 1) {
+    const key = window.localStorage.key(index);
+
+    if (key?.startsWith(STORAGE_KEY_PREFIX)) {
+      keysToRemove.add(key);
+    }
+  }
+
+  keysToRemove.forEach((key) => window.localStorage.removeItem(key));
+}
 
 export default function Home() {
   const [hasEntered, setHasEntered] = useState(false);
@@ -26,8 +41,7 @@ export default function Home() {
 
     if (shouldReset) {
       try {
-        window.localStorage.removeItem(STORAGE_KEY);
-        window.localStorage.removeItem(VISITED_SECTIONS_KEY);
+        clearGiftModeState();
       } catch {
         // La entrada debe seguir disponible aunque el almacenamiento local falle.
       }

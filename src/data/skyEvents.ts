@@ -10,7 +10,6 @@ export type SkyEvent = {
   secondaryColor: string;
 };
 
-// TODO(content): completar fecha/hora/lugar de nacimiento de Luci y año/lugar/significado exacto del 3 y 6 de abril.
 export const skyEvents: SkyEvent[] = [
   {
     id: "luci-birth",

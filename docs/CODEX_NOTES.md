@@ -54,3 +54,35 @@ No borrar assets automáticamente. Las fotos pesadas deben comprimirse manualmen
 - Al abrir una sección modal, el fondo decorativo debe quedar en modo suave: el starfield conserva capas estáticas y glow, pero partículas/drift/bursts no esenciales se pausan hasta cerrar el modal.
 - Los chunks visuales pesados se cargan bajo demanda desde `SectionModal` y se precargan de forma ociosa solo después de entrar al universo, usando `requestIdleCallback` con fallback a `setTimeout`.
 - Mantener `content-visibility: auto` fuera de wrappers críticos de modal; usarlo solo en bloques largos ubicados debajo del contenido inicial visible, como galerías o postales pesadas.
+
+## Gift Mode / Delivery Pass
+
+### Reset antes de entrega
+
+Para presentar la experiencia desde cero, abrir la URL final o local con `?reset=1`:
+
+```text
+https://TU_URL_FINAL/?reset=1
+```
+
+El reset borra las claves locales del proyecto (`luci-universo-has-entered`, `luci-universo-visited-sections` y cualquier clave futura con prefijo `luci-universo-`). Esto devuelve la experiencia al portal de entrada, bloquea nuevamente el centro secreto hasta recorrer las secciones y elimina estados usados durante QA.
+
+Abrir sin `?reset=1` conserva el estado del navegador cuando existe, para que Luci pueda volver a una travesía ya iniciada.
+
+### QA final de entrega
+
+- Para prueba real, usar `pnpm build` + `pnpm start` o deploy. `pnpm dev:lan` queda solo para desarrollo LAN.
+- Revisar que no haya rutas rotas de `public/audio/first-dance.mp3` ni de imágenes en `public/images/wedding`, `public/images/cats`, `public/images/couple` y `public/images/sky`.
+- Confirmar que la música solo se active después de una interacción, con volumen bajo, play/pause y mute.
+- Confirmar en celular: clave, constelación, modales, textos largos, snapshots celestiales, música y centro secreto.
+- Confirmar privacidad: `public/robots.txt`, metadata `noindex, nofollow`, repo/deploy privado o link no promocionado.
+
+### Assets protegidos
+
+No borrar estos assets antes de una revisión visual completa en celular y desktop:
+
+- `public/audio/first-dance.mp3`
+- `public/images/wedding/wedding-1.webp` a `public/images/wedding/wedding-4.webp`
+- `public/images/cats/loli.webp`, `minna.webp`, `daphne.webp`, `norah.webp`, `sofi.webp`
+- `public/images/couple/couple-main.webp` y `public/images/couple/couple-1.webp`
+- `public/images/sky/luci-birth-sky.webp` y `public/images/sky/luci-birth-solar-system.webp`

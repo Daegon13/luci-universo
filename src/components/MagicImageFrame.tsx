@@ -74,8 +74,8 @@ export const MagicImageFrame = memo(function MagicImageFrame({
               <span key={star} className={`absolute h-1.5 w-1.5 rounded-full bg-white/75 shadow-[0_0_10px_rgba(255,255,255,0.8)] ${star}`} aria-hidden />
             ))}
             <div className="relative">
-              <p className="text-sm font-medium text-violet-50">Recuerdo en preparación</p>
-              <p className="mt-1 text-xs text-violet-200/75">{src}</p>
+              <p className="text-sm font-medium text-violet-50">Recuerdo guardado en luz</p>
+              <p className="mt-1 text-xs text-violet-200/75">Esta postal queda protegida por nuestra constelación.</p>
             </div>
           </div>
         )}
