@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, KeyboardEvent, PointerEvent, useCallback, useMemo, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { MagicButton } from "@/components/MagicButton";
 import { MagicLoading } from "@/components/MagicLoading";
 
@@ -60,7 +60,7 @@ export function EntryGate({ onEnter }: { onEnter: () => void }) {
   };
 
   return (
-    <motion.section
+    <m.section
       initial={false}
       animate={{ opacity: isOpening ? 0.92 : 1, y: 0, scale: isOpening ? 0.985 : 1 }}
       transition={{ duration: 0.45 }}
@@ -113,6 +113,6 @@ export function EntryGate({ onEnter }: { onEnter: () => void }) {
           Entrar a nuestro universo
         </MagicButton>
       </form>
-    </motion.section>
+    </m.section>
   );
 }

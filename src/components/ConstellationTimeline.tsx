@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useMemo } from "react";
+import { m } from "framer-motion";
 import { ConstellationStar } from "@/components/ConstellationStar";
 import { ConstellationLines } from "@/components/ConstellationLines";
 import type { UniverseSection } from "@/data/sections";
@@ -21,7 +22,8 @@ const ACCENT_NODE_CLASS: Record<UniverseSection["accent"], string> = {
 };
 
 export function ConstellationTimeline({ sections, visitedSections, isSecretUnlocked, selectedSectionId, onSelect }: ConstellationTimelineProps) {
-  const nextSection = sections.find((section) => !visitedSections.includes(section.id));
+  const visitedSectionSet = useMemo(() => new Set(visitedSections), [visitedSections]);
+  const nextSection = useMemo(() => sections.find((section) => !visitedSectionSet.has(section.id)), [sections, visitedSectionSet]);
 
   return (
     <>
@@ -32,7 +34,7 @@ export function ConstellationTimeline({ sections, visitedSections, isSecretUnloc
           <ConstellationStar
             key={section.id}
             section={section}
-            isVisited={visitedSections.includes(section.id)}
+            isVisited={visitedSectionSet.has(section.id)}
             isNext={nextSection?.id === section.id}
             isSelected={selectedSectionId === section.id}
             isSecretUnlocked={isSecretUnlocked}
@@ -48,12 +50,12 @@ export function ConstellationTimeline({ sections, visitedSections, isSecretUnloc
         <div className="relative space-y-3">
           {sections.map((section, index) => {
             const disabled = section.importance === "secret" && !isSecretUnlocked;
-            const visited = visitedSections.includes(section.id);
+            const visited = visitedSectionSet.has(section.id);
             const isNext = nextSection?.id === section.id;
             const isSecret = section.importance === "secret";
 
             return (
-              <motion.div
+              <m.div
                 key={section.id}
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -67,7 +69,7 @@ export function ConstellationTimeline({ sections, visitedSections, isSecretUnloc
                   } ${visited ? "ring-4 ring-rose-200/15" : ""} ${isNext && !disabled ? "animate-pulse" : ""}`}
                   aria-hidden
                 />
-                <motion.button
+                <m.button
                   type="button"
                   onClick={() => {
                     if (!disabled) onSelect(section);
@@ -101,8 +103,8 @@ export function ConstellationTimeline({ sections, visitedSections, isSecretUnloc
                   <p className="relative mt-2 text-xs leading-relaxed text-violet-100/82">
                     {disabled ? "Todavía quedan estrellas por visitar. Se enciende al completar la travesía, como una última promesa en el centro del cielo." : section.description}
                   </p>
-                </motion.button>
-              </motion.div>
+                </m.button>
+              </m.div>
             );
           })}
         </div>

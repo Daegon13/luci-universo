@@ -41,3 +41,9 @@ No borrar assets automáticamente. Las fotos pesadas deben comprimirse manualmen
 
 - `public/images/wedding/wedding-3.webp` supera 2 MB y debe comprimirse a menos de 500 KB antes de la entrega final.
 - `public/images/wedding/wedding-4.webp` supera 2 MB y debe comprimirse a menos de 500 KB antes de la entrega final.
+
+## Runtime Performance Pass
+
+- Para revisar el costo real de runtime y chunks en un entorno parecido a producción, usar `pnpm build` y luego `pnpm start`; `next dev` puede sentirse bastante más lento por el servidor de desarrollo.
+- Para inspeccionar bundles con Turbopack, ejecutar `pnpm analyze:turbo`. Si una versión futura de Next requiere flags extra para este comando experimental, mantener el script como punto de entrada y ajustar la configuración mínima necesaria.
+- En mobile, validar taps y scroll con el sitio servido desde `pnpm start` o desde el deploy de Vercel, no solo desde `pnpm dev`.

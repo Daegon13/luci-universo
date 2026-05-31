@@ -10,7 +10,7 @@ const lyricMoments = [
   "La promesa silenciosa de seguir bailando juntos incluso en los días difíciles.",
 ];
 
-const firstDancePhoto = "/images/memories/memory-1.webp";
+const firstDancePhoto = "/images/couple/couple-1.webp";
 
 export function FirstDanceSection() {
   const [showFallbackVisual, setShowFallbackVisual] = useState(false);

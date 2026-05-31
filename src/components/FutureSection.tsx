@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { futurePromises } from "@/data/promises";
 
 const accentClasses = {
@@ -20,7 +20,7 @@ export function FutureSection() {
         pienso ahora: que de todos los milagros del universo, mi favorito fue encontrarte.
       </p>
 
-      <motion.div
+      <m.div
         className="relative mt-6 overflow-hidden rounded-3xl border border-violet-200/25 bg-[#0a1024]/85 p-5 shadow-[0_0_35px_rgba(125,109,220,0.3)] sm:p-6"
         initial={{ opacity: 0, y: 14 }}
         animate={{ opacity: 1, y: 0 }}
@@ -38,7 +38,7 @@ export function FutureSection() {
 
           <div className="mt-6 grid gap-3 sm:grid-cols-2">
             {futurePromises.map((promise, index) => (
-              <motion.article
+              <m.article
                 key={promise.id}
                 className="relative overflow-hidden rounded-2xl border border-violet-100/20 bg-violet-950/30 p-4"
                 initial={{ opacity: 0, y: 10 }}
@@ -50,11 +50,11 @@ export function FutureSection() {
                 />
                 <h4 className="relative text-sm font-semibold text-violet-50 sm:text-base">{promise.title}</h4>
                 <p className="relative mt-2 text-sm leading-relaxed text-violet-100/85">{promise.description}</p>
-              </motion.article>
+              </m.article>
             ))}
           </div>
         </div>
-      </motion.div>
+      </m.div>
     </div>
   );
 }

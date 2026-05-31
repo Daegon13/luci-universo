@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { memo, useEffect, useMemo, useState } from "react";
+import { m, useReducedMotion } from "framer-motion";
 import { MagicShimmer } from "@/components/MagicShimmer";
 
 type MagicImageFrameProps = {
@@ -24,7 +24,7 @@ const VARIANT_CLASS = {
   secret: "border-amber-100/35 shadow-[0_0_42px_rgba(251,191,36,0.18)]",
 };
 
-export function MagicImageFrame({
+export const MagicImageFrame = memo(function MagicImageFrame({
   src,
   alt,
   caption,
@@ -46,7 +46,7 @@ export function MagicImageFrame({
 
   return (
     <figure key={src} className={`group relative overflow-hidden rounded-3xl border bg-[#100b23]/88 p-2 ${VARIANT_CLASS[variant]} ${className}`}>
-      <motion.div
+      <m.div
         className={`relative overflow-hidden rounded-2xl border border-white/10 bg-[#070815] ${aspectRatio}`}
         whileHover={!reduceMotion ? { scale: 1.01 } : undefined}
         whileTap={!reduceMotion ? { scale: 0.992 } : undefined}
@@ -77,8 +77,8 @@ export function MagicImageFrame({
             </div>
           </div>
         )}
-      </motion.div>
+      </m.div>
       {caption ? <figcaption className="px-2 py-3 text-xs leading-relaxed text-violet-100/82 sm:text-sm">{caption}</figcaption> : null}
     </figure>
   );
-}
+});

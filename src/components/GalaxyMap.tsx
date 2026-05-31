@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { AnimatePresence, m } from "framer-motion";
 import { SectionModal } from "@/components/SectionModal";
 import { ProgressConstellation } from "@/components/ProgressConstellation";
 import { ConstellationTimeline } from "@/components/ConstellationTimeline";
@@ -60,12 +60,15 @@ export function GalaxyMap() {
     return () => window.clearTimeout(timeout);
   }, [isSecretUnlocked]);
 
-  const handleSelectSection = (section: UniverseSection, options?: { bypassLock?: boolean }) => {
-    if (section.id === SECRET_CENTER_ID && !isSecretUnlocked && !options?.bypassLock) return;
+  const handleSelectSection = useCallback(
+    (section: UniverseSection, options?: { bypassLock?: boolean }) => {
+      if (section.id === SECRET_CENTER_ID && !isSecretUnlocked && !options?.bypassLock) return;
 
-    setVisitedSections((previous) => (previous.includes(section.id) ? previous : [...previous, section.id]));
-    setSelectedSection(section);
-  };
+      setVisitedSections((previous) => (previous.includes(section.id) ? previous : [...previous, section.id]));
+      setSelectedSection(section);
+    },
+    [isSecretUnlocked],
+  );
 
   return (
     <section className="relative z-10 mx-auto w-full max-w-6xl rounded-[2rem] border border-violet-100/15 bg-[#0b0718]/24 p-4 shadow-[0_0_55px_rgba(121,82,212,0.24)] backdrop-blur-[6px] sm:p-7 md:p-8 lg:p-10">
@@ -79,14 +82,14 @@ export function GalaxyMap() {
 
       <AnimatePresence>
         {showUnlockMessage ? (
-          <motion.div
+          <m.div
             className="relative mt-5 rounded-2xl border border-amber-100/30 bg-amber-100/[0.07] px-4 py-3 text-sm text-amber-50 shadow-[0_0_32px_rgba(251,191,36,0.16)]"
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
           >
             La constelación está completa.
-          </motion.div>
+          </m.div>
         ) : null}
       </AnimatePresence>
 
