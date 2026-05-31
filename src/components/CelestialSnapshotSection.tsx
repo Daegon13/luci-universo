@@ -26,7 +26,7 @@ export function CelestialSnapshotSection({ initialEventId }: CelestialSnapshotSe
       <p className="mt-2 text-xs uppercase tracking-[0.22em] text-violet-200/80">Observatorio místico</p>
       <h3 className="mt-3 text-2xl font-semibold sm:text-3xl">Postales celestiales de nuestra historia</h3>
       <p className="mt-4 text-sm leading-relaxed text-violet-100/90 sm:text-base">
-        Una colección íntima de capturas astronómicas manuales y simbólicas para honrar fechas que marcaron nuestro destino.
+        Una colección íntima de capturas de referencia y representaciones astronómicas para honrar fechas que marcaron nuestro destino, sin prometer precisión calculada todavía.
       </p>
 
       <div className="mt-6 grid gap-2 sm:grid-cols-3">

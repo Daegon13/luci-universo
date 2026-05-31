@@ -6,9 +6,7 @@ export function OriginSection() {
       <p className="text-xs uppercase tracking-[0.2em] text-violet-200/80">Origen de la constelación</p>
       <h3 className="text-2xl font-semibold text-white sm:text-3xl">El Origen de Nuestra Constelación</h3>
       <p className="leading-relaxed text-violet-100/90">
-        Nacimos lejos, crecimos con culturas distintas y aun así el destino encontró una manera improbable de unirnos. Lo
-        nuestro empezó con un match, siguió con conversaciones infinitas y se volvió certeza cuando la vida puso una
-        prueba real.
+        Nacimos lejos, con culturas distintas y mapas que no parecían tocarse. Aun así, el destino encontró una forma improbable de acercarnos: primero una pantalla, después una conversación que no quería terminar, después tu puerta, un beso y una prueba real que convirtió el amor en cuidado.
       </p>
 
       <div className="space-y-3">

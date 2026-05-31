@@ -8,44 +8,44 @@ export type PromiseCard = {
 export const futurePromises: PromiseCard[] = [
   {
     id: "team",
-    title: "Ser equipo",
+    title: "Seguir siendo equipo",
     description:
-      "Elegirnos todos los días, incluso cuando el mundo aprieta, para cuidar nuestra paz y caminar del mismo lado.",
+      "Elegirnos incluso en los días difíciles, hablar con honestidad y cuidar la paz del hogar que estamos construyendo.",
     accent: "violet",
   },
   {
     id: "stability",
     title: "Construir estabilidad",
     description:
-      "Levantar una casa emocional y material donde el amor, la calma y nuestras cinco guardianas siempre tengan refugio.",
+      "Levantar una vida donde el amor tenga rutina, calma, refugio y espacio suficiente para nuestras cinco guardianas.",
     accent: "amber",
   },
   {
     id: "create",
     title: "Crear juntos",
     description:
-      "Transformar nuestras ideas en proyectos reales, con una visión compartida de negocio, propósito y vida.",
+      "Convertir nuestras ideas en algo real: una desarrolladora de software e IA que nazca de nuestro trabajo, no de un pitch vacío.",
     accent: "sky",
   },
   {
     id: "magic",
-    title: "Llevar tu magia más lejos",
+    title: "Cuidar tu magia",
     description:
-      "Acompañarte para que tu voz, tu intuición y tu talento brillen tan lejos como vos sueñes.",
+      "Acompañar tu intuición, tu voz y tu potencial esotérico para que crezcan a tu ritmo y en la dirección que vos elijas.",
     accent: "rose",
   },
   {
     id: "world",
-    title: "Recorrer el mundo",
+    title: "Viajar con vos",
     description:
-      "Descubrir cada rincón que quieras conocer y guardar nuevos recuerdos en cada cielo que nos reciba.",
+      "Conocer lugares nuevos, perdernos un poco, volver a encontrarnos y guardar cada cielo como una prueba más de nuestra historia.",
     accent: "sky",
   },
   {
     id: "stars",
-    title: "Mirar las estrellas con vos",
+    title: "Mirar el espacio",
     description:
-      "Cumplir la promesa de ver el espacio desde una ventana, sabiendo que mi vista favorita siempre será tu mirada.",
+      "Llegar algún día a una ventana frente al espacio y saber que mi vista favorita sigue siendo verte mirar las estrellas.",
     accent: "violet",
   },
 ];

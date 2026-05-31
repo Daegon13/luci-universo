@@ -27,7 +27,7 @@ export function EntryGate({ onEnter }: { onEnter: () => void }) {
     const normalizedPassphrase = passphrase.trim().toLowerCase();
 
     if (!normalizedPassphrase) {
-      setError("Escribí nuestra clave simbólica para abrir la puerta.");
+      setError("Escribí nuestra frase para abrir la puerta.");
       return;
     }
 
@@ -38,7 +38,7 @@ export function EntryGate({ onEnter }: { onEnter: () => void }) {
       return;
     }
 
-    setError("Esa no es nuestra clave. Probá con la frase de nuestros votos.");
+    setError("Todavía no se abrió. Probá con la frase que nació en mis votos.");
   }, [onEnter, passphrase]);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -69,12 +69,12 @@ export function EntryGate({ onEnter }: { onEnter: () => void }) {
       <p className="text-sm uppercase tracking-[0.24em] text-rose-200/85">La Puerta Estelar</p>
       <h1 className="mt-3 text-3xl font-semibold leading-tight text-white sm:text-4xl">Luci: Mi Sol, Mi Luna y Mis Estrellas</h1>
       <p className="mt-4 text-base leading-relaxed text-violet-100/90 sm:text-lg">
-        Luci Jennifer Mayada Aragonés, este universo fue creado con todo lo que amo de vos.
+        Luci Jennifer Mayada Aragonés, antes de entrar quiero que sepas algo: este universo nació de todo lo que amo de vos.
       </p>
 
       <form onSubmit={handleSubmit} className="pointer-events-auto relative z-10 mt-8 space-y-4">
         <label htmlFor="symbolic-key" className="text-sm text-violet-100/90">
-          Escribí nuestra clave simbólica para entrar.
+          Escribí la frase que abre este universo.
         </label>
         <input
           id="symbolic-key"
@@ -94,7 +94,7 @@ export function EntryGate({ onEnter }: { onEnter: () => void }) {
 
         {isOpening ? (
           <div className="rounded-2xl border border-amber-100/20 bg-amber-100/[0.05] px-4 py-3">
-            <MagicLoading variant="portal" label="Abriendo la puerta estelar…" />
+            <MagicLoading variant="portal" label="Abriendo nuestro cielo…" />
           </div>
         ) : null}
 
@@ -105,7 +105,7 @@ export function EntryGate({ onEnter }: { onEnter: () => void }) {
           aria-disabled={!isReady || isOpening}
           disabled={!isReady || isOpening}
           loading={isOpening}
-          loadingLabel="Abriendo la puerta estelar…"
+          loadingLabel="Abriendo nuestro cielo…"
           onClick={attemptEnter}
           onPointerUp={handlePointerUp}
           className="w-full"

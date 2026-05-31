@@ -118,7 +118,7 @@ export function MusicPlayer({ hasUserInteracted, autoPlaySignal, performanceMode
         <m.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} transition={{ duration: isLite ? 0.16 : 0.28 }} className="overflow-hidden">
           {hasError ? (
             <p className="mt-3 rounded-2xl border border-amber-100/20 bg-amber-100/[0.06] px-3 py-2 text-xs text-amber-100/90">
-              La canción todavía no está en /public/audio/first-dance.mp3, pero este espacio queda reservado para su primer baile.
+              La canción todavía no pudo encenderse acá, pero este rincón sigue reservado para nuestro primer baile.
             </p>
           ) : (
             <>
@@ -157,7 +157,7 @@ export function MusicPlayer({ hasUserInteracted, autoPlaySignal, performanceMode
                   className="flex-1"
                   performanceMode={performanceMode}
                 >
-                  {isMuted ? "Muteado" : "Sonido"}
+                  {isMuted ? "Silencio" : "Sonido"}
                 </MagicButton>
               </div>
             </>

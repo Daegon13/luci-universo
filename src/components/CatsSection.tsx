@@ -11,8 +11,7 @@ export function CatsSection() {
         <p className="text-xs uppercase tracking-[0.2em] text-sky-100/80">Constelación familiar</p>
         <h3 className="mt-2 text-2xl font-semibold text-white sm:text-3xl">Las Cinco Guardianas</h3>
         <p className="mt-3 leading-relaxed text-violet-100/90">
-          Ellas son el corazón felino del hogar: cinco presencias distintas que cuidan este universo con ternura,
-          misterio y alegría.
+          Ellas son parte de la familia que estamos construyendo: cinco presencias distintas, cada una con su carácter, cuidando este universo con ternura, misterio y una forma muy suya de acompañarnos.
         </p>
       </header>
 

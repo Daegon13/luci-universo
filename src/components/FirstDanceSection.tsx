@@ -5,9 +5,9 @@ import { useState } from "react";
 import { Disc3, Heart, Music2, Sparkles } from "lucide-react";
 
 const lyricMoments = [
-  "Tu mirada sosteniéndome mientras todo alrededor desaparecía.",
-  "Nuestros pasos torpes pero perfectos, como si ya conociéramos ese abrazo.",
-  "La promesa silenciosa de seguir bailando juntos incluso en los días difíciles.",
+  "Tu mirada sosteniéndome mientras la boda se volvía un mundo pequeño alrededor nuestro.",
+  "Nuestros pasos quizás torpes, pero nuestros, como si ese abrazo ya supiera el camino.",
+  "La promesa silenciosa de seguir encontrándonos, incluso cuando la música de la vida suene difícil.",
 ];
 
 const firstDancePhoto = "/images/couple/couple-1.webp";
@@ -52,16 +52,16 @@ export function FirstDanceSection() {
         )}
 
         <p className="text-base leading-relaxed text-violet-100/95 sm:text-lg">
-          Esta canción no suena igual desde aquel día. Desde entonces, cada nota sabe tu nombre.
+          Esta canción no suena igual desde nuestra boda. Desde entonces, cada nota de Elvis parece guardar tu nombre.
         </p>
         <p className="mt-3 text-sm leading-relaxed text-violet-200/85">
-          Cuando vuelva a sonar en el reproductor, no hace falta decir nada: ese baile sigue vivo en nosotros.
+          Cuando vuelva a sonar, no hace falta explicar nada: ese baile sigue ahí, quietito y vivo, como una memoria que nos abraza.
         </p>
       </div>
 
       <div className="space-y-3 rounded-2xl border border-violet-200/20 bg-[#120d26]/85 p-4">
         <p className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.16em] text-violet-200/80">
-          <Heart size={13} /> Lo que quedó latiendo de esa noche
+          <Heart size={13} /> Lo que quedó latiendo de ese baile
         </p>
         <ul className="space-y-2 text-sm leading-relaxed text-violet-100/90 sm:text-base">
           {lyricMoments.map((moment) => (
