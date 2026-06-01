@@ -19,12 +19,6 @@ export const weddingEvents: WeddingEvent[] = [
     title: "Una fecha que nos eligió",
     meaning: "El día en que nuestra historia dejó de ser solo promesa y empezó a escribirse con la forma tranquila de un hogar.",
   },
-  {
-    id: "april-6",
-    dateLabel: "6 de abril",
-    title: "Otra huella de la misma promesa",
-    meaning: "Una segunda marca luminosa de esos días en que elegimos caminar juntos, con testigos, votos y futuro.",
-  },
 ];
 
 export const weddingPhotos: WeddingPhoto[] = [

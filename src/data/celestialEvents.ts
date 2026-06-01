@@ -58,23 +58,4 @@ export const celestialEvents: CelestialEvent[] = [
     },
     precision: "manual-capture",
   },
-  {
-    id: "wedding-april-06",
-    title: "El cielo del 6 de abril",
-    dateLabel: "6 de abril",
-    locationLabel: "Captura de referencia para nuestra segunda huella",
-    poeticText:
-      "Así miramos ese cielo: como una postal simbólica del eco sagrado que dejó esta fecha en nuestra historia.",
-    views: {
-      earthSky: {
-        image: "/images/sky/luci-birth-sky.webp",
-        alt: "Postal astronómica simbólica compartida para recordar la fecha del 6 de abril",
-      },
-      solarSystem: {
-        image: "/images/sky/luci-birth-solar-system.webp",
-        alt: "Sistema solar simbólico compartido para recordar la fecha del 6 de abril",
-      },
-    },
-    precision: "manual-capture",
-  },
 ];

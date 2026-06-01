@@ -74,3 +74,35 @@ Checklist operativo para completar assets y contenido final antes de entregar el
 - [x] Revisar votos originales y renovados en `src/data/vows.ts`.
 - [x] Revisar sección de futuro y centro secreto con firma final “Con amor, Diego”.
 - [ ] Ejecutar lectura completa en celular para confirmar tono íntimo, elegante y personal.
+
+## 8) Evolución post-regalo: álbumes y playlist
+
+### Álbumes de gatitas
+
+- [x] La data editable vive en `src/data/catAlbums.ts` y permite `photos[]` y `videos[]` por gatita.
+- [ ] Convención final de fotos por gatita: usar `.webp`, nombres en minúscula y carpetas dedicadas para evitar problemas case-sensitive en Vercel:
+  - `public/images/cats/loli/cover.webp`
+  - `public/images/cats/loli/photo-01.webp`
+  - `public/images/cats/loli/photo-02.webp`
+  - `public/images/cats/minna/cover.webp`
+  - `public/images/cats/daphne/cover.webp`
+  - `public/images/cats/norah/cover.webp`
+  - `public/images/cats/sofi/cover.webp`
+- [ ] Peso recomendado para fotos de gatitas: menos de 300 KB por imagen, ancho máximo aproximado `1200px`, calidad WebP `75`–`82`.
+- [ ] Convención final de videos: clips cortos `.mp4` en `public/videos/cats/<gatita>/` con poster `.webp` obligatorio:
+  - `public/videos/cats/loli/video-01.mp4`
+  - `public/videos/cats/loli/video-01-poster.webp`
+- [ ] Peso recomendado para videos locales: idealmente menos de 8–12 MB por clip, duración corta, resolución mobile-friendly y compresión H.264/AAC.
+- [x] Los videos deben renderizarse con `controls`, `playsInline` y `preload="metadata"` o `preload="none"`; nunca precargar videos completos al inicio.
+- [ ] Si crecen muchos videos o los clips superan el peso recomendado, considerar almacenamiento externo optimizado en vez de inflar `public/videos`.
+
+### Playlist privada
+
+- [x] La data editable vive en `src/data/playlist.ts`.
+- [ ] Convención final de audio: canciones `.mp3` en `public/audio/playlist/`, con nombres numerados y en minúscula:
+  - `public/audio/playlist/01-cant-help-falling-in-love.mp3`
+  - `public/audio/playlist/02-song-name.mp3`
+  - `public/audio/playlist/03-song-name.mp3`
+- [ ] Peso recomendado para audio: MP3 entre 128 y 192 kbps; idealmente menos de 8 MB por canción para mantener la carga mobile liviana.
+- [x] El reproductor mantiene fallback elegante si falta un audio y permite elegir otra canción.
+- [x] El reproductor guarda la última canción elegida en `localStorage` sin depender de backend.
