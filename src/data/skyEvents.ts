@@ -35,16 +35,4 @@ export const skyEvents: SkyEvent[] = [
     primaryColor: "rgba(251,191,36,0.9)",
     secondaryColor: "rgba(253,230,138,0.7)",
   },
-  {
-    id: "wedding-apr-6",
-    title: "Segunda fecha — 6 de abril",
-    dateLabel: "6 de abril",
-    subtitle: "Una segunda chispa de la misma promesa.",
-    poeticText:
-      "Hay fechas que no son repetición, sino eco sagrado. Este cielo de referencia guarda la segunda huella de nuestra celebración y todo lo que selló.",
-    note: "Representación simbólica de referencia; el detalle completo de la fecha se confirmará antes de una versión calculada.",
-    orbitScale: 1.28,
-    primaryColor: "rgba(125,211,252,0.9)",
-    secondaryColor: "rgba(167,139,250,0.72)",
-  },
 ];
